@@ -1,0 +1,34 @@
+<div
+  class="card bg-bluegray-100 text-white font-bold text-center p-4 border-round shadow-4 m-2"
+>
+  <div class="card-header pb-2 flex">
+    <div *ngFor="let file of search.tags" li-index>
+      <p-tag class="tag info" value="{{ file.name }}"></p-tag>
+    </div>
+  </div>
+  <div class="card-body text-gray-900">
+    <!-- <div class="card-media-container p-d-flex p-d-flex-ai-center p-d-flex-jc-center">
+      <iframe
+        width="560"
+        height="415"
+        src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+        frameborder="0"
+        allowfullscreen
+      ></iframe>
+    </div> -->
+    <img class="w-full " style="height: 40vh;"  src="{{ search.urlMedia.thumbnail }}" />
+    <p
+      class="text-gray-900"
+      style="text-align: justify; text-align-last: center"
+    >
+      Texto de exemplo no card. Lorem, ipsum dolor sit amet consectetur
+      adipisicing elit. Quam quod numquam itaque quibusdam, fuga dolorem quis
+      repellat culpa, et non beatae reiciendis illum cum possimus ipsa minus ...
+    </p>
+    <div class="w-full mb-2" style="text-align: end">
+      <button pButton type="button" class="button-raised p-button-outlined">
+        Ver material
+      </button>
+    </div>
+  </div>
+</div>

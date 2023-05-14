@@ -1,0 +1,11 @@
+<div class="m-2 mr-3 grid" style="place-content: center">
+  <div
+    class="flex-row grid justify-content-center md:flex card-container indigo-container"
+  >
+    <div *ngFor="let file of searchObject" class="col-12 md:col-6 lg:col-3" style="width: 80vh; height: 60vh">
+     
+        <app-cards [search]="file"> </app-cards>
+      
+    </div>
+  </div>
+</div>
