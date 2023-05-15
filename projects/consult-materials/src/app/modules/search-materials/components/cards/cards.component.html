@@ -3,8 +3,11 @@
 >
   <div class="card-header pb-2 flex">
     <div *ngFor="let file of search.tags" li-index>
-      <p-tag class="tag info" value="{{ file.name }}" (click)="handleClickTag(file)"></p-tag>
-      <!-- <button pButton type="button" class="mx-1 p-button-sm button-raised " (click)="handleClickTag(file)">{{ file.name }}</button> -->
+      <p-tag
+        class="tag info cursor-pointer"
+        value="{{ file.name }}"
+        (click)="handleClickTag(file)"
+      ></p-tag>
     </div>
   </div>
   <div class="text-gray-900">
@@ -12,10 +15,7 @@
       class="w-full border-round image-responsive"
       src="{{ search.urlMedia.thumbnail }}"
     />
-    <p
-      class="text-gray-900"
-      style="text-align: justify; text-align-last: center"
-    >
+    <p class="text-gray-900 text-justify">
       Texto de exemplo no card. Lorem, ipsum dolor sit amet consectetur
       adipisicing elit. Quam quod numquam itaque quibusdam, fuga dolorem quis
       repellat culpa, et non beatae reiciendis illum cum possimus ipsa minus ...
