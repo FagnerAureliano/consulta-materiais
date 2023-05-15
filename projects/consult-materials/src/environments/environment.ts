@@ -4,8 +4,7 @@
 
 export const environment = {
   production: false,
-
-  SHOW_LOGGING_ROUTES: null
+  SHOW_LOGGING_ROUTES: ''
 };
 
 /*

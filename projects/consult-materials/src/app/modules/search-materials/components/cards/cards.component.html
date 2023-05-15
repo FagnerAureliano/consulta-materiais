@@ -3,20 +3,15 @@
 >
   <div class="card-header pb-2 flex">
     <div *ngFor="let file of search.tags" li-index>
-      <p-tag class="tag info" value="{{ file.name }}"></p-tag>
+      <p-tag class="tag info" value="{{ file.name }}" (click)="handleClickTag(file)"></p-tag>
+      <!-- <button pButton type="button" class="mx-1 p-button-sm button-raised " (click)="handleClickTag(file)">{{ file.name }}</button> -->
     </div>
   </div>
-  <div class="card-body text-gray-900">
-    <!-- <div class="card-media-container p-d-flex p-d-flex-ai-center p-d-flex-jc-center">
-      <iframe
-        width="560"
-        height="415"
-        src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-        frameborder="0"
-        allowfullscreen
-      ></iframe>
-    </div> -->
-    <img class="w-full " style="height: 40vh;"  src="{{ search.urlMedia.thumbnail }}" />
+  <div class="text-gray-900">
+    <img
+      class="w-full border-round image-responsive"
+      src="{{ search.urlMedia.thumbnail }}"
+    />
     <p
       class="text-gray-900"
       style="text-align: justify; text-align-last: center"
@@ -32,3 +27,13 @@
     </div>
   </div>
 </div>
+
+<!-- <div class="card-media-container p-d-flex p-d-flex-ai-center p-d-flex-jc-center">
+      <iframe
+        width="560"
+        height="415"
+        src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+        frameborder="0"
+        allowfullscreen
+      ></iframe>
+    </div> -->

@@ -13,5 +13,9 @@ export class CardsComponent implements OnInit {
 
   ngOnInit(): void {
   }
+  handleClickTag(value: any): void {
+    console.log(value);
+    
+  }
 
 }

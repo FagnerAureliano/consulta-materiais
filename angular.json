@@ -57,6 +57,7 @@
             "polyfills": "projects/consult-materials/src/polyfills.ts",
             "tsConfig": "projects/consult-materials/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
+            "baseHref": "/consult-materials/",
             "assets": [
               "projects/consult-materials/src/assets",
               "projects/consult-materials/src/browserconfig.xml",

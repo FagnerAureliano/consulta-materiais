@@ -1,8 +1,7 @@
- .card-header {
+.card-header {
   text-align: justify;
 }
-.card-media-container{ 
-}
+
 .tag {
   font-size: 0.857143rem;
   text-transform: uppercase;
@@ -11,4 +10,17 @@
   color: var(--black);
   border-radius: 4px;
   padding: 0.2rem 0.1rem;
+}
+.image-responsive {
+  height: 45vh;
+}
+@media only screen and (max-width: 768px) {
+  .image-responsive {
+    height: 38vh;
+  }
+}
+@media only screen and (max-width: 320px) {
+  .image-responsive {
+    height: 30vh;
+  }
 }

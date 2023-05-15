@@ -1,11 +1,19 @@
-import { Component, HostListener, Input, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  HostListener,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { Router, NavigationStart, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { KeycloakService } from 'keycloak-angular';
 
 import { LoadingBarService } from '../../services/loading-bar.service';
-import * as moment from 'moment';
+import * as moment from 'moment'; 
 
 @Component({
   selector: 'shrd-base-wrapper',
@@ -16,16 +24,13 @@ export class BaseWrapperComponent implements OnInit, OnDestroy {
   private _sessionInterval: any;
 
   @Input() title!: string;
-  @Input() basePath!: string;
+  @Input() basePath!: string; 
 
   public tokenDuration: moment.Duration | undefined;
 
   private subs$: Subscription[] = [];
 
-  constructor(
-    private router: Router,
-    public loading: LoadingBarService
-  ) {
+  constructor(private router: Router, public loading: LoadingBarService) {
     // this.subs$.push(
     //   this.router.events
     //     .pipe(
@@ -41,14 +46,10 @@ export class BaseWrapperComponent implements OnInit, OnDestroy {
     //       }
     //     })
     // );
-
     // this.refreshTokenTime();
   }
 
-  ngOnInit(): void {
-
-  }
-
+  ngOnInit(): void {}
   ngOnDestroy(): void {
     this.subs$.forEach((sub$) => sub$.unsubscribe());
     clearInterval(this._sessionInterval);
@@ -95,25 +96,19 @@ export class BaseWrapperComponent implements OnInit, OnDestroy {
     //   this.keycloak.updateToken(-1).then((refreshed) => {
     //     if (refreshed) {
     //       const kc = this.keycloak.getKeycloakInstance();
-
     //       moment.locale('pt-br');
     //       const currentTime = moment().unix();
-
     //       const diffTime = kc.tokenParsed.exp + kc.timeSkew - currentTime;
     //       const interval = 1000;
-
     //       this.tokenDuration = moment.duration(diffTime, 's');
-
     //       if (diffTime > 0) {
     //         if (this._sessionInterval) {
     //           clearInterval(this._sessionInterval);
     //         }
-
     //         this._sessionInterval = setInterval(() => {
     //           if (this.keycloak.isTokenExpired()) {
     //             this.handleLogout();
     //           }
-
     //           this.tokenDuration = moment.duration(
     //             this.tokenDuration.asMilliseconds() - interval,
     //             'ms'
@@ -123,7 +118,6 @@ export class BaseWrapperComponent implements OnInit, OnDestroy {
     //     }
     //   });
   }
-
 
   @HostListener('document:click')
   handleOutsideClick(el: HTMLElement) {

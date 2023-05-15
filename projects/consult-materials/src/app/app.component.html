@@ -1,6 +1,6 @@
 <shrd-base-wrapper
-  [basePath]="_planejamentoEndpoint"
-  (urlEmit)="handleUrlEmitEvent($event)"
+  [basePath]="_basePath" 
+  (changed)="handle($event)"
   title="consulta materiais"
 >
   <router-outlet></router-outlet>
