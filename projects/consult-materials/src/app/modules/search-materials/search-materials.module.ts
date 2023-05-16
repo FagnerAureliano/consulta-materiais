@@ -15,6 +15,8 @@ import { ButtonModule } from 'primeng/button';
 import { DividerModule } from 'primeng/divider';
 import { MaterialDetailComponent } from './components/material-detail/material-detail.component';
 import { DialogModule } from 'primeng/dialog';
+import { VirtualScrollerModule } from 'primeng/virtualscroller';
+
 
 
 
@@ -33,7 +35,8 @@ registerLocaleData(localePt);
     ButtonModule,
     TagModule,
     DividerModule,
-    DialogModule
+    DialogModule,
+    VirtualScrollerModule
 
   ],
  providers: [
