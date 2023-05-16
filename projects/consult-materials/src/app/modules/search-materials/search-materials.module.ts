@@ -8,19 +8,22 @@ import { TagModule } from 'primeng/tag';
 
 
 import { SearchMaterialsRoutingModule } from './search-materials-routing.module';
-import { HomePageComponent } from './containers/home-page/home-page.component';
+import { SearchContainerComponent } from './containers/search-container/search-container.component';
 import { LoadingBarModule } from 'projects/shared/src/lib/components/loading-bar/loading-bar.module';
-import { CardsComponent } from './components/cards/cards.component';
+import { MaterialCardsComponent } from './components/material-card/material-card.component';
 import { ButtonModule } from 'primeng/button';
 import { DividerModule } from 'primeng/divider';
+import { MaterialDetailComponent } from './components/material-detail/material-detail.component';
+import { DialogModule } from 'primeng/dialog';
 
 
 
 registerLocaleData(localePt);
 @NgModule({
   declarations: [
-    HomePageComponent,
-    CardsComponent
+    SearchContainerComponent,
+    MaterialCardsComponent,
+    MaterialDetailComponent
   ],
   imports: [
     CommonModule,
@@ -29,7 +32,8 @@ registerLocaleData(localePt);
     CardModule,
     ButtonModule,
     TagModule,
-    DividerModule
+    DividerModule,
+    DialogModule
 
   ],
  providers: [
