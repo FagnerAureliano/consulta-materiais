@@ -1,7 +1,7 @@
 <div
   class="card bg-bluegray-100 text-white text-center p-4 border-round shadow-4 m-2"
 >
-  <div class="card-header  pb-2 flex">
+  <div class="card-header flex">
     <!-- <i class="bg-blue-300 pi pi-tag align-self-center"></i> -->
     <div *ngFor="let file of search.tags" li-index>
       <p-tag
@@ -10,6 +10,12 @@
         (click)="emitTag.emit(file)"
       ></p-tag>
     </div>
+  </div>
+  <p-divider></p-divider>
+  <div class="text-gray-900 pb-3 text-justify">
+    <h3>
+      {{ search.title }}
+    </h3>
   </div>
   <div>
     <img
@@ -26,13 +32,13 @@
     </div>
     <div class="text-gray-700 text-sm text-left">
       <i class="pi pi-calendar-minus"></i>
-      Atualizado: {{ search.updated_at | date : "short" }}
+      Atualizado: {{ search.lastModified | date : "short" }}
     </div>
     <p-divider></p-divider>
     <div class="w-full mb-2 text-right">
-      <button pButton type="button" class="button-raised p-button-outlined">
-        Ver mais
-      </button>
+      <app-material-detail>
+      
+      </app-material-detail>
     </div>
   </div>
 </div>

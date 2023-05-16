@@ -2,10 +2,10 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-cards',
-  templateUrl: './cards.component.html',
-  styleUrls: ['./cards.component.scss']
+  templateUrl: './material-card.component.html',
+  styleUrls: ['./material-card.component.scss']
 })
-export class CardsComponent implements OnInit {
+export class MaterialCardsComponent implements OnInit {
 
   @Input() search!: any;
   @Output() emitTag: EventEmitter<any> = new EventEmitter();
