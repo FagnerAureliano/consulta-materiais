@@ -1,9 +1,8 @@
-<div class="m-2 mr-3 grid" style="place-content: center">
-  <div
-    class="flex-row grid justify-content-center md:flex card-container indigo-container"
-  >
+<div class="m-2 px-4" style="place-content: center">
+  <div class="flex-row grid justify-content-center md:flex">
     <div *ngFor="let file of searchObject" class="sm:col-12 md:col-6 lg:col-6">
-      <app-cards [search]="file"> </app-cards>
+      <app-cards [search]="file" (emitTag)="handleClickTag($event)">
+      </app-cards>
     </div>
   </div>
 </div>

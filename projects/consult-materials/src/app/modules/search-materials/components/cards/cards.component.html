@@ -1,39 +1,38 @@
 <div
-  class="card bg-bluegray-100 text-white font-bold text-center p-4 border-round shadow-4 m-2"
+  class="card bg-bluegray-100 text-white text-center p-4 border-round shadow-4 m-2"
 >
-  <div class="card-header pb-2 flex">
+  <div class="card-header  pb-2 flex">
+    <!-- <i class="bg-blue-300 pi pi-tag align-self-center"></i> -->
     <div *ngFor="let file of search.tags" li-index>
       <p-tag
-        class="tag info cursor-pointer"
+        class="uppercase border-white border-right-1 cursor-pointer font-bold"
         value="{{ file.name }}"
-        (click)="handleClickTag(file)"
+        (click)="emitTag.emit(file)"
       ></p-tag>
     </div>
   </div>
-  <div class="text-gray-900">
+  <div>
     <img
       class="w-full border-round image-responsive"
       src="{{ search.urlMedia.thumbnail }}"
     />
-    <p class="text-gray-900 text-justify">
-      Texto de exemplo no card. Lorem, ipsum dolor sit amet consectetur
-      adipisicing elit. Quam quod numquam itaque quibusdam, fuga dolorem quis
-      repellat culpa, et non beatae reiciendis illum cum possimus ipsa minus ...
-    </p>
-    <div class="w-full mb-2" style="text-align: end">
+    <div class="w-12 h-5rem">
+      <p
+        class="text-gray-900 pb-3 text-justify"
+        [ngClass]="{ 'truncate-text': search.description.length > 100 }"
+      >
+        {{ search.description }}
+      </p>
+    </div>
+    <div class="text-gray-700 text-sm text-left">
+      <i class="pi pi-calendar-minus"></i>
+      Atualizado: {{ search.updated_at | date : "short" }}
+    </div>
+    <p-divider></p-divider>
+    <div class="w-full mb-2 text-right">
       <button pButton type="button" class="button-raised p-button-outlined">
-        Ver material
+        Ver mais
       </button>
     </div>
   </div>
 </div>
-
-<!-- <div class="card-media-container p-d-flex p-d-flex-ai-center p-d-flex-jc-center">
-      <iframe
-        width="560"
-        height="415"
-        src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-        frameborder="0"
-        allowfullscreen
-      ></iframe>
-    </div> -->

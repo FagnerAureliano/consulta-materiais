@@ -1,26 +1,23 @@
 .card-header {
   text-align: justify;
 }
-
-.tag {
-  font-size: 0.857143rem;
-  text-transform: uppercase;
-  font-weight: 600;
-  background: var(--light-grey);
-  color: var(--black);
-  border-radius: 4px;
-  padding: 0.2rem 0.1rem;
-}
 .image-responsive {
   height: 45vh;
 }
-@media only screen and (max-width: 768px) {
-  .image-responsive {
-    height: 38vh;
-  }
+.truncate-text { 
+  overflow: hidden;
+  text-overflow: ellipsis;
+  // white-space: nowrap;
 }
-@media only screen and (max-width: 320px) {
+@media only screen and (max-width: 768px) {
   .image-responsive {
     height: 30vh;
   }
+ 
+}
+
+@media only screen and (max-width: 320px) {
+  .image-responsive {
+    height: 30vh;
+  } 
 }
