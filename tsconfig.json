@@ -1,34 +1,41 @@
-/* To learn more about this file see: https://angular.io/config/tsconfig. */
 {
   "compileOnSave": false,
+  "angularCompilerOptions": {
+    "enableIvy": true,
+    "strictTemplates": true
+  },
   "compilerOptions": {
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
-    "forceConsistentCasingInFileNames": true,
-    "strict": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
     "sourceMap": true,
     "declaration": false,
     "downlevelIteration": true,
     "experimentalDecorators": true,
     "moduleResolution": "node",
     "importHelpers": true,
-    "paths": {
-      "shared": ["dist/shared/shared", "dist/shared"]
-    },
-    "target": "es2017",
+    "target": "es2015",
     "module": "es2020",
-    "lib": ["es2018", "dom"],
-    "strictPropertyInitialization": false,
-    "strictNullChecks": false,
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true
-  },
-  "angularCompilerOptions": {
-    "enableI18nLegacyMessageIdFormat": false,
-    "strictInjectionParameters": true,
-    "strictInputAccessModifiers": true,
-    "strictTemplates": true
+    "lib": [
+      "es2018",
+      "dom"
+    ],
+    "paths": {
+      "@auth": [
+        "projects/auth/src/public-api.ts"
+      ],
+      "@shared": [
+        "projects/shared/src/public-api.ts"
+      ],
+      "shared": [
+        "dist/shared/shared",
+        "dist/shared"
+      ],
+      "auth": [
+        "dist/auth/auth",
+        "dist/auth"
+      ]
+    }
   }
 }

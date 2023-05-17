@@ -4,7 +4,7 @@ import { SearchContainerComponent } from './containers/search-container/search-c
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'search',
     component: SearchContainerComponent
   }
 ];
