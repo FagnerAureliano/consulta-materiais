@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { LoadingBarService } from 'projects/shared/src/lib/services/loading-bar.service';
 import { SearchBoxService } from 'projects/shared/src/lib/services/searchbox.service';
 import { delay, map, filter, tap } from 'rxjs/operators';
@@ -124,4 +124,10 @@ export class SearchContainerComponent implements OnInit {
         // Faça algo com o valor do input recebido
       });
   }
+
+  @HostListener('window:scroll', ['$event']) // for window scroll events
+onScroll(_event: Event) {
+  console.log(_event);
+  
+}
 }

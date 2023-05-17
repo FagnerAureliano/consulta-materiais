@@ -70,6 +70,7 @@ export class BaseWrapperComponent implements OnInit, OnDestroy {
   }
 
   handleUserName() {
+    return 'Usuário não identificado'
     // return (
     //   this.userService.user?.nome
     //     .split(' ')

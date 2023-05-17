@@ -13,6 +13,8 @@ import { SidenavModule } from '../sidenav/sidenav.module';
 import { LoggingInterceptor } from '../../interceptors/logging-interceptor';
 import { RequestInterceptor } from '../../interceptors/request-interceptor';
 import { LoadingBarService } from '../../services/loading-bar.service';
+import { CardModule } from 'primeng/card';
+
 
  
 
@@ -25,7 +27,8 @@ import { LoadingBarService } from '../../services/loading-bar.service';
     LoadingBarModule,
     ToastModule,
     RouterModule,
-    SidenavModule
+    SidenavModule,
+    CardModule
   ],
   exports: [BaseWrapperComponent],
   providers: [

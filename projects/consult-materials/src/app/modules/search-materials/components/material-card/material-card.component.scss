@@ -4,20 +4,17 @@
 .image-responsive {
   height: 45vh;
 }
-.truncate-text { 
+.truncate-text {
   overflow: hidden;
-  text-overflow: ellipsis;
-  // white-space: nowrap;
+  text-overflow: ellipsis; 
 }
 @media only screen and (max-width: 768px) {
   .image-responsive {
     height: 30vh;
   }
- 
 }
-
 @media only screen and (max-width: 320px) {
   .image-responsive {
-    height: 30vh;
-  } 
+    height: 25vh;
+  }
 }
