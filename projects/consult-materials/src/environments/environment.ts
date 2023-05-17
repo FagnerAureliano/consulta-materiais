@@ -4,7 +4,16 @@
 
 export const environment = {
   production: false,
-  SHOW_LOGGING_ROUTES: ''
+  homolog: false,
+  development: true,
+
+  version: '1.4.1',
+
+  KEYCLOAK_URL: 'http://localhost:8190/auth',
+  KEYCLOAK_REALM: 'FAB',
+  KEYCLOAK_CLIENT_ID: 'sisplaer',
+
+  API_URL: 'http://localhost'
 };
 
 /*

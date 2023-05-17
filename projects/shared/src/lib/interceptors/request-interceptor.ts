@@ -1,5 +1,3 @@
-import { Injectable } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
 import {
   HttpErrorResponse,
   HttpEvent,
@@ -7,13 +5,21 @@ import {
   HttpInterceptor,
   HttpRequest,
 } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 
-import { catchError, share } from 'rxjs/operators';
 import { MessageService } from 'primeng/api';
+
+import { Observable, throwError } from 'rxjs';
+import { catchError, share } from 'rxjs/operators';
+
+import { LoadingBarService } from './../services/loading-bar.service';
 
 @Injectable({ providedIn: 'root' })
 export class RequestInterceptor implements HttpInterceptor {
-  constructor(private messageService: MessageService) {}
+  constructor(
+    private messageService: MessageService,
+    private loading: LoadingBarService
+  ) {}
 
   intercept(
     req: HttpRequest<any>,
@@ -33,12 +39,20 @@ export class RequestInterceptor implements HttpInterceptor {
             this.messageService.add({
               severity: 'error',
               summary: 'Tivemos um problema no nosso servidor',
-              detail: err.error.message,
+              detail: 'Não foi possível se comunicar com a rota do servidor.',
             });
             break;
           case 400:
             this.messageService.add({
-              severity: 'warn',
+              severity: 'error',
+              summary: 'Tivemos um problema no nosso servidor',
+              detail: err.error.message,
+            });
+            break;
+          case 503:
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Serviço indisponível',
               detail: err.error.message,
             });
             break;
@@ -47,8 +61,11 @@ export class RequestInterceptor implements HttpInterceptor {
               severity: 'error',
               summary: 'Tivemos um problema no nosso servidor',
               detail: err.error.message,
-            })
+            });
+            break;
         }
+
+        this.loading.end();
         return throwError(err.error);
       }),
       share()

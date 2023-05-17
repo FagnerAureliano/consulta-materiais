@@ -1,19 +1,18 @@
 import {
   Component,
-  EventEmitter,
   HostListener,
   Input,
   OnDestroy,
-  OnInit,
-  Output,
+  OnInit
 } from '@angular/core';
-import { Router, NavigationStart, NavigationEnd } from '@angular/router';
-import { filter } from 'rxjs/operators';
-import { Subscription } from 'rxjs';
+import { NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { KeycloakService } from 'keycloak-angular';
+import { Subscription } from 'rxjs';
+import { filter } from 'rxjs/operators';
 
+import moment from 'moment';
 import { LoadingBarService } from '../../services/loading-bar.service';
-import * as moment from 'moment'; 
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'shrd-base-wrapper',
@@ -24,31 +23,49 @@ export class BaseWrapperComponent implements OnInit, OnDestroy {
   private _sessionInterval: any;
 
   @Input() title!: string;
-  @Input() basePath!: string; 
+  @Input() basePath!: string;
+
+  _isUserRolepanelvisible = false;
+
+  _tokenDuration: moment.Duration;
+
+  _observer: MutationObserver;
+
+  _popupElement: HTMLElement;
+  _cancelButton: HTMLElement;
+
+  _versionText: string;
 
   public tokenDuration: moment.Duration | undefined;
 
   private subs$: Subscription[] = [];
 
-  constructor(private router: Router, public loading: LoadingBarService) {
-    // this.subs$.push(
-    //   this.router.events
-    //     .pipe(
-    //       filter(
-    //         (e) => e instanceof NavigationStart || e instanceof NavigationEnd
-    //       )
-    //     )
-    //     .subscribe((e) => {
-    //       if (e instanceof NavigationStart) {
-    //         this.loading.start();
-    //       } else {
-    //         this.loading.end();
-    //       }
-    //     })
-    // );
-    // this.refreshTokenTime();
+  constructor(
+    public keycloak: KeycloakService,
+    private router: Router,
+    public loading: LoadingBarService,
+    public userService: UserService
+  ) {
+    this.subs$.push(
+      this.router.events
+        .pipe(
+          filter(
+            (e) => e instanceof NavigationStart || e instanceof NavigationEnd
+          )
+        )
+        .subscribe((e) => {
+          if (e instanceof NavigationStart) {
+            this.loading.start();
+          } else {
+            this.loading.end();
+          }
+        })
+    );
+    this.refreshTokenTime();
   }
-
+  toggleUserRolePanel(): void {
+    this._isUserRolepanelvisible = !this._isUserRolepanelvisible;
+  }
   ngOnInit(): void {}
   ngOnDestroy(): void {
     this.subs$.forEach((sub$) => sub$.unsubscribe());
@@ -58,7 +75,7 @@ export class BaseWrapperComponent implements OnInit, OnDestroy {
   handleLogout(): void {
     clearInterval(this._sessionInterval);
 
-    // this.keycloak.logout();
+    this.keycloak.logout();
   }
 
   showBtnCadastrar(): boolean {
@@ -70,7 +87,7 @@ export class BaseWrapperComponent implements OnInit, OnDestroy {
   }
 
   handleUserName() {
-    return 'Usuário não identificado'
+    return 'Usuário não identificado';
     // return (
     //   this.userService.user?.nome
     //     .split(' ')
@@ -90,38 +107,46 @@ export class BaseWrapperComponent implements OnInit, OnDestroy {
    * with 5 minutes left to expire
    */
   refreshTokenTime(): void {
-    // if (
-    //   !this.tokenDuration ||
-    //   Math.round(this.tokenDuration.asMinutes()) <= 35
-    // ) {
-    //   this.keycloak.updateToken(-1).then((refreshed) => {
-    //     if (refreshed) {
-    //       const kc = this.keycloak.getKeycloakInstance();
-    //       moment.locale('pt-br');
-    //       const currentTime = moment().unix();
-    //       const diffTime = kc.tokenParsed.exp + kc.timeSkew - currentTime;
-    //       const interval = 1000;
-    //       this.tokenDuration = moment.duration(diffTime, 's');
-    //       if (diffTime > 0) {
-    //         if (this._sessionInterval) {
-    //           clearInterval(this._sessionInterval);
-    //         }
-    //         this._sessionInterval = setInterval(() => {
-    //           if (this.keycloak.isTokenExpired()) {
-    //             this.handleLogout();
-    //           }
-    //           this.tokenDuration = moment.duration(
-    //             this.tokenDuration.asMilliseconds() - interval,
-    //             'ms'
-    //           );
-    //         }, interval);
-    //       }
-    //     }
-    //   });
+    if (
+      !this.tokenDuration ||
+      Math.round(this.tokenDuration.asMinutes()) <= 35
+    ) {
+      this.keycloak.updateToken(-1).then((refreshed) => {
+        if (refreshed) {
+          const kc = this.keycloak.getKeycloakInstance();
+          moment.locale('pt-br');
+          const currentTime = moment().unix();
+          const diffTime = kc.tokenParsed.exp + kc.timeSkew - currentTime;
+          const interval = 1000;
+          this.tokenDuration = moment.duration(diffTime, 's');
+          if (diffTime > 0) {
+            if (this._sessionInterval) {
+              clearInterval(this._sessionInterval);
+            }
+            this._sessionInterval = setInterval(() => {
+              if (this.keycloak.isTokenExpired()) {
+                this.handleLogout();
+              }
+              this.tokenDuration = moment.duration(
+                this.tokenDuration.asMilliseconds() - interval,
+                'ms'
+              );
+            }, interval);
+          }
+        }
+      });
+    }
   }
-
-  @HostListener('document:click')
+  @HostListener('document:click', ['$event.target'])
   handleOutsideClick(el: HTMLElement) {
     this.refreshTokenTime();
+
+    if (
+      this._popupElement &&
+      this._cancelButton &&
+      !this._popupElement.contains(el)
+    ) {
+      this._cancelButton.click();
+    }
   }
 }
