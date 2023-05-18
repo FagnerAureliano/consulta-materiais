@@ -126,8 +126,7 @@ export class SearchContainerComponent implements OnInit {
   }
 
   @HostListener('window:scroll', ['$event']) // for window scroll events
-onScroll(_event: Event) {
-  console.log(_event);
-  
-}
+  onScroll(_event: Event) {
+    // console.log(_event);
+  }
 }
