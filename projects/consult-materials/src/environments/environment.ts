@@ -7,13 +7,14 @@ export const environment = {
   homolog: false,
   development: true,
 
-  version: '1.4.1',
+  version: '1.0.0',
 
   KEYCLOAK_URL: 'http://localhost:8190/auth',
   KEYCLOAK_REALM: 'FAB',
-  KEYCLOAK_CLIENT_ID: 'sisplaer',
+  KEYCLOAK_CLIENT_ID: 'search',
 
-  API_URL: 'http://localhost'
+  SEARCH_FRONT_URL: 'http://localhost:4300/consult-materials/',
+  API_ENDPOINT:'http://localhost:8090/api/v1',
 };
 
 /*

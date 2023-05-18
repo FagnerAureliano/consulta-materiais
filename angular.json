@@ -72,7 +72,14 @@
             "styles": [
               "resources/scss/default.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "allowedCommonJsDependencies": ["keycloak-js"],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "production": {
@@ -209,7 +216,7 @@
       }
     }
   },
-  "defaultProject": "consulta-materiais",
+  "defaultProject": "shared",
   "cli": {
     "analytics": false
   }
