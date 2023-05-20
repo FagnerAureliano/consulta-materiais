@@ -21,7 +21,7 @@ export class SearchContainerComponent implements OnInit {
     console.log(value);
   }
   searchObject: any[] = [];
-  itemsPerPage = 4;
+  itemsPerPage = 6;
   startIndex = 0;
 
   // searchObject = [
@@ -111,7 +111,7 @@ export class SearchContainerComponent implements OnInit {
   //     lastModified: this.randomDate(2021, 2023),
   //   },
   // ];
-
+  _loading = false;
   constructor(
     private loading: LoadingBarService,
     private searchBoxService: SearchBoxService
@@ -130,52 +130,65 @@ export class SearchContainerComponent implements OnInit {
       });
     this.loadItems();
 
+
   }
 
-  loadItems() {
+
+  loadItems(): void {
+    if (this._loading) {
+      return;
+    }
+
     const url = `https://jsonplaceholder.typicode.com/photos?_start=${this.startIndex}&_limit=${this.itemsPerPage}`;
-  
-    fetch(url)
-      .then(response => response.json())
-      .then(json => {
-        const mappedItems = json.map((value) => ({
-          title: value.title,
-          description: value.title.repeat(3),
-          tags: [
-            { name: value.albumId },
-            { name: value.id },
-          ],
-          urlMedia: {
-            thumbnail: value.url
-          },
-          lastModified: this.randomDate(2020, 2023)
-        }));
-  
-        this.removeOldItems();
-        this.searchObject = [...this.searchObject, ...mappedItems];
-        this.startIndex += this.itemsPerPage;
-      });
+
+    this._loading = true;
+    this.loading.start();
+    setTimeout(() => {
+      fetch(url)
+        .then(response => response.json())
+        .then(json => {
+          const mappedItems = json.map((value) => ({
+            title: value.title,
+            description: value.title.repeat(3),
+            tags: [
+              { name: value.albumId },
+              { name: value.id },
+            ],
+            urlMedia: {
+              thumbnail: value.url
+            },
+            lastModified: this.randomDate(2020, 2023)
+          }));
+
+          this.removeOldItems();
+          this.searchObject = [...this.searchObject, ...mappedItems];
+          this.startIndex += this.itemsPerPage;
+          this._loading = false;
+        });
+      this.loading.end();
+    }, Math.floor(Math.random() * (2000 - 500) + 500));
   }
-  
+
+
+  @HostListener('window:scroll', ['$event'])
+  onScroll(event: Event): void {
+    const windowHeight = window.innerHeight;
+    const scrollHeight = document.documentElement.scrollHeight;
+    const scrollTop = document.documentElement.scrollTop;
+    const bottomOffset = scrollHeight - (scrollTop + windowHeight);
+
+    if (bottomOffset <= 100) {
+      this.loadItems();
+    }
+  }
+
   removeOldItems() {
     const maxItems = 100; // Maximum number of items to keep in the list
-  
+
     if (this.searchObject.length >= maxItems) {
       const removeCount = this.searchObject.length - maxItems;
       this.searchObject.splice(0, removeCount);
     }
   }
-  
-  
-  @HostListener('window:scroll', ['$event'])
-  onScroll(event: any) {
-    const windowHeight = window.innerHeight;
-    const scrollHeight = document.documentElement.scrollHeight;
-    const scrollTop = document.documentElement.scrollTop;
-    const bottomOffset = scrollHeight - (scrollTop + windowHeight);
-  
-    if (bottomOffset <= 100) {
-      this.loadItems();
-    }
-  }
+
 }
