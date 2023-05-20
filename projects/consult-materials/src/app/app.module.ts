@@ -29,7 +29,7 @@ const authProvider = authProviderBuilder({
     BaseWrapperModule,
   ],
   providers: [
-    authProvider,
+    // authProvider,
     { provide: 'SEARCH_FRONT_URL', useValue: environment.SEARCH_FRONT_URL },
     { provide: 'API_ENDPOINT', useValue: environment.API_ENDPOINT },
     { provide: 'production', useValue: environment.production },

@@ -5,17 +5,17 @@ import { Role } from '@shared';
 import { environment } from '../environments/environment';
 
 const routes: Routes = [
-  {
-    path: '',
-    canActivate: [AuthGuard],
-    canActivateChild: [AuthGuard],
-    data: { roles: [Role.USER] },
-    children: [
-      {
-        path: '',
-        redirectTo: `${environment.SEARCH_FRONT_URL}`,
-        pathMatch: 'full',
-      },
+  // {
+  //   path: '',
+  //   canActivate: [AuthGuard],
+  //   canActivateChild: [AuthGuard],
+  //   data: { roles: [Role.USER] },
+  //   children: [
+  //     {
+  //       path: '',
+  //       redirectTo: `${environment.SEARCH_FRONT_URL}`,
+  //       pathMatch: 'full',
+  //     },
       {
         path: 'search',
         loadChildren: () =>
@@ -33,9 +33,10 @@ const routes: Routes = [
           externalUrl: `${environment.SEARCH_FRONT_URL}`,
         },
       },
-    ],
-  },
-];
+    ]
+//     ,
+//   },
+// ];
 @NgModule({
   imports: [RouterModule.forRoot(routes, { useHash: true })],
   exports: [RouterModule],
