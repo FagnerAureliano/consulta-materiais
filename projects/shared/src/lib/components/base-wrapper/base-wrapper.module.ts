@@ -26,6 +26,8 @@ import { LoadingBarService } from '../../services/loading-bar.service';
 import { CardModule } from 'primeng/card';
 import { HttpClientModule } from '@angular/common/http';
 import {OverlayPanelModule} from 'primeng/overlaypanel';
+import { AccordionModule } from 'primeng/accordion';
+
 
 
 @NgModule({
@@ -41,7 +43,8 @@ import {OverlayPanelModule} from 'primeng/overlaypanel';
     SidenavModule,
     CardModule,
     ConfirmPopupModule,
-    OverlayPanelModule
+    OverlayPanelModule,
+    AccordionModule
   ],
   exports: [BaseWrapperComponent],
   providers: [

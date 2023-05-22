@@ -3,7 +3,7 @@ import {
   HostListener,
   Input,
   OnDestroy,
-  OnInit
+  OnInit,
 } from '@angular/core';
 import { NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { KeycloakService } from 'keycloak-angular';
@@ -35,6 +35,9 @@ export class BaseWrapperComponent implements OnInit, OnDestroy {
   _cancelButton: HTMLElement;
 
   _versionText: string;
+  isToggle: boolean;
+  screenWidth: number;
+  isMobileScreen: boolean
 
   public tokenDuration: moment.Duration | undefined;
 
@@ -46,6 +49,7 @@ export class BaseWrapperComponent implements OnInit, OnDestroy {
     public loading: LoadingBarService,
     public userService: UserService
   ) {
+    this.getScreenSize();
     this.subs$.push(
       this.router.events
         .pipe(
@@ -63,8 +67,15 @@ export class BaseWrapperComponent implements OnInit, OnDestroy {
     );
     this.refreshTokenTime();
   }
+
   toggleUserRolePanel(): void {
     this._isUserRolepanelvisible = !this._isUserRolepanelvisible;
+  }
+  togggleAccord() {
+    this.isToggle = !this.isToggle;
+    const accordDiv = document.getElementById('accord');
+    accordDiv.style.maxHeight = this.isToggle ? '10rem' : null;
+    accordDiv.style.height = this.isToggle ? '10rem' : null;
   }
   ngOnInit(): void {}
   ngOnDestroy(): void {
@@ -148,5 +159,12 @@ export class BaseWrapperComponent implements OnInit, OnDestroy {
     ) {
       this._cancelButton.click();
     }
+  }
+  @HostListener('window:resize', ['$event'])
+  getScreenSize(event?: any) {
+    this.screenWidth = window.innerWidth;  
+    this.isMobileScreen = this.screenWidth < 450;
+    // Exemplo de como utilizar os valores da largura e altura da tela
+    console.log('Largura da tela: ' + this.screenWidth); 
   }
 }

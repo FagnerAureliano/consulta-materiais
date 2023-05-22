@@ -16,7 +16,7 @@
   .l-header {
     z-index: 4;
     position: fixed;
-    height: calc(1.66rem * 2);
+    // height: calc(1.66rem * 2);
     width: 100%;
     top: 0;
     left: 0;
@@ -98,4 +98,31 @@
     min-height: 100vh;
     padding-top: 2.16rem * 2;
   }
+}
+
+
+
+.accordion {
+  background-color: #eee;
+  color: #444;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+  transition: 0.4s;
+}
+
+.active, .accordion:hover {
+  background-color: #ccc;
+}
+
+.panel {
+  padding: 0 18px;
+  background-color: white;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
 }

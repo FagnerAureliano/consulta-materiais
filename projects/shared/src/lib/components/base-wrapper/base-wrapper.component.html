@@ -2,11 +2,48 @@
   <header class="l-header">
     <p-toast></p-toast>
     <p-confirmPopup></p-confirmPopup>
+
     <div
+      *ngIf="isMobileScreen"
+      class="c-header grid flex pl-3 pr-3 align-items-center justify-content-between"
+    >
+      <div class="col-7">
+        <a [href]="basePath" class="flex align-items-center align-self-start">
+          <img
+            class="c-header__logo"
+            src="assets/images/gladio-alado-3d.jpg"
+            alt="gladio alado"
+          />
+          <h1 class="c-header__title ml-2">
+            <span class="c-header__subtitle ml-1 mr-3">
+              {{ title ? title : "sem título" }}
+            </span>
+          </h1>
+        </a>
+      </div>
+      <div>
+        <button
+          (click)="togggleAccord()"
+          class="accordion accordion-header align-self-start"
+        >
+          MENU
+        </button>
+      </div>
+      <div id="accord" class="panel" style="height: 20px">
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+          aliquip ex ea commodo consequat.
+        </p>
+      </div>
+    </div>
+    <div
+      *ngIf="!isMobileScreen"
       class="c-header flex pl-3 pr-3 align-items-center justify-content-between"
     >
       <!-- Logo and name container -->
-      <a [href]="basePath" class="flex align-items-center">
+      <a [href]="basePath" class="flex align-items-center align-self-start">
         <img
           class="c-header__logo"
           src="assets/images/gladio-alado-3d.jpg"
@@ -49,7 +86,6 @@
             iconPos="right"
             (click)="op.toggle($event)"
           ></p-button>
-          <!-- (onClick)="toggleUserRolePanel()" -->
           <p-overlayPanel
             class="z-5"
             [showTransitionOptions]="'0ms'"
@@ -85,7 +121,7 @@
         ></p-button>
       </div>
     </div>
-    <div
+    <!-- <div
       class="c-sub-header flex pl-3 pr-3 align-items-center justify-content-between"
     >
       <div>
@@ -106,7 +142,7 @@
           styleClass="c-sub-header__help-btn"
         ></p-button>
       </a>
-    </div>
+    </div> -->
   </header>
   <div class="l-body">
     <shrd-sidenav [basePath]="basePath"></shrd-sidenav>
