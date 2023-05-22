@@ -7,11 +7,19 @@ import { ClickOutsideModule } from '../../directives/click-outside.module';
 import { ButtonModule } from 'primeng/button';
 import { SearchboxModule } from '../searchbox/searchbox.module';
 import { DividerModule } from 'primeng/divider';
-
+import { MaterialFilterModule } from 'projects/consult-materials/src/app/modules/search-materials/components/material-filter/material-filter.module';
 
 @NgModule({
   declarations: [SidenavComponent, SidenavItemComponent],
-  imports: [CommonModule, RouterModule, ClickOutsideModule, ButtonModule, SearchboxModule, DividerModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    ClickOutsideModule,
+    ButtonModule,
+    SearchboxModule,
+    DividerModule,
+    MaterialFilterModule,
+  ],
   exports: [SidenavComponent, SidenavItemComponent],
 })
-export class SidenavModule { }
+export class SidenavModule {}

@@ -16,6 +16,7 @@ import { DividerModule } from 'primeng/divider';
 import { MaterialDetailComponent } from './components/material-detail/material-detail.component';
 import { DialogModule } from 'primeng/dialog';
 import { VirtualScrollerModule } from 'primeng/virtualscroller';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -25,10 +26,13 @@ registerLocaleData(localePt);
   declarations: [
     SearchContainerComponent,
     MaterialCardsComponent,
-    MaterialDetailComponent
+    MaterialDetailComponent,
+    
   ],
   imports: [
     CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
     SearchMaterialsRoutingModule,
     LoadingBarModule,
     CardModule,

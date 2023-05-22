@@ -10,7 +10,9 @@
   <div class="l-sidenav p-3">
     <button class="l-sidenav__btn" (click)="toggleNav()">
       <div class="flex justify-content-end">
-        <i class="pi pi-chevron-right"></i>
+        <i
+          [class]="_isHidden ? 'pi pi-chevron-right' : 'pi pi-chevron-left'"
+        ></i>
       </div>
     </button>
     <nav>
@@ -18,6 +20,8 @@
         <div class="w-12 mt-2">
           <shrd-searchbox> </shrd-searchbox>
         </div>
+        <p-divider></p-divider>
+        <mat-material-filter></mat-material-filter>
         <p-divider></p-divider>
         <shrd-sidenav-item (click)="toggleNav()" href="#">
           Acessos e Perfis

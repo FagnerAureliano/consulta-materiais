@@ -1,0 +1,53 @@
+<p-accordion>
+  <p-accordionTab header="FILTRO">
+    <form [formGroup]="_form">
+      <div class="flex my-2 align-items-center gap-1 justify-content-between">
+        <div>
+          <p-checkbox
+            formControlName="PDF"
+            value="PDF"
+            inputId="pdf"
+            class="mr-1"
+          ></p-checkbox>
+          <label for="pdf">PDF</label>
+        </div>
+        <div>
+          <p-checkbox
+            formControlName="video"
+            value="video"
+            inputId="video"
+            class="mr-1"
+          ></p-checkbox>
+          <label for="video">Vídeo</label>
+        </div>
+        <div>
+          <p-checkbox
+            formControlName="guiaRapido"
+            value="guiaRapido"
+            inputId="guiaRapido"
+            class="mr-1"
+          ></p-checkbox>
+          <label for="guiaRapido">Guia Rápido</label>
+        </div>
+      </div>
+    </form>
+    <div class="w-full mt-3 justify-content-between">
+      <p-button
+        type="button"
+        icon="pi pi-refresh"
+        styleClass="p-button-text col-6 p-button-sm"
+        label="LIMPAR"
+        (onClick)="searchFilter()"
+      >
+      </p-button>
+      <p-button
+        type="button"
+        icon="pi pi-search"
+        styleClass="p-button-text bg-bluegray-50 col-6 p-button-sm"
+        label="BUSCAR"
+        (onClick)="searchFilter()"
+      >
+      </p-button>
+    </div>
+  </p-accordionTab>
+</p-accordion>
