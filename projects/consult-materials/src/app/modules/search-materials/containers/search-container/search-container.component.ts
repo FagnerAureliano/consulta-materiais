@@ -150,9 +150,13 @@ export class SearchContainerComponent implements OnInit {
           const mappedItems = json.map((value) => ({
             title: value.title,
             description: value.title.repeat(3),
+            types:[
+              {name: 'PDF'},
+              {name: 'Guia Rápido'}
+            ],
             tags: [
-              { name: value.albumId },
-              { name: value.id },
+              { name: value.title.slice(0,6) },
+              { name: value.title.slice(7,13) },
             ],
             urlMedia: {
               thumbnail: value.url
@@ -160,7 +164,7 @@ export class SearchContainerComponent implements OnInit {
             lastModified: this.randomDate(2020, 2023)
           }));
 
-          this.removeOldItems();
+          // this.removeOldItems();
           this.searchObject = [...this.searchObject, ...mappedItems];
           this.startIndex += this.itemsPerPage;
           this._loading = false;

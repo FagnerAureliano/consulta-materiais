@@ -2,6 +2,16 @@
   class="card bg-white border-1 border-gray-300 text-white text-center p-4 border-round shadow-1 m-2"
 >
   <div class="card-header flex">
+    <div *ngFor="let file of search.types" li-index>
+      <p-tag
+        class="uppercase border-white border-right-1 cursor-pointer font-bold"
+        value="{{ file.name }}"
+        (click)="emitTag.emit(file)"
+      ></p-tag>
+    </div>
+  </div>
+  <div class="w-full border-bottom-1 border-gray-200 my-1"></div>
+  <div class="card-header flex">
     <!-- <i class="bg-blue-300 pi pi-tag align-self-center"></i> -->
     <div *ngFor="let file of search.tags" li-index>
       <p-tag
