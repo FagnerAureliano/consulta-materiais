@@ -35,7 +35,8 @@ export class BaseWrapperComponent implements OnInit, OnDestroy {
   _cancelButton: HTMLElement;
 
   _versionText: string;
-  isToggle: boolean;
+  isToggleScreenOpen: boolean;
+  
   screenWidth: number;
   isMobileScreen: boolean
 
@@ -71,11 +72,11 @@ export class BaseWrapperComponent implements OnInit, OnDestroy {
   toggleUserRolePanel(): void {
     this._isUserRolepanelvisible = !this._isUserRolepanelvisible;
   }
-  togggleAccord() {
-    this.isToggle = !this.isToggle;
+  togggleMenuMobile() {
+    this.isToggleScreenOpen = !this.isToggleScreenOpen;
     const accordDiv = document.getElementById('accord');
-    accordDiv.style.maxHeight = this.isToggle ? '10rem' : null;
-    accordDiv.style.height = this.isToggle ? '10rem' : null;
+    accordDiv.style.maxHeight = this.isToggleScreenOpen ? '10.5rem' : null;
+    accordDiv.style.height = this.isToggleScreenOpen ? '10.5rem' : null;
   }
   ngOnInit(): void {}
   ngOnDestroy(): void {
