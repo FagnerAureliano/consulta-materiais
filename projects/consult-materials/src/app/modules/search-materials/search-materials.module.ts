@@ -8,6 +8,7 @@ import { SearchMaterialsRoutingModule } from './search-materials-routing.module'
 import { SearchContainerComponent } from './containers/search-container/search-container.component';
 import { MaterialCardsComponent } from './components/material-card/material-card.component';
 import { MaterialDetailComponent } from './components/material-detail/material-detail.component';
+import { GuiaCadastroContainerComponent } from './containers/guia-cadastro-container/guia-cadastro-container.component';
 
 import { CardModule } from 'primeng/card';
 import { TagModule } from 'primeng/tag';
@@ -17,7 +18,7 @@ import { DialogModule } from 'primeng/dialog';
 import { VirtualScrollerModule } from 'primeng/virtualscroller';
 import { MenuModule } from 'primeng/menu';
 import { ScrollTopModule } from 'primeng/scrolltop';
-import { GuiaCadastroContainerComponent } from './containers/guia-cadastro-container/guia-cadastro-container.component';
+import { EditorModule } from 'primeng/editor';
 
 registerLocaleData(localePt);
 @NgModule({
@@ -41,6 +42,7 @@ registerLocaleData(localePt);
     VirtualScrollerModule,
     MenuModule,
     ScrollTopModule,
+    EditorModule,
   ],
   providers: [{ provide: LOCALE_ID, useValue: 'pt-BR' }],
 })

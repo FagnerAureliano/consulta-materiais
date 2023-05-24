@@ -134,7 +134,11 @@ export class SearchContainerComponent implements OnInit {
 
     this.items = [
       { label: 'Documentos', icon: 'pi pi-fw pi-file' },
-      { label: 'Guia Rápido', icon: 'pi pi-fw pi-directions' },
+      {
+        label: 'Guia Rápido',
+        icon: 'pi pi-fw pi-directions',
+        routerLink: '/materials/guia-cadastro',
+      },
       { label: 'Perguntas Frequentes', icon: 'pi pi-fw pi-question-circle' },
     ];
   }

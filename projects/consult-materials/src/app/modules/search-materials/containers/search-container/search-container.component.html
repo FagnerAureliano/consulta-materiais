@@ -10,8 +10,9 @@
     <button
       type="button"
       pButton
-      icon="pi pi-plus"
+      icon="pi pi-plus" 
       label="CADASTRAR"
+      [disabled]="_loading"
       (click)="menu.toggle($event)"
     ></button>
   </div>

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { SearchContainerComponent } from './containers/search-container/search-container.component';
 import { GuiaCadastroContainerComponent } from './containers/guia-cadastro-container/guia-cadastro-container.component';
+import { Role } from '@shared';
 
 const routes: Routes = [
   {
@@ -10,7 +11,8 @@ const routes: Routes = [
   },
   {
     path: 'guia-cadastro',
-    component: GuiaCadastroContainerComponent
+    component: GuiaCadastroContainerComponent,
+   
   }
 ];
 

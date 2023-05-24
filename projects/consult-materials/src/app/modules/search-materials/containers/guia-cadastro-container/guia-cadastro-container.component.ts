@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./guia-cadastro-container.component.scss']
 })
 export class GuiaCadastroContainerComponent implements OnInit {
-
+  text: string;
   constructor() { }
 
   ngOnInit(): void {
