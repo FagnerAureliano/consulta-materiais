@@ -1,25 +1,23 @@
 import { LOCALE_ID, NgModule } from '@angular/core';
 import { CommonModule, registerLocaleData } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import localePt from '@angular/common/locales/pt';
+
+import { LoadingBarModule } from 'projects/shared/src/lib/components/loading-bar/loading-bar.module';
+import { SearchMaterialsRoutingModule } from './search-materials-routing.module';
+import { SearchContainerComponent } from './containers/search-container/search-container.component';
+import { MaterialCardsComponent } from './components/material-card/material-card.component';
+import { MaterialDetailComponent } from './components/material-detail/material-detail.component';
 
 import { CardModule } from 'primeng/card';
 import { TagModule } from 'primeng/tag';
-
-
-
-import { SearchMaterialsRoutingModule } from './search-materials-routing.module';
-import { SearchContainerComponent } from './containers/search-container/search-container.component';
-import { LoadingBarModule } from 'projects/shared/src/lib/components/loading-bar/loading-bar.module';
-import { MaterialCardsComponent } from './components/material-card/material-card.component';
 import { ButtonModule } from 'primeng/button';
 import { DividerModule } from 'primeng/divider';
-import { MaterialDetailComponent } from './components/material-detail/material-detail.component';
 import { DialogModule } from 'primeng/dialog';
 import { VirtualScrollerModule } from 'primeng/virtualscroller';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
-
-
+import { MenuModule } from 'primeng/menu';
+import { ScrollTopModule } from 'primeng/scrolltop';
+import { GuiaCadastroContainerComponent } from './containers/guia-cadastro-container/guia-cadastro-container.component';
 
 registerLocaleData(localePt);
 @NgModule({
@@ -27,7 +25,7 @@ registerLocaleData(localePt);
     SearchContainerComponent,
     MaterialCardsComponent,
     MaterialDetailComponent,
-    
+    GuiaCadastroContainerComponent,
   ],
   imports: [
     CommonModule,
@@ -40,11 +38,10 @@ registerLocaleData(localePt);
     TagModule,
     DividerModule,
     DialogModule,
-    VirtualScrollerModule
-
+    VirtualScrollerModule,
+    MenuModule,
+    ScrollTopModule,
   ],
- providers: [
-    { provide: LOCALE_ID, useValue: 'pt-BR' }    
-  ]  
+  providers: [{ provide: LOCALE_ID, useValue: 'pt-BR' }],
 })
-export class SearchMaterialsModule { }
+export class SearchMaterialsModule {}

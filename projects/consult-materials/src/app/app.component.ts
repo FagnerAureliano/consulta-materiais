@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -7,8 +8,7 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'consulta-materiais';
-  basePath!: 'aaa';
-  _basePath!: 'ss';
+  _basePath = environment.SEARCH_FRONT_URL + 'materials/search';
 
   handleUrlEmitEvent(props: any) {
     console.log(props);

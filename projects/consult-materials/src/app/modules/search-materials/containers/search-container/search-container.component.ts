@@ -1,5 +1,5 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { LazyLoadEvent } from 'primeng/api';
+import { LazyLoadEvent, MenuItem } from 'primeng/api';
 import { LoadingBarService } from 'projects/shared/src/lib/services/loading-bar.service';
 import { SearchBoxService } from 'projects/shared/src/lib/services/searchbox.service';
 import { delay, map, filter, tap } from 'rxjs/operators';
@@ -112,10 +112,12 @@ export class SearchContainerComponent implements OnInit {
   //   },
   // ];
   _loading = false;
+  items: MenuItem[];
+
   constructor(
     private loading: LoadingBarService,
     private searchBoxService: SearchBoxService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.searchBoxService.inputChange$
@@ -130,9 +132,12 @@ export class SearchContainerComponent implements OnInit {
       });
     this.loadItems();
 
-
+    this.items = [
+      { label: 'Documentos', icon: 'pi pi-fw pi-file' },
+      { label: 'Guia Rápido', icon: 'pi pi-fw pi-directions' },
+      { label: 'Perguntas Frequentes', icon: 'pi pi-fw pi-question-circle' },
+    ];
   }
-
 
   loadItems(): void {
     if (this._loading) {
@@ -145,23 +150,20 @@ export class SearchContainerComponent implements OnInit {
     this.loading.start();
     setTimeout(() => {
       fetch(url)
-        .then(response => response.json())
-        .then(json => {
+        .then((response) => response.json())
+        .then((json) => {
           const mappedItems = json.map((value) => ({
             title: value.title,
             description: value.title.repeat(3),
-            types:[
-              {name: 'PDF'},
-              {name: 'Guia Rápido'}
-            ],
+            types: [{ name: 'PDF' }, { name: 'Guia Rápido' }],
             tags: [
-              { name: value.title.slice(0,6) },
-              { name: value.title.slice(7,13) },
+              { name: value.title.slice(0, 6) },
+              { name: value.title.slice(7, 13) },
             ],
             urlMedia: {
-              thumbnail: value.url
+              thumbnail: value.url,
             },
-            lastModified: this.randomDate(2020, 2023)
+            lastModified: this.randomDate(2020, 2023),
           }));
 
           // this.removeOldItems();
@@ -172,7 +174,6 @@ export class SearchContainerComponent implements OnInit {
       this.loading.end();
     }, Math.floor(Math.random() * (2000 - 500) + 500));
   }
-
 
   @HostListener('window:scroll', ['$event'])
   onScroll(event: Event): void {
@@ -194,5 +195,4 @@ export class SearchContainerComponent implements OnInit {
       this.searchObject.splice(0, removeCount);
     }
   }
-
 }

@@ -17,7 +17,7 @@ const routes: Routes = [
   //       pathMatch: 'full',
   //     },
       {
-        path: 'search',
+        path: 'materials',
         loadChildren: () =>
           import('./modules/search-materials/search-materials.module').then(
             (m) => m.SearchMaterialsModule
