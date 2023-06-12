@@ -4,8 +4,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import localePt from '@angular/common/locales/pt';
 
 import { LoadingBarModule } from 'projects/shared/src/lib/components/loading-bar/loading-bar.module';
-import { SearchMaterialsRoutingModule } from './search-materials-routing.module';
-import { SearchContainerComponent } from './containers/search-container/search-container.component';
+import { ConsultaMateriaisRoutingModule } from './consulta-materials-routing.module';
+import { ConsultaContainerComponent } from './containers/consulta-container/consulta-container.component';
 import { MaterialCardsComponent } from './components/material-card/material-card.component';
 import { MaterialDetailComponent } from './components/material-detail/material-detail.component';
 import { GuiaCadastroContainerComponent } from './containers/guia-cadastro-container/guia-cadastro-container.component';
@@ -22,8 +22,8 @@ import { EditorModule } from 'primeng/editor';
 
 registerLocaleData(localePt);
 @NgModule({
-  declarations: [
-    SearchContainerComponent,
+  declarations: [ 
+    ConsultaContainerComponent,
     MaterialCardsComponent,
     MaterialDetailComponent,
     GuiaCadastroContainerComponent,
@@ -32,7 +32,7 @@ registerLocaleData(localePt);
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    SearchMaterialsRoutingModule,
+    ConsultaMateriaisRoutingModule,
     LoadingBarModule,
     CardModule,
     ButtonModule,
@@ -46,4 +46,4 @@ registerLocaleData(localePt);
   ],
   providers: [{ provide: LOCALE_ID, useValue: 'pt-BR' }],
 })
-export class SearchMaterialsModule {}
+export class ConsultaMateriaisModule {}

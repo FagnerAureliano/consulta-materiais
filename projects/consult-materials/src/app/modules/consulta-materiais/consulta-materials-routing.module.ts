@@ -1,23 +1,22 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { SearchContainerComponent } from './containers/search-container/search-container.component';
+import { ConsultaContainerComponent } from './containers/consulta-container/consulta-container.component';
 import { GuiaCadastroContainerComponent } from './containers/guia-cadastro-container/guia-cadastro-container.component';
 import { Role } from '@shared';
 
 const routes: Routes = [
   {
     path: 'search',
-    component: SearchContainerComponent
+    component: ConsultaContainerComponent,
   },
   {
     path: 'guia-cadastro',
     component: GuiaCadastroContainerComponent,
-   
-  }
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class SearchMaterialsRoutingModule { }
+export class ConsultaMateriaisRoutingModule {}

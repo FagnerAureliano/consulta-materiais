@@ -19,8 +19,8 @@ const routes: Routes = [
       {
         path: 'materials',
         loadChildren: () =>
-          import('./modules/search-materials/search-materials.module').then(
-            (m) => m.SearchMaterialsModule
+          import('./modules/consulta-materiais/consulta-materials.module').then(
+            (m) => m.ConsultaMateriaisModule
           ),
       },
       {

@@ -6,10 +6,10 @@ import { delay, map, filter, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-search-container',
-  templateUrl: './search-container.component.html',
-  styleUrls: ['./search-container.component.scss'],
+  templateUrl: './consulta-container.component.html',
+  styleUrls: ['./consulta-container.component.scss'],
 })
-export class SearchContainerComponent implements OnInit {
+export class ConsultaContainerComponent implements OnInit {
   [x: string]: any;
   randomDate(startYear: number, endYear: number) {
     const startDate = new Date(startYear, 0, 1).getTime();

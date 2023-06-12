@@ -21,7 +21,7 @@ export class LoggingInterceptor implements HttpInterceptor {
     return next.handle(req).pipe(
       finalize(() => {
         if (!this.production) {
-          const elapsed = Date.now() - started;
+          const elapsed = Date.now() - started;          
           console.log(
             `URL: ${req.url} Method: ${req.method} Time took: ${elapsed} ms`
           );

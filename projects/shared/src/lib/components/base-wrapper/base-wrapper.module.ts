@@ -16,7 +16,7 @@ import { AvatarModule } from 'primeng/avatar';
 import { ButtonModule } from 'primeng/button';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
-import { ConfirmPopupModule } from 'primeng/confirmpopup'; 
+import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { ConfirmationService } from 'primeng/api';
 import { LoadingBarModule } from '../loading-bar/loading-bar.module';
 import { SidenavModule } from '../sidenav/sidenav.module';
@@ -25,10 +25,9 @@ import { RequestInterceptor } from '../../interceptors/request-interceptor';
 import { LoadingBarService } from '../../services/loading-bar.service';
 import { CardModule } from 'primeng/card';
 import { HttpClientModule } from '@angular/common/http';
-import {OverlayPanelModule} from 'primeng/overlaypanel';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { AccordionModule } from 'primeng/accordion';
-
-
+import { LoadingBarInterceptor } from '../../interceptors/loading-bar-interceptor';
 
 @NgModule({
   declarations: [BaseWrapperComponent],
@@ -44,7 +43,7 @@ import { AccordionModule } from 'primeng/accordion';
     CardModule,
     ConfirmPopupModule,
     OverlayPanelModule,
-    AccordionModule
+    AccordionModule,
   ],
   exports: [BaseWrapperComponent],
   providers: [
@@ -52,6 +51,7 @@ import { AccordionModule } from 'primeng/accordion';
     MessageService,
     ConfirmationService,
     Location,
+    
     { provide: LocationStrategy, useClass: HashLocationStrategy },
     {
       provide: HTTP_INTERCEPTORS,
@@ -63,6 +63,11 @@ import { AccordionModule } from 'primeng/accordion';
       useClass: LoggingInterceptor,
       multi: true,
     },
+    // {
+    //   provide: HTTP_INTERCEPTORS,
+    //   useClass: LoadingBarInterceptor,
+    //   multi: true,
+    // },
     {
       provide: 'externalUrlRedirectResolver',
       useValue: (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {

@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GuiaCadastroContainerComponent implements OnInit {
   text: string;
-  constructor() { }
+  constructor(private location: Location) { }
 
   ngOnInit(): void {
+  }
+  goBack(): void {
+    this.location.back()
   }
 
 }

@@ -6,6 +6,8 @@ import { AccordionModule } from 'primeng/accordion';
 import { CheckboxModule } from 'primeng/checkbox';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
+import { DividerModule } from 'primeng/divider';
+import { SearchboxModule } from '../searchbox/searchbox.module';
 
 @NgModule({
   declarations: [MaterialFilterComponent],
@@ -17,6 +19,8 @@ import { BrowserModule } from '@angular/platform-browser';
     ButtonModule,
     AccordionModule,
     CheckboxModule,
+    DividerModule,
+    SearchboxModule
   ],
   exports: [MaterialFilterComponent],
 })

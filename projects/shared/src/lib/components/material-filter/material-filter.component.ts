@@ -17,8 +17,10 @@ export class MaterialFilterComponent implements OnInit {
       guiaRapido: [null],
     });
   }
-  searchFilter(){
+  searchFilter() {
     console.log(this._form.value);
+  }
+  handleInputSearch(event) {
     
   }
 }

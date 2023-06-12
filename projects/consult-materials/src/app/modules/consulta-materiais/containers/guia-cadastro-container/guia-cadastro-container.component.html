@@ -1,0 +1,23 @@
+<div class="flex-1 w-full">
+  <div class="mt-2 align-items-end col-6" style="text-align-last: end">
+    <p-button
+
+      styleClass="p-button-text mr-2"
+      icon="pi pi-arrow-left"
+      (onClick)="goBack()"
+      label="VOLTAR"
+      class=""
+      ></p-button
+    >
+    <p-button styleClass="" icon="pi pi-check" label="SALVAR"></p-button>
+  </div>
+  <div class="grid justify-content-center">
+    <p-card class="col-6">
+      <p-editor
+        [(ngModel)]="text"
+        class="w-full"
+        [style]="{ height: '320px' }"
+      ></p-editor>
+    </p-card>
+  </div>
+</div>
