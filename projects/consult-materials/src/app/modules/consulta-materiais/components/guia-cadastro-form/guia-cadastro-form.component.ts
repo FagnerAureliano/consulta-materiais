@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-guia-cadastro-form',
@@ -7,8 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GuiaCadastroFormComponent implements OnInit {
   text: string;
-  
-  constructor() {}
+  form: FormGroup;
+  constructor(private fb: FormBuilder) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.form = this.fb.group({
+      guiaDocument: [''],
+    });
+    this.form.get('guiaDocument').valueChanges.subscribe((data) => {
+      console.log(data);
+    });
+  }
 }

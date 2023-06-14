@@ -1,0 +1,22 @@
+<div class="flex-1 w-full">
+  <div
+    class="mt-2 flex justify-content-between align-items-end col-8 header-content"
+  >
+    <h1 class="text-4xl">Cadastro de Documentos</h1>
+    <div>
+      <p-button
+        styleClass="p-button-text mr-2"
+        icon="pi pi-arrow-left"
+        (onClick)="goBack()"
+        label="VOLTAR"
+        class=""
+      ></p-button>
+      <p-button styleClass="" icon="pi pi-check" label="SALVAR"></p-button>
+    </div>
+  </div>
+  <div class="col-8">
+    <p-card>
+      <app-documento-cadastro-form></app-documento-cadastro-form>
+    </p-card>
+  </div>
+</div>

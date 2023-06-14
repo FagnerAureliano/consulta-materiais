@@ -165,7 +165,5 @@ export class BaseWrapperComponent implements OnInit, OnDestroy {
   getScreenSize(event?: any) {
     this.screenWidth = window.innerWidth;  
     this.isMobileScreen = this.screenWidth < 450;
-    // Exemplo de como utilizar os valores da largura e altura da tela
-    console.log('Largura da tela: ' + this.screenWidth); 
   }
 }

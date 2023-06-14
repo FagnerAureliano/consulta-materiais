@@ -9,6 +9,9 @@ import { ConsultaContainerComponent } from './containers/consulta-container/cons
 import { MaterialCardsComponent } from './components/material-card/material-card.component';
 import { MaterialDetailComponent } from './components/material-detail/material-detail.component';
 import { GuiaCadastroContainerComponent } from './containers/guia-cadastro-container/guia-cadastro-container.component';
+import { GuiaCadastroFormComponent } from './components/guia-cadastro-form/guia-cadastro-form.component';
+import { DocumentoCadastroContainerComponent } from './containers/documento-cadastro-container/documento-cadastro-container.component';
+import { DocumentoCadastroFormComponent } from './components/documento-cadastro-form/documento-cadastro-form.component';
 
 import { CardModule } from 'primeng/card';
 import { TagModule } from 'primeng/tag';
@@ -19,16 +22,20 @@ import { VirtualScrollerModule } from 'primeng/virtualscroller';
 import { MenuModule } from 'primeng/menu';
 import { ScrollTopModule } from 'primeng/scrolltop';
 import { EditorModule } from 'primeng/editor';
-import { GuiaCadastroFormComponent } from './components/guia-cadastro-form/guia-cadastro-form.component';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { AccordionModule } from 'primeng/accordion';
+import { FileUploadModule } from 'primeng/fileupload';
 
 registerLocaleData(localePt);
 @NgModule({
-  declarations: [ 
+  declarations: [
     ConsultaContainerComponent,
     MaterialCardsComponent,
     MaterialDetailComponent,
     GuiaCadastroContainerComponent,
-    GuiaCadastroFormComponent
+    GuiaCadastroFormComponent,
+    DocumentoCadastroContainerComponent,
+    DocumentoCadastroFormComponent,
   ],
   imports: [
     CommonModule,
@@ -36,15 +43,18 @@ registerLocaleData(localePt);
     ReactiveFormsModule,
     ConsultaMateriaisRoutingModule,
     LoadingBarModule,
-    CardModule,
-    ButtonModule,
     TagModule,
-    DividerModule,
-    DialogModule,
-    VirtualScrollerModule,
+    CardModule,
     MenuModule,
-    ScrollTopModule,
+    ButtonModule,
+    DialogModule,
     EditorModule,
+    DividerModule,
+    AccordionModule,
+    ScrollTopModule,
+    InputTextareaModule,
+    VirtualScrollerModule,
+    FileUploadModule,
   ],
   providers: [{ provide: LOCALE_ID, useValue: 'pt-BR' }],
 })

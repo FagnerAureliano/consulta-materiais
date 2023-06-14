@@ -1,0 +1,71 @@
+<div class="border-1 p-3 border-200 border-round">
+  <form [formGroup]="form">
+    <div class="guide-header text-left">
+      <p-accordion class="p-4">
+        <p-accordionTab header="Orientações">
+          <div class="w-full">
+            <p>
+              Aqui você pode inserir diferentes tipos de documentos, como
+              vídeos, PDFs ou arquivos Excel. Para garantir que tudo ocorra de
+              maneira eficiente, siga estas orientações:
+            </p>
+
+            <span class="l-form-header py-2 px-1">Selecione o arquivo:</span>
+            <p>
+              Clique no botão "Selecionar arquivo" para procurar e selecionar o
+              documento que deseja enviar. Verifique se o documento está em um
+              formato compatível.
+            </p>
+            <span class="l-form-header py-2 px-1"
+              >Descreva o resumo do documento:</span
+            >
+            <p>
+              Digite uma breve descrição ou resumo do documento. Isso ajudará
+              outros usuários a entenderem o conteúdo do arquivo sem precisar
+              abri-lo. Inclua informações-chave, como o assunto principal ou as
+              principais conclusões do documento.
+            </p>
+            <span class="l-form-header py-2 px-1">Insira tags relevantes:</span>
+            <p>
+              Digite palavras-chave ou tags que descrevam o conteúdo do
+              documento. As tags facilitam a busca e a categorização dos
+              documentos. Separe as tags com vírgulas e use palavras que sejam
+              relevantes e específicas.
+            </p>
+            <span class="l-form-header py-2 px-1">Revisão final:</span>
+            <p>
+              Antes de enviar o documento, verifique se todas as informações
+              estão corretas. Certifique-se de que o arquivo selecionado é o
+              correto e revise a descrição e as tags para garantir que elas
+              reflitam adequadamente o conteúdo do documento.
+            </p>
+          </div>
+        </p-accordionTab>
+      </p-accordion>
+    </div>
+
+    <p-button
+      label="Selecionar arquivo"
+      icon="pi pi-upload"
+      (click)="save()"
+    ></p-button>
+
+    <p-fileUpload
+      #fileUpload
+      mode="basic"
+      [customUpload]="true"
+      (uploadHandler)="onShowUpload($event)"
+    ></p-fileUpload>
+
+    <span class="p-float-label">
+      <textarea
+        id="float-input"
+        formControlName="descricao"
+        rows="5"
+        cols="30"
+        pInputTextarea
+      ></textarea>
+      <label for="float-input">Descrição do documento</label>
+    </span>
+  </form>
+</div>
