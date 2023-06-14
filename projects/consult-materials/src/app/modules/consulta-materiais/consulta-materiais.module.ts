@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import localePt from '@angular/common/locales/pt';
 
 import { LoadingBarModule } from 'projects/shared/src/lib/components/loading-bar/loading-bar.module';
-import { ConsultaMateriaisRoutingModule } from './consulta-materials-routing.module';
+import { ConsultaMateriaisRoutingModule } from './consulta-materiais-routing.module';
 import { ConsultaContainerComponent } from './containers/consulta-container/consulta-container.component';
 import { MaterialCardsComponent } from './components/material-card/material-card.component';
 import { MaterialDetailComponent } from './components/material-detail/material-detail.component';
@@ -19,6 +19,7 @@ import { VirtualScrollerModule } from 'primeng/virtualscroller';
 import { MenuModule } from 'primeng/menu';
 import { ScrollTopModule } from 'primeng/scrolltop';
 import { EditorModule } from 'primeng/editor';
+import { GuiaCadastroFormComponent } from './components/guia-cadastro-form/guia-cadastro-form.component';
 
 registerLocaleData(localePt);
 @NgModule({
@@ -27,6 +28,7 @@ registerLocaleData(localePt);
     MaterialCardsComponent,
     MaterialDetailComponent,
     GuiaCadastroContainerComponent,
+    GuiaCadastroFormComponent
   ],
   imports: [
     CommonModule,

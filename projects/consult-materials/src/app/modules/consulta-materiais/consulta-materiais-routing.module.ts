@@ -1,8 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ConsultaContainerComponent } from './containers/consulta-container/consulta-container.component';
-import { GuiaCadastroContainerComponent } from './containers/guia-cadastro-container/guia-cadastro-container.component';
-import { Role } from '@shared';
+import { GuiaCadastroContainerComponent } from './containers/guia-cadastro-container/guia-cadastro-container.component'; 
 
 const routes: Routes = [
   {

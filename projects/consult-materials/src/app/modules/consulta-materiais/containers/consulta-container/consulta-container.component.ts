@@ -133,7 +133,11 @@ export class ConsultaContainerComponent implements OnInit {
     this.loadItems();
 
     this.items = [
-      { label: 'Documentos', icon: 'pi pi-fw pi-file' },
+      {
+        label: 'Documentos',
+        icon: 'pi pi-fw pi-file',
+        routerLink: '/materials/documento-cadastro',
+      },
       {
         label: 'Guia Rápido',
         icon: 'pi pi-fw pi-directions',

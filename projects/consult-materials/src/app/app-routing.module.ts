@@ -19,7 +19,7 @@ const routes: Routes = [
       {
         path: 'materials',
         loadChildren: () =>
-          import('./modules/consulta-materiais/consulta-materials.module').then(
+          import('./modules/consulta-materiais/consulta-materiais.module').then(
             (m) => m.ConsultaMateriaisModule
           ),
       },

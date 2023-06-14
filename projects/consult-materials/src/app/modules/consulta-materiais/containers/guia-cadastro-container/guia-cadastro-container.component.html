@@ -1,7 +1,6 @@
 <div class="flex-1 w-full">
   <div
-    class="mt-3 flex justify-content-between align-items-end col-8"
-    style="text-align-last: end"
+    class="mt-2 flex justify-content-between align-items-end col-8 header-content"
   >
     <h1 class="text-4xl">Cadastro Guia Rápido</h1>
     <div>
@@ -15,23 +14,9 @@
       <p-button styleClass="" icon="pi pi-check" label="SALVAR"></p-button>
     </div>
   </div>
-  <div class="grid justify-content-center">
-    <p-card class="col-8 mt-2">
-      <div class="guide-header">
-        <p class="text-left">
-          Use o editor de texto abaixo para escrever instruções claras e
-          concisas que irão guiar os usuários. Você pode formatar o texto,
-          adicionar títulos, listas e até mesmo inserir imagens para tornar seu
-          guia mais visualmente atraente. Lembre-se de que este guia rápido será
-          uma referência útil para os usuários, portanto, seja objetivo e
-          forneça informações relevantes.
-        </p>
-      </div>
-      <p-editor
-        [(ngModel)]="text"
-        class="w-full"
-        [style]="{ height: '320px' }"
-      ></p-editor>
+  <div class="col-8">
+    <p-card>
+      <app-guia-cadastro-form></app-guia-cadastro-form>
     </p-card>
   </div>
 </div>
