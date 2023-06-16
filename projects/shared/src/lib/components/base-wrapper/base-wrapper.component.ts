@@ -36,7 +36,7 @@ export class BaseWrapperComponent implements OnInit, OnDestroy {
 
   _versionText: string;
   isToggleScreenOpen: boolean;
-  
+
   screenWidth: number;
   isMobileScreen: boolean
 
@@ -91,23 +91,23 @@ export class BaseWrapperComponent implements OnInit, OnDestroy {
   }
 
   showBtnCadastrar(): boolean {
-    // if (!this.userService.user?.roles || (this.userService.user?.roles.indexOf('ROLE_crud-indicadores') < 0)) {
-    //   return false;
-    // }
+    if (!this.userService.user?.roles || (this.userService.user?.roles.indexOf('ROLE_crud-indicadores') < 0)) {
+      return false;
+    }
 
     return true;
   }
 
   handleUserName() {
-    return 'Usuário não identificado';
-    // return (
-    //   this.userService.user?.nome
-    //     .split(' ')
-    //     .map((name: string) => `${name[0].toUpperCase()}${name.slice(1).toLowerCase()}`)
-    //     .concat('-')
-    //     .concat(this.userService.user.organizacao.sigla || '?')
-    //     .join(' ') || 'Usuário não identificado'
-    // );
+    // return 'Usuário não identificado';
+    return (
+      this.userService.user?.username
+        .split(' ')
+        .map((name: string) => `${name[0].toUpperCase()}${name.slice(1).toLowerCase()}`)
+        .concat('-')
+        .concat(this.userService.user.pessoa.comandoSigla || '?')
+        .join(' ') || 'Usuário não identificado'
+    );
   }
 
   /**
@@ -163,7 +163,7 @@ export class BaseWrapperComponent implements OnInit, OnDestroy {
   }
   @HostListener('window:resize', ['$event'])
   getScreenSize(event?: any) {
-    this.screenWidth = window.innerWidth;  
+    this.screenWidth = window.innerWidth;
     this.isMobileScreen = this.screenWidth < 450;
   }
 }
