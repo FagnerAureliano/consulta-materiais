@@ -15,6 +15,7 @@ import { DocumentoCadastroFormComponent } from './components/documento-cadastro-
 
 import { CardModule } from 'primeng/card';
 import { TagModule } from 'primeng/tag';
+import {ChipsModule} from 'primeng/chips';
 import { ButtonModule } from 'primeng/button';
 import { DividerModule } from 'primeng/divider';
 import { DialogModule } from 'primeng/dialog';
@@ -25,6 +26,7 @@ import { EditorModule } from 'primeng/editor';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { AccordionModule } from 'primeng/accordion';
 import { FileUploadModule } from 'primeng/fileupload';
+import {AutoCompleteModule} from 'primeng/autocomplete';
 
 registerLocaleData(localePt);
 @NgModule({
@@ -46,12 +48,14 @@ registerLocaleData(localePt);
     TagModule,
     CardModule,
     MenuModule,
+    ChipsModule,
     ButtonModule,
     DialogModule,
     EditorModule,
     DividerModule,
     AccordionModule,
     ScrollTopModule,
+    AutoCompleteModule,
     InputTextareaModule,
     VirtualScrollerModule,
     FileUploadModule,

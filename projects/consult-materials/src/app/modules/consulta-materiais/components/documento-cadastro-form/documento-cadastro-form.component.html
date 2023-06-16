@@ -43,19 +43,36 @@
         </p-accordionTab>
       </p-accordion>
     </div>
+    <div>
+      <p-fileUpload
+        #fileUpload
+        chooseLabel="Selecionar arquivo"
+        cancelLabel="Cancelar"
+        class="col-12"
+        name="demo[]"
+        [multiple]="false"
+        accept="image/*"
+        (onSelect)="onShowUpload()"
+        [customUpload]="true"
+        (onClear)="onClear()"
+        (onRemove)="onClear()"
+        [showUploadButton]="false"
+      >
+        <ng-template pTemplate="content">
+          <ul *ngIf="uploadedFiles.length">
+            <li *ngFor="let file of uploadedFiles">
+              {{ file.name }} - {{ file.size }} bytes
+            </li>
+          </ul>
+        </ng-template>
+      </p-fileUpload>
 
-    <p-button
-      label="Selecionar arquivo"
-      icon="pi pi-upload"
-      (click)="save()"
-    ></p-button>
-
-    <p-fileUpload
-      #fileUpload
-      mode="basic"
-      [customUpload]="true"
-      (uploadHandler)="onShowUpload($event)"
-    ></p-fileUpload>
+      <!-- <p-button
+        label="Selecionar arquivo"
+        icon="pi pi-upload"
+        (click)="onTest()"
+      ></p-button> -->
+    </div>
 
     <span class="p-float-label">
       <textarea
@@ -68,4 +85,11 @@
       <label for="float-input">Descrição do documento</label>
     </span>
   </form>
+  <p-chips [(ngModel)]="selectedTags"></p-chips>
+  <p-autoComplete
+    [(ngModel)]="tagInput"
+    [suggestions]="filteredTags"
+    (completeMethod)="searchTags($event)"
+    (onSelect)="addTag($event)"
+  ></p-autoComplete>
 </div>
