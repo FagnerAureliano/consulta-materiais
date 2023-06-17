@@ -48,7 +48,7 @@
         #fileUpload
         chooseLabel="Selecionar arquivo"
         cancelLabel="Cancelar"
-        class="col-12"
+        class="col-12 text-left"
         name="demo[]"
         [multiple]="false"
         accept="image/*"
@@ -84,12 +84,10 @@
       ></textarea>
       <label for="float-input">Descrição do documento</label>
     </span>
+    <lib-tag-input
+      [whitelist]="_whitelist"
+      (characterInputed)="handleSearchTags($event)"
+      (tagsEmitter)="handleSearchTags($event)"
+    ></lib-tag-input>
   </form>
-  <p-chips [(ngModel)]="selectedTags"></p-chips>
-  <p-autoComplete
-    [(ngModel)]="tagInput"
-    [suggestions]="filteredTags"
-    (completeMethod)="searchTags($event)"
-    (onSelect)="addTag($event)"
-  ></p-autoComplete>
 </div>

@@ -1,50 +1,55 @@
 import { LOCALE_ID, NgModule } from '@angular/core';
 import { CommonModule, registerLocaleData } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 import localePt from '@angular/common/locales/pt';
 
+import { TagInputModule } from 'projects/shared/src/lib/components/tag-input/tag-input.module';
 import { LoadingBarModule } from 'projects/shared/src/lib/components/loading-bar/loading-bar.module';
-import { ConsultaMateriaisRoutingModule } from './consulta-materiais-routing.module';
-import { ConsultaContainerComponent } from './containers/consulta-container/consulta-container.component';
 import { MaterialCardsComponent } from './components/material-card/material-card.component';
 import { MaterialDetailComponent } from './components/material-detail/material-detail.component';
-import { GuiaCadastroContainerComponent } from './containers/guia-cadastro-container/guia-cadastro-container.component';
 import { GuiaCadastroFormComponent } from './components/guia-cadastro-form/guia-cadastro-form.component';
-import { DocumentoCadastroContainerComponent } from './containers/documento-cadastro-container/documento-cadastro-container.component';
+import { ConsultaContainerComponent } from './containers/consulta-container/consulta-container.component';
+import { GuiaCadastroContainerComponent } from './containers/guia-cadastro-container/guia-cadastro-container.component';
 import { DocumentoCadastroFormComponent } from './components/documento-cadastro-form/documento-cadastro-form.component';
+import { ConsultaMateriaisRoutingModule } from './consulta-materiais-routing.module';
+import { DocumentoCadastroContainerComponent } from './containers/documento-cadastro-container/documento-cadastro-container.component';
 
 import { CardModule } from 'primeng/card';
 import { TagModule } from 'primeng/tag';
-import {ChipsModule} from 'primeng/chips';
-import { ButtonModule } from 'primeng/button';
-import { DividerModule } from 'primeng/divider';
-import { DialogModule } from 'primeng/dialog';
-import { VirtualScrollerModule } from 'primeng/virtualscroller';
+import { ChipsModule } from 'primeng/chips';
 import { MenuModule } from 'primeng/menu';
-import { ScrollTopModule } from 'primeng/scrolltop';
+import { ButtonModule } from 'primeng/button';
 import { EditorModule } from 'primeng/editor';
-import { InputTextareaModule } from 'primeng/inputtextarea';
+import { DialogModule } from 'primeng/dialog';
+import { DividerModule } from 'primeng/divider';
 import { AccordionModule } from 'primeng/accordion';
+import { ScrollTopModule } from 'primeng/scrolltop';
 import { FileUploadModule } from 'primeng/fileupload';
-import {AutoCompleteModule} from 'primeng/autocomplete';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { VirtualScrollerModule } from 'primeng/virtualscroller';
 
 registerLocaleData(localePt);
 @NgModule({
   declarations: [
-    ConsultaContainerComponent,
     MaterialCardsComponent,
     MaterialDetailComponent,
-    GuiaCadastroContainerComponent,
     GuiaCadastroFormComponent,
-    DocumentoCadastroContainerComponent,
+    ConsultaContainerComponent,
+    GuiaCadastroContainerComponent,
     DocumentoCadastroFormComponent,
+    DocumentoCadastroContainerComponent,
   ],
   imports: [
-    CommonModule,
+    //Core
     FormsModule,
+    CommonModule,
+    TagInputModule,
+    LoadingBarModule,
     ReactiveFormsModule,
     ConsultaMateriaisRoutingModule,
-    LoadingBarModule,
+
+    // PrimeModules
     TagModule,
     CardModule,
     MenuModule,
@@ -55,10 +60,9 @@ registerLocaleData(localePt);
     DividerModule,
     AccordionModule,
     ScrollTopModule,
-    AutoCompleteModule,
+    FileUploadModule,
     InputTextareaModule,
     VirtualScrollerModule,
-    FileUploadModule,
   ],
   providers: [{ provide: LOCALE_ID, useValue: 'pt-BR' }],
 })

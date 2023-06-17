@@ -4,6 +4,9 @@
 @import './fonts.scss';
 @import './prime.scss';
 
+@import '../../node_modules/@yaireo/tagify/src/tagify.scss';
+
+
 $default-background-color: #fafafa !default;
 
 @mixin setup-styles($background: $default-background-color) {

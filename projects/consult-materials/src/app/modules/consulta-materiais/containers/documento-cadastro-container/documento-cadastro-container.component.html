@@ -11,12 +11,20 @@
         label="VOLTAR"
         class=""
       ></p-button>
-      <p-button styleClass="" icon="pi pi-check" label="SALVAR"></p-button>
+      <p-button
+        styleClass=""
+        icon="pi pi-check"
+        (onClick)="handleSave()"
+        [disabled]="this._form?.get('documentForm')?.invalid"
+        label="SALVAR"
+      ></p-button>
     </div>
   </div>
   <div class="col-8">
     <p-card>
-      <app-documento-cadastro-form></app-documento-cadastro-form>
+      <app-documento-cadastro-form
+        [form]="_form.get('documentForm')"
+      ></app-documento-cadastro-form>
     </p-card>
   </div>
 </div>

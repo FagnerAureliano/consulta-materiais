@@ -5,4 +5,9 @@
   .p-inputtext:enabled:hover {
     border: .1rem solid rgba(18, 5, 109, 0.38);
   }
+  .p-inputtext:enabled:focus {
+    border: .1rem solid rgba(151, 151, 151, 0.38);
+  }
 }
+
+
