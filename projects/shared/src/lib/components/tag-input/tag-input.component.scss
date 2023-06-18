@@ -4,9 +4,12 @@
     --tag-text-color: #fff;
     --tag-hover: #6977ca;
 
-    --tag-remove-btn-color: #FFF;
+    --tag-remove-btn-color: #fff;
     --tag-remove-btn-bg--hover: #4b81df;
-    --tag-remove-bg:#ff6464;
+    --tag-remove-bg: #ff6464;
+    --tags-focus-border-color: #234b9072;
   }
-
+  .tag_input:hover {
+    --tags-border-color: rgba(139, 139, 139, 0.737);
+  }
 }

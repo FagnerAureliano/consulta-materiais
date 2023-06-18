@@ -12,9 +12,9 @@
 
             <span class="l-form-header py-2 px-1">Selecione o arquivo:</span>
             <p>
-              Clique no botão "Selecionar arquivo" para procurar e selecionar o
-              documento que deseja enviar. Verifique se o documento está em um
-              formato compatível.
+              Clique no botão "Anexar" para procurar e selecionar o documento
+              que deseja enviar. Verifique se o documento está em um formato
+              compatível.
             </p>
             <span class="l-form-header py-2 px-1"
               >Descreva o resumo do documento:</span
@@ -43,10 +43,14 @@
         </p-accordionTab>
       </p-accordion>
     </div>
-    <div>
+    <div class="flex">
+      <label>Selecione o arquivo</label>
+    </div>
+    <div class="mb-2">
       <p-fileUpload
         #fileUpload
-        chooseLabel="Selecionar arquivo"
+        id="float-fileUpload"
+        chooseLabel="Anexar"
         cancelLabel="Cancelar"
         class="col-12 text-left"
         name="demo[]"
@@ -66,28 +70,26 @@
           </ul>
         </ng-template>
       </p-fileUpload>
-
-      <!-- <p-button
-        label="Selecionar arquivo"
-        icon="pi pi-upload"
-        (click)="onTest()"
-      ></p-button> -->
     </div>
-
-    <span class="p-float-label">
-      <textarea
-        id="float-input"
-        formControlName="descricao"
-        rows="5"
-        cols="30"
-        pInputTextarea
-      ></textarea>
+    <div class="mb-3">
+      <div class="flex">
+        <label>Insira as tags</label>
+      </div>
+      <lib-tag-input
+        [whitelist]="_whitelist"
+        (characterInputed)="handleSearchTags($event)"
+        (tagsEmitter)="handleSearchTags($event)"
+      ></lib-tag-input>
+    </div>
+    <div class="flex">
       <label for="float-input">Descrição do documento</label>
-    </span>
-    <lib-tag-input
-      [whitelist]="_whitelist"
-      (characterInputed)="handleSearchTags($event)"
-      (tagsEmitter)="handleSearchTags($event)"
-    ></lib-tag-input>
+    </div>
+    <textarea
+      id="float-input"
+      formControlName="descricao"
+      rows="5"
+      cols="30"
+      pInputTextarea
+    ></textarea>
   </form>
 </div>
