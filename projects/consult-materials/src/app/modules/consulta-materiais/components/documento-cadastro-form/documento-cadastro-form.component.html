@@ -3,7 +3,7 @@
     <div class="guide-header text-left">
       <p-accordion class="p-4">
         <p-accordionTab header="Orientações">
-          <div class="w-full">
+          <div class="w-full border-1 border-200 p-4 border-round">
             <p>
               Aqui você pode inserir diferentes tipos de documentos, como
               vídeos, PDFs ou arquivos Excel. Para garantir que tudo ocorra de
@@ -44,7 +44,7 @@
       </p-accordion>
     </div>
     <div class="flex">
-      <label>Selecione o arquivo</label>
+      <label  class="mb-1 text-400">Selecione o arquivo</label>
     </div>
     <div class="mb-2">
       <p-fileUpload
@@ -73,7 +73,7 @@
     </div>
     <div class="mb-3">
       <div class="flex">
-        <label>Insira as tags</label>
+        <label class="mb-1 text-400">Insira as tags</label>
       </div>
       <lib-tag-input
         [whitelist]="_whitelist"
@@ -82,10 +82,9 @@
       ></lib-tag-input>
     </div>
     <div class="flex">
-      <label for="float-input">Descrição do documento</label>
+      <label  class="mb-1 text-400">Descrição do documento</label>
     </div>
     <textarea
-      id="float-input"
       formControlName="descricao"
       rows="5"
       cols="30"

@@ -1,0 +1,79 @@
+[
+  {
+    "title": "Tecnologia da Informação",
+    "tags": [
+      {
+        "name": "tecnologia"
+      },
+      {
+        "name": "inovação"
+      }
+    ],
+    "description": "Artigo sobre inteligência artificial e aprendizado de máquina.Artigo sobre inteligência artificial e aprendizado de máquina.Artigo sobre inteligência artificial e aprendizado de máquina.",
+    "urlMedia": {
+      "url": "https://www.thecampusqdl.com/uploads/files/pdf_sample_2.pdf",
+      "thumbnail": "https://www.saobernardo.sp.gov.br/documents/640736/1366558/47.+Audi%C3%AAncia+P%C3%BAblica+de+Elabora%C3%A7%C3%A3o+da+LOA+2022.pdf/036fe11d-b0ec-8afe-25ed-4ebe4b458188?version=1.4&previewFileIndex=2"
+    },
+    "lastModified": "2022-08-15T13:45:30.000Z"
+  },
+  {
+    "title": "Marketing e Business",
+    "tags": [
+      {
+        "name": "marketing"
+      },
+      {
+        "name": "vendas"
+      },
+      {
+        "name": "negócios"
+      }
+    ],
+    "description": "White paper sobre estratégias de vendas online.White paper sobre estratégias de vendas online.White paper sobre estratégias de vendas online.White paper sobre estratégias de vendas online.White paper sobre estratégias de vendas online.White paper sobre estratégias de vendas online.",
+    "urlMedia": {
+      "url": "https://www.thecampusqdl.com/uploads/files/pdf_sample_2.pdf",
+      "thumbnail": "https://www.wyzowl.com/wp-content/uploads/2019/09/YouTube-thumbnail-size-guide-best-practices-top-examples.png"
+    },
+    "lastModified": "2022-10-20T09:15:45.000Z"
+  },
+  {
+    "title": "Moda e Estilo",
+    "tags": [
+      {
+        "name": "moda"
+      },
+      {
+        "name": "beleza"
+      },
+      {
+        "name": "estilo"
+      }
+    ],
+    "description": "Revista digital de moda e beleza com dicas e tendências.Revista digital de moda e beleza com dicas e tendências.Revista digital de moda e beleza com dicas e tendências.Revista digital de moda e beleza com dicas e tendências.Revista digital de moda e beleza com dicas e tendências.Revista digital de moda e beleza com dicas e tendências.Revista digital de moda e beleza com dicas e tendências.Revista digital de moda e beleza com dicas e tendências.Revista digital de moda e beleza com dicas e tendências.",
+    "urlMedia": {
+      "url": "https://www.thecampusqdl.com/uploads/files/pdf_sample_2.pdf",
+      "thumbnail": "https://www.wyzowl.com/wp-content/uploads/2019/09/YouTube-thumbnail-size-guide-best-practices-top-examples.png"
+    },
+    "lastModified": "2023-01-05T16:22:10.000Z"
+  },
+  {
+    "title": "Ciência e Medicina",
+    "tags": [
+      {
+        "name": "ciência"
+      },
+      {
+        "name": "saúde"
+      },
+      {
+        "name": "pesquisa"
+      }
+    ],
+    "description": "Relatório de pesquisa sobre a vacinação contra a COVID-19.Relatório de pesquisa sobre a vacinação contra a COVID-19.Relatório de pesquisa sobre a vacinação contra a COVID-19.Relatório de pesquisa sobre a vacinação contra a COVID-19.Relatório de pesquisa sobre a vacinação contra a COVID-19.",
+    "urlMedia": {
+      "url": "https://www.thecampusqdl.com/uploads/files/pdf_sample_2.pdf",
+      "thumbnail": "https://www.saobernardo.sp.gov.br/documents/640736/1366558/47.+Audi%C3%AAncia+P%C3%BAblica+de+Elabora%C3%A7%C3%A3o+da+LOA+2022.pdf/036fe11d-b0ec-8afe-25ed-4ebe4b458188?version=1.4&previewFileIndex=2"
+    },
+    "lastModified": "2021-12-02T08:35:55.000Z"
+  }
+]

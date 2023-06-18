@@ -14,7 +14,10 @@ export const environment = {
   KEYCLOAK_CLIENT_ID: 'search',
 
   SEARCH_FRONT_URL: 'http://localhost:4300/consult-materials/#/',
-  API_ENDPOINT:'http://localhost:8090/api/v1',
+  API_ENDPOINT: 'http://localhost:8090/api/v1',
+
+
+  EXTERNAL_API: 'https://jsonplaceholder.typicode.com',
 };
 
 /*
