@@ -10,17 +10,33 @@
     <button
       type="button"
       pButton
-      icon="pi pi-plus" 
+      icon="pi pi-plus"
       label="CADASTRAR"
       [disabled]="_loading"
       (click)="menu.toggle($event)"
     ></button>
   </div>
-  <div class="flex-row grid justify-content-center md:flex">
+  <div
+    *ngIf="searchObject.length > 0"
+    class="flex-row grid justify-content-center md:flex"
+  >
     <div *ngFor="let file of searchObject" class="sm:col-12 md:col-6 lg:col-6">
       <app-cards [search]="file" (emitTag)="handleClickTag($event)">
       </app-cards>
     </div>
   </div>
-  <p-scrollTop class="bg-blue-300"  [threshold]="200"></p-scrollTop>
+  <div
+    *ngIf="!searchObject.length > 0"
+    class="w-full flex text-center z-2 gladio__logo"
+  >
+    <div class="align-self-center" style="z-index: -1">
+      <img
+        class="w-5"
+        src="assets/images/gladio-alado-3d.png"
+        alt="gladio alado"
+      />
+    </div>
+  </div>
+
+  <p-scrollTop class="bg-blue-300" [threshold]="200"></p-scrollTop>
 </div>

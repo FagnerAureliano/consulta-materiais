@@ -97,23 +97,23 @@
   .l-body {
     min-height: 100vh;
     padding-top: 1.8rem * 2;
+    // background-image: url("../../../../../../resources/assets/images/gladio-alado-3d.png");
   }
 }
-
-
 
 .accordion {
   // background-color: #eee;
   color: #444;
-  cursor: pointer;      
+  cursor: pointer;
   transition: 0.4s;
 }
 
-.active, .accordion:hover {
+.active,
+.accordion:hover {
   background-color: #f8f6f6;
 }
 
-.panel {  
+.panel {
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.2s ease-out;
