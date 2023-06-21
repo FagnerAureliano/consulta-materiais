@@ -1,13 +1,12 @@
-import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
+import { KeycloakAngularModule } from 'keycloak-angular';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { BaseWrapperModule } from '@shared';
-
 import { authProviderBuilder } from '@auth';
 
-import { KeycloakAngularModule } from 'keycloak-angular';
 import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -22,21 +21,18 @@ const authProvider = authProviderBuilder({
   declarations: [AppComponent],
   imports: [
     BrowserModule,
-    BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
-    KeycloakAngularModule,
     BaseWrapperModule,
+    KeycloakAngularModule,
+    BrowserAnimationsModule,
   ],
   providers: [
-    // authProvider,
+    authProvider,
     { provide: 'SEARCH_FRONT_URL', useValue: environment.SEARCH_FRONT_URL },
-    { provide: 'API_ENDPOINT', useValue: environment.API_ENDPOINT },
+    { provide: 'SEARCH_API_ENDPOINT', useValue: environment.SEARCH_API_ENDPOINT },
+    { provide: 'STREAM_API_ENDPOINT', useValue: environment.STREAM_API_ENDPOINT }, 
     { provide: 'EXTERNAL_API', useValue: environment.EXTERNAL_API },
-    { provide: 'production', useValue: environment.production },
-    { provide: 'homolog', useValue: environment.homolog },
-    { provide: 'development', useValue: environment.development },
-    { provide: 'version', useValue: environment.version },
   ],
   bootstrap: [AppComponent],
 })

@@ -1,9 +1,9 @@
 export enum NameByRole {
-  'ROLE_SEARCH_USER' = 'Usuário do SISPLAER-3.0',
-  'ROLE_SEARCH_ADMIN' = 'Administrador do sistema',
+  'ROLE_MATERIAL_APOIO_USER' = 'Usuário do Consulta Material de Apoio',
+  'ROLE_MATERIAL_APOIO_ADMIN' = 'Administrador do sistema',
 }
 
 export enum Role {
-  'USER' = 'ROLE_SEARCH_USER',
-  'ADMIN' = 'ROLE_SEARCH_ADMIN',
+  'USER' = 'ROLE_MATERIAL_APOIO_USER',
+  'ADMIN' = 'ROLE_MATERIAL_APOIO_ADMIN',
 }

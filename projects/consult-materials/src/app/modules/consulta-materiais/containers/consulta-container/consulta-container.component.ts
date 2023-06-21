@@ -28,6 +28,8 @@ export class ConsultaContainerComponent implements OnInit {
   _loading = false;
   items: MenuItem[];
 
+  isEmpty = true;
+
   constructor(
     private loading: LoadingBarService,
     private consultaService: ConsultaMateriaisService,
@@ -73,6 +75,8 @@ export class ConsultaContainerComponent implements OnInit {
       this.consultaService
         .getAll(this.startInde, this.itemsPerPage)
         .subscribe((items) => {
+          this.isEmpty = items.length > 0 ? false : true;
+
           const mappedItems = items.map((value) => ({
             title: value.title,
             description: value.title.repeat(3),

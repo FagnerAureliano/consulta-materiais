@@ -48,7 +48,7 @@ export class AuthGuard extends KeycloakAuthGuard implements CanActivateChild {
   private handleRoles(roles: string[]): string[] {
     return (
       roles
-        ?.filter((role) => role?.includes('ROLE_SEARCH'))
+        ?.filter((role) => role?.includes('ROLE_MATERIAL_APOIO_USER'))
         ?.map((role) => NameByRole[role])
         ?.sort() || []
     );
@@ -91,11 +91,15 @@ export class AuthGuard extends KeycloakAuthGuard implements CanActivateChild {
       });
     } else {
       try {
+
+        console.log('user');
         if (!this.userService.user) {
           const user: User = await this.userService
             .getCurrentUser()
-            .toPromise();
-
+            .toPromise(); 
+            console.log(user);
+            
+          
           this.userService.user = user;
           this.userService.user.pessoa.nome = this.handleUserName(
             user.pessoa.nome

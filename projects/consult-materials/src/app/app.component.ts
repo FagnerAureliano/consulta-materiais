@@ -13,7 +13,4 @@ export class AppComponent {
   handleUrlEmitEvent(props: any) {
     console.log(props);
   }
-  handle(test: any) {
-    console.log(test);
-  }
 }
