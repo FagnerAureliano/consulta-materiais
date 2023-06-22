@@ -1,6 +1,14 @@
-:host { 
-    text-align: -webkit-center;
-    .header-content{
-        text-align-last: end
+:host {
+  text-align: -webkit-center;
+  .header-content {
+    text-align-last: end;
+  }
+  .card_responsivo {
+    width: 75vw;
+  }
+  @media only screen and (max-width: 768px) {
+    .card_responsivo {
+      width: 95vw;
     }
+  }
 }

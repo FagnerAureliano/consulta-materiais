@@ -33,6 +33,7 @@ const authProvider = authProviderBuilder({
     { provide: 'SEARCH_API_ENDPOINT', useValue: environment.SEARCH_API_ENDPOINT },
     { provide: 'STREAM_API_ENDPOINT', useValue: environment.STREAM_API_ENDPOINT }, 
     { provide: 'EXTERNAL_API', useValue: environment.EXTERNAL_API },
+    { provide: 'production', useValue: environment.production },
   ],
   bootstrap: [AppComponent],
 })

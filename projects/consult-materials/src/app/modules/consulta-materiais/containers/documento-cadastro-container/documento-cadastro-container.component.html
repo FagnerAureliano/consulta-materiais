@@ -1,6 +1,6 @@
-<div class="flex-1 w-full">
+<div class="flex-1 card_responsivo mt-4">
   <div
-    class="mt-2 flex justify-content-between align-items-end col-8 header-content"
+    class="flex justify-content-between w-full align-items-end header-content"
   >
     <h1 class="text-4xl">Cadastro de Documentos</h1>
     <div>
@@ -12,7 +12,6 @@
         class=""
       ></p-button>
       <p-button
-        styleClass=""
         icon="pi pi-check"
         (onClick)="handleSave()"
         [disabled]="this._form?.get('documentForm')?.invalid"
@@ -20,7 +19,7 @@
       ></p-button>
     </div>
   </div>
-  <div class="col-8">
+  <div class="w-full mt-4">
     <p-card>
       <app-documento-cadastro-form
         [form]="_form.get('documentForm')"

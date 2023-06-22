@@ -30,6 +30,23 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { VirtualScrollerModule } from 'primeng/virtualscroller';
 
 registerLocaleData(localePt);
+
+const PRIME_COMPONENTS = [
+  TagModule,
+  CardModule,
+  MenuModule,
+  ChipsModule,
+  ButtonModule,
+  DialogModule,
+  EditorModule,
+  DividerModule,
+  AccordionModule,
+  ScrollTopModule,
+  FileUploadModule,
+  InputTextareaModule,
+  VirtualScrollerModule,
+];
+
 @NgModule({
   declarations: [
     MaterialCardsComponent,
@@ -49,20 +66,7 @@ registerLocaleData(localePt);
     ReactiveFormsModule,
     ConsultaMateriaisRoutingModule,
 
-    // PrimeModules
-    TagModule,
-    CardModule,
-    MenuModule,
-    ChipsModule,
-    ButtonModule,
-    DialogModule,
-    EditorModule,
-    DividerModule,
-    AccordionModule,
-    ScrollTopModule,
-    FileUploadModule,
-    InputTextareaModule,
-    VirtualScrollerModule,
+    PRIME_COMPONENTS,
   ],
   providers: [{ provide: LOCALE_ID, useValue: 'pt-BR' }],
 })

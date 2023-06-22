@@ -12,8 +12,8 @@ export class ConsultaMateriaisService {
   });
   constructor(
     private http: HttpClient,
-    @Inject('SEARCH_API_ENDPOINT') private searchEndpoint,
-    @Inject('STREAM_API_ENDPOINT') private sstreamEndpoint
+    @Inject('EXTERNAL_API') private searchEndpoint: string,
+    @Inject('STREAM_API_ENDPOINT') private streamEndpoint: string
   ) {}
 
   searchTags(searchTerm: string): Observable<string[]> {
@@ -26,10 +26,11 @@ export class ConsultaMateriaisService {
 
   getAll(startIndex: number = 0, itemsPerPage: number): Observable<any[]> {
     return this.http.get<any[]>(
-      `${this.searchEndpoint}/searches/entry-point?term=finor&pageSize=${itemsPerPage}&pageIndex=${startIndex}&sortBy=created&sortOrder=desc&continue&continue`,
-      {
-        headers: this.defaultHeaders,
-      }
+      // `${this.searchEndpoint}/searches/entry-point?term=finor&pageSize=${itemsPerPage}&pageIndex=${startIndex}&sortBy=created&sortOrder=desc&continue&continue`,
+      `${this.searchEndpoint}/photos?_start=${startIndex}&_limit=${itemsPerPage}`
+      // {
+      //   headers: this.defaultHeaders,
+      // }
     );
   }
 }
