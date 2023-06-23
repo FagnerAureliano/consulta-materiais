@@ -36,7 +36,7 @@ export class BaseWrapperComponent implements OnInit, OnDestroy {
 
   _versionText: string;
   isToggleScreenOpen: boolean;
-  
+
   screenWidth: number;
   isMobileScreen: boolean
 
@@ -163,7 +163,7 @@ export class BaseWrapperComponent implements OnInit, OnDestroy {
   }
   @HostListener('window:resize', ['$event'])
   getScreenSize(event?: any) {
-    this.screenWidth = window.innerWidth;  
+    this.screenWidth = window.innerWidth;
     this.isMobileScreen = this.screenWidth < 450;
   }
 }

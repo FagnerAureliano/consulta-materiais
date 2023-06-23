@@ -1,7 +1,7 @@
 :host {
   text-align: -webkit-center;
   .header-content {
-    text-align-last: end;
+    text-align-last: left;
   }
   .card_responsivo {
     width: 75vw;
@@ -9,6 +9,11 @@
   @media only screen and (max-width: 768px) {
     .card_responsivo {
       width: 95vw;
+    }
+  }
+  @media only screen and (max-width: 425px) {
+    .card_responsivo {
+      width: 100vw;
     }
   }
 }

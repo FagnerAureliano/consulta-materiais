@@ -1,15 +1,27 @@
 <div class="flex-1 card_responsivo mt-4">
   <div
-    class="flex justify-content-between w-full align-items-end header-content"
+    class="mt-2 p-2 flex-column justify-content-between w-full align-items-end header-content"
   >
-    <h1 class="text-4xl">Cadastro de Documentos</h1>
-    <div>
+    <h1
+      class="align-self-center"
+      [ngClass]="
+        screenWidth > 425
+          ? screenWidth > 765
+            ? 'text-5xl'
+            : 'text-3xl'
+          : 'text-2xl '
+      "
+    >
+      Cadastro de Documentos
+    </h1>
+    <div
+      class="justify-content-end flex"
+    >
       <p-button
         styleClass="p-button-text mr-2"
         icon="pi pi-arrow-left"
         (onClick)="goBack()"
-        label="VOLTAR"
-        class=""
+        [label]="screenWidth > 425 ? 'VOLTAR' : ''"
       ></p-button>
       <p-button
         icon="pi pi-check"
@@ -19,7 +31,7 @@
       ></p-button>
     </div>
   </div>
-  <div class="w-full mt-4">
+  <div class="w-full mt-2">
     <p-card>
       <app-documento-cadastro-form
         [form]="_form.get('documentForm')"

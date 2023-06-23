@@ -1,20 +1,33 @@
 <div class="flex-1 mt-4 card_responsivo">
   <div
-    class="mt-2 flex justify-content-between align-items-end  w-full header-content"
+    class="mt-2 p-2 flex-column justify-content-between align-items-end w-full header-content"
   >
-    <h1 class="text-4xl">Cadastro Guia Rápido</h1>
-    <div>
+    <h1
+      class="align-self-center"
+      [ngClass]="
+        screenWidth > 425
+          ? screenWidth > 765
+            ? 'text-5xl'
+            : 'text-3xl'
+          : 'text-2xl '
+      "
+    >
+      Cadastro Guia Rápido
+    </h1>
+    <div
+      class="justify-content-end flex"
+    >
       <p-button
         styleClass="p-button-text mr-2"
         icon="pi pi-arrow-left"
         (onClick)="goBack()"
-        label="VOLTAR"
+        [label]="screenWidth > 425 ? 'VOLTAR' : ''"
         class=""
       ></p-button>
       <p-button styleClass="" icon="pi pi-check" label="SALVAR"></p-button>
     </div>
   </div>
-  <div class="w-full mt-4">
+  <div class="w-full mt-2">
     <p-card>
       <app-guia-cadastro-form></app-guia-cadastro-form>
     </p-card>
