@@ -6,31 +6,44 @@ import {
 } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 
-import { Observable } from 'rxjs';
-import { finalize, share, tap } from 'rxjs/operators';
+import { Observable, throwError } from 'rxjs';
+import { catchError, finalize } from 'rxjs/operators';
 import { LoadingBarService } from '../services/loading-bar.service';
 
 @Injectable()
 export class LoadingBarInterceptor implements HttpInterceptor {
-  private activeRequests = 0;
-  constructor(private loadingService: LoadingBarService) {}
+  private requests: HttpRequest<any>[] = [];
+
+  constructor(
+    @Inject('production') private production: any,
+    private loadingService: LoadingBarService
+  ) {}
+
+  removeRequest(req: HttpRequest<any>) {
+    const index = this.requests.indexOf(req);
+    if (index >= 0) {
+      this.requests.splice(index, 1);
+    }
+    const isLoading = this.requests.length > 0;
+    isLoading ? this.loadingService.start() : this.loadingService.end();
+  }
 
   intercept(
-    request: HttpRequest<unknown>,
+    req: HttpRequest<unknown>,
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
-    if (this.activeRequests === 0) {
-      // this.loadingService.start();
-    }
-    this.activeRequests++;
+    this.requests.push(req);
+    this.loadingService.start();
 
-    console.log('test interceptor loading');
-    return next.handle(request).pipe(
-      finalize(() => {
-        this.activeRequests--;
-        if (this.activeRequests === 0) {
-          // this.loadingService.end();
+    return next.handle(req).pipe(
+      catchError((err) => {
+        if (!this.production) {
+          alert('error' + err);
         }
+        return throwError(err);
+      }),
+      finalize(() => {
+        this.removeRequest(req);
       })
     );
   }

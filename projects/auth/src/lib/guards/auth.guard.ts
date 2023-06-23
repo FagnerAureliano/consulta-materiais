@@ -27,7 +27,7 @@ export class AuthGuard extends KeycloakAuthGuard implements CanActivateChild {
     protected readonly router: Router,
     protected readonly keycloak: KeycloakService,
     protected userService: UserService,
-    private loading: LoadingBarService
+    // private loading: LoadingBarService
   ) {
     super(router, keycloak);
   }
@@ -73,7 +73,7 @@ export class AuthGuard extends KeycloakAuthGuard implements CanActivateChild {
       }
 
       // this.router.navigate(['403']);
-      this.loading.end();
+      // this.loading.end();
       return false;
     }
 

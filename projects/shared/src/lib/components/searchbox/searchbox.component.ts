@@ -20,7 +20,7 @@ import {
   takeUntil,
 } from 'rxjs/operators';
 
-import { LoadingBarService } from '../../services/loading-bar.service'; 
+import { LoadingBarService } from '../../services/loading-bar.service';
 import { SearchBoxService } from '../../services/searchbox.service';
 
 @Component({

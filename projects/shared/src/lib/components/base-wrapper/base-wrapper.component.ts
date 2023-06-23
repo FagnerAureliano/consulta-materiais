@@ -47,7 +47,7 @@ export class BaseWrapperComponent implements OnInit, OnDestroy {
   constructor(
     public keycloak: KeycloakService,
     private router: Router,
-    public loading: LoadingBarService,
+    // public loading: LoadingBarService,
     public userService: UserService
   ) {
     this.getScreenSize();
@@ -60,9 +60,9 @@ export class BaseWrapperComponent implements OnInit, OnDestroy {
         )
         .subscribe((e) => {
           if (e instanceof NavigationStart) {
-            this.loading.start();
+            // this.loading.start();
           } else {
-            this.loading.end();
+            // this.loading.end();
           }
         })
     );

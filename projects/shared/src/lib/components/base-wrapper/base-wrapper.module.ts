@@ -28,6 +28,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { AccordionModule } from 'primeng/accordion';
 import { LoadingBarInterceptor } from '../../interceptors/loading-bar-interceptor';
+import { ProgressBarModule } from 'primeng/progressbar';
 
 @NgModule({
   declarations: [BaseWrapperComponent],
@@ -44,6 +45,7 @@ import { LoadingBarInterceptor } from '../../interceptors/loading-bar-intercepto
     ConfirmPopupModule,
     OverlayPanelModule,
     AccordionModule,
+    ProgressBarModule
   ],
   exports: [BaseWrapperComponent],
   providers: [
@@ -51,7 +53,7 @@ import { LoadingBarInterceptor } from '../../interceptors/loading-bar-intercepto
     MessageService,
     ConfirmationService,
     Location,
-    
+
     { provide: LocationStrategy, useClass: HashLocationStrategy },
     {
       provide: HTTP_INTERCEPTORS,
@@ -63,11 +65,11 @@ import { LoadingBarInterceptor } from '../../interceptors/loading-bar-intercepto
       useClass: LoggingInterceptor,
       multi: true,
     },
-    // {
-    //   provide: HTTP_INTERCEPTORS,
-    //   useClass: LoadingBarInterceptor,
-    //   multi: true,
-    // },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LoadingBarInterceptor,
+      multi: true,
+    },
     {
       provide: 'externalUrlRedirectResolver',
       useValue: (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
