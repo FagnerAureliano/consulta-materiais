@@ -44,7 +44,7 @@
           <p-avatar [label]="'?'" shape="circle"></p-avatar>
           <p-button
             icon="pi pi-angle-down"
-            styleClass="p-button-text p-button-secondary ml-2"
+            styleClass="p-button-text p-button-plain ml-2"
             [label]="
               false
                 ? this.userService.user?.pessoa?.nome
@@ -92,7 +92,7 @@
             <p-button
               label="Ajuda"
               icon="pi pi-question-circle text-base"
-              styleClass="p-button-sm text-base p-button-text p-button-secondary"
+              styleClass="p-button-sm text-base p-button-text p-button-plain"
             ></p-button>
           </a>
         </div>
@@ -100,7 +100,7 @@
           <p-button
             label="Sair"
             icon="pi pi-sign-out"
-            styleClass="p-button-text p-button-secondary"
+            styleClass="p-button-textp-button-plain"
             (onClick)="handleLogout()"
           ></p-button>
         </div>
