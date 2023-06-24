@@ -25,7 +25,7 @@ export class ConsultaContainerComponent implements OnInit {
   startIndex = 0;
 
   _loading = false;
-  items: MenuItem[]=[
+  items: MenuItem[] = [
     {
       label: 'Documentos',
       icon: 'pi pi-fw pi-file',
@@ -36,7 +36,11 @@ export class ConsultaContainerComponent implements OnInit {
       icon: 'pi pi-fw pi-directions',
       routerLink: '/materials/guia-cadastro',
     },
-    { label: 'Perguntas Frequentes', icon: 'pi pi-fw pi-question-circle' },
+    {
+      label: 'Perguntas Frequentes',
+      icon: 'pi pi-fw pi-question-circle',
+      styleClass: 'text-left',
+    },
   ];
 
   isEmpty = true;

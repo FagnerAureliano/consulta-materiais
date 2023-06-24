@@ -1,3 +1,12 @@
+
+/**
+ *  Full list of Tagify's SCSS variables
+ *
+ *  https://github.com/yairEO/tagify/blob/master/src/tagify.scss#L9-L24
+ *
+ *
+**/
+
 ::ng-deep {
   .tag_input {
     --tag-bg: #234b90;
@@ -11,5 +20,10 @@
   }
   .tag_input:hover {
     --tags-border-color: rgba(139, 139, 139, 0.737);
+  }
+  :root {
+    --tagify-dd-color-primary: rgba(139, 139, 139, 0.737);
+    --tagify-dd-bg-color: white;
+    --tagify-dd-item-pad: 0.3em 0.5em; // should be same as $tag-pad (below)
   }
 }

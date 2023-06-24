@@ -23,6 +23,7 @@
       </div>
       <div class="flex align-items-center">
         <p-button
+          pRipple
           icon="pi pi-bell"
           styleClass="p-button-text mt-2 "
           [disabled]="true"
@@ -131,9 +132,12 @@
           </p>
         </div>
         <p-button
-          [label]="screenWidth > 768? 'NOTIFICAÇÕES' : null"
+          pRipple
+          [label]="screenWidth > 768 ? 'NOTIFICAÇÕES' : null"
           icon="pi pi-bell"
-          [styleClass]="screenWidth > 768? 'p-button-outlined mr-5' : 'p-button-text mr-5'"
+          [styleClass]="
+            screenWidth > 768 ? 'p-button-outlined mr-5' : 'p-button-text mr-5'
+          "
           [disabled]="true"
         >
         </p-button>
@@ -144,7 +148,7 @@
         >
           <p-button
             icon="pi pi-angle-down"
-            styleClass="p-button-text p-button-secondary"
+            styleClass="p-button-text p-button-plain"
             [label]="
               false
                 ? this.userService.user?.pessoa?.nome
@@ -154,7 +158,7 @@
             (click)="op.toggle($event)"
           ></p-button>
           <p-overlayPanel
-            class="z-5"
+            class="z-5 text-400"
             [showTransitionOptions]="'0ms'"
             [hideTransitionOptions]="'0ms'"
             #op
@@ -183,7 +187,7 @@
         <p-button
           icon="pi pi-sign-out"
           iconPos="right"
-          styleClass="p-button-text p-button-secondary"
+          styleClass="p-button-text p-button-plain"
           (onClick)="handleLogout()"
         ></p-button>
       </div>
