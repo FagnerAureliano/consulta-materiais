@@ -17,7 +17,7 @@
     <div *ngFor="let file of search.tags" li-index>
       <p-tag
         class="uppercase border-white border-right-1 cursor-pointer font-bold"
-        value="{{ file.name }}"
+        value="{{ file.label }}"
         (click)="emitTag.emit(file)"
       ></p-tag>
     </div>
@@ -31,14 +31,14 @@
   <div>
     <img
       class="w-full border-1 border-gray-300 border-round image-responsive"
-      src="{{ search.urlMedia.thumbnail }}"
+      src="{{ search?.urlMedia?.thumbnail }}"
     />
     <div class="w-12 h-5rem">
       <p
         class="text-gray-900 pb-3 text-justify"
-        [ngClass]="{ 'truncate-text': search.description.length > 100 }"
+        [ngClass]="{ 'truncate-text': search.description?.length > 100 }"
       >
-        {{ search.description }}
+        {{ search?.description }}
       </p>
     </div>
     <div class="text-gray-700 text-sm text-left">

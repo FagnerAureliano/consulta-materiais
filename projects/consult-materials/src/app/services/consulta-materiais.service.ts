@@ -1,6 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Material } from '../models/search.models';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +13,7 @@ export class ConsultaMateriaisService {
   });
   constructor(
     private http: HttpClient,
-    @Inject('EXTERNAL_API') private searchEndpoint: string,
+    @Inject('SEARCH_API_ENDPOINT') private searchEndpoint: string,
     @Inject('STREAM_API_ENDPOINT') private streamEndpoint: string
   ) {}
 
@@ -26,8 +27,8 @@ export class ConsultaMateriaisService {
 
   getAll(startIndex: number = 0, itemsPerPage: number): Observable<any[]> {
     return this.http.get<any[]>(
-      // `${this.searchEndpoint}/searches/entry-point?term=finor&pageSize=${itemsPerPage}&pageIndex=${startIndex}&sortBy=created&sortOrder=desc&continue&continue`,
-      `${this.searchEndpoint}/photos?_start=${startIndex}&_limit=${itemsPerPage}`
+      `${this.searchEndpoint}/searches/entry-point?term=finor&pageSize=${itemsPerPage}&pageIndex=${startIndex}&sortBy=created&sortOrder=desc&continue&continue`
+      // `${this.searchEndpoint}/photos?_start=${startIndex}&_limit=${itemsPerPage}`
       // {
       //   headers: this.defaultHeaders,
       // }

@@ -12,14 +12,14 @@ export class MaterialCardsComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-    console.log(this.search);
+    // console.log(this.search);
 
     this.search.description = this.truncateString(this.search.description, 150);
   }
   truncateString(str: string, num: number) {
-    if (str.length <= num) {
+    if (str?.length <= num) {
       return str;
     }
-    return str.slice(0, num) + '...';
+    return str?.slice(0, num) + '...';
   }
 }

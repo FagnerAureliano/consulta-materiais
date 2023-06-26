@@ -2,7 +2,8 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { ConsultaMateriaisService } from 'projects/consult-materials/src/app/services/consulta-materiais.service';
 import { SearchBoxService } from 'projects/shared/src/lib/services/searchbox.service';
-import { delay, tap } from 'rxjs/operators';
+import { getFileTypeByMIME } from 'projects/shared/src/lib/utils/file-types';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-search-container',
@@ -10,7 +11,6 @@ import { delay, tap } from 'rxjs/operators';
   styleUrls: ['./consulta-container.component.scss'],
 })
 export class ConsultaContainerComponent implements OnInit {
-  [x: string]: any;
   randomDate(startYear: number, endYear: number) {
     const startDate = new Date(startYear, 0, 1).getTime();
     const endDate = new Date(endYear, 11, 31).getTime();
@@ -21,6 +21,7 @@ export class ConsultaContainerComponent implements OnInit {
     console.log(value);
   }
   searchObject: any[] = [];
+  listSearch: any[] = [];
   itemsPerPage = 6;
   startIndex = 0;
 
@@ -51,6 +52,7 @@ export class ConsultaContainerComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.loadItems();
     this.searchBoxService.inputChange$
       // .pipe(
       //   tap((res) => this.loading.start()),
@@ -62,37 +64,46 @@ export class ConsultaContainerComponent implements OnInit {
         // this.loading.end();
         // Faça algo com o valor do input recebido
       });
-    this.loadItems();
   }
 
   loadItems(): void {
     if (this._loading) {
       return;
     }
-
     this._loading = true;
 
     this.consultaService
-      .getAll(this.startInde, this.itemsPerPage)
-      .subscribe((items) => {
+      .getAll(this.startIndex, this.itemsPerPage)
+      .pipe(finalize(() => console.log(this.searchObject)))
+      .subscribe((items: any) => {
+        this.listSearch = items
         this.isEmpty = items.length > 0 ? false : true;
 
-        const mappedItems = items.map((value) => ({
-          title: value.title,
-          description: value.title.repeat(3),
-          types: [{ name: 'PDF' }, { name: 'Guia Rápido' }],
-          tags: [
-            { name: value.title.slice(0, 6) },
-            { name: value.title.slice(7, 13) },
+        const mappedItems = items.entries.map((value) => ({
+          title: value.properties['dc:title'],
+          description: value.properties['dc:description'],
+          types: [
+            {
+              name: getFileTypeByMIME(value.properties['file:content']['mime-type']),
+            },
+            { name: 'Guia Rápido' },
           ],
+          tags: value.properties['nxtag:tags'],
+
           urlMedia: {
-            thumbnail: value.url,
+            thumbnail: value.properties['thumb:thumbnail'].data,
+            content: value.properties['file:content'].data,
+            name: value.properties['file:content'].name,
           },
-          lastModified: this.randomDate(2020, 2023),
+          lastModified: value.properties['dc:modified'],
         }));
 
         // this.removeOldItems();
         this.searchObject = [...this.searchObject, ...mappedItems];
+        this.searchObject = [...this.searchObject, ...mappedItems];
+        this.searchObject = [...this.searchObject, ...mappedItems];
+        this.searchObject = [...this.searchObject, ...mappedItems];
+
         this.startIndex += this.itemsPerPage;
         this._loading = false;
       });
