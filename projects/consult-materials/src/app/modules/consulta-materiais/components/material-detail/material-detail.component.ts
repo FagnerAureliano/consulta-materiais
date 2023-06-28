@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-material-detail',
@@ -7,11 +7,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MaterialDetailComponent implements OnInit {
   visible: boolean;
+  @Input() documentId: any;
 
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+ 
+    
+  }
   showDialog() {
+    console.log(this.documentId);
     this.visible = true;
   }
 }

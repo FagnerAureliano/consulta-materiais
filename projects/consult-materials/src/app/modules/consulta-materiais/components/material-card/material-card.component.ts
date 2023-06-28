@@ -12,8 +12,6 @@ export class MaterialCardsComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-    // console.log(this.search);
-
     this.search.description = this.truncateString(this.search.description, 150);
   }
   truncateString(str: string, num: number) {

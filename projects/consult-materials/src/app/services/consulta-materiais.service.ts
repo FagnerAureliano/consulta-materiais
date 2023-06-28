@@ -8,8 +8,7 @@ import { Material } from '../models/search.models';
 })
 export class ConsultaMateriaisService {
   private defaultHeaders = new HttpHeaders({
-    'Content-Type': 'application/json',
-    // 'Access-Control-Allow-Origin': '*',
+    'Content-Type': 'application/json', 
   });
   constructor(
     private http: HttpClient,
@@ -27,11 +26,19 @@ export class ConsultaMateriaisService {
 
   getAll(startIndex: number = 0, itemsPerPage: number): Observable<any[]> {
     return this.http.get<any[]>(
-      `${this.searchEndpoint}/searches/entry-point?term=finor&pageSize=${itemsPerPage}&pageIndex=${startIndex}&sortBy=created&sortOrder=desc&continue&continue`
+      `${this.searchEndpoint}/searches/entry-point?term=finor&pageSize=${itemsPerPage}&pageIndex=${startIndex}&sortBy=created&sortOrder=desc&continue&continue`,
       // `${this.searchEndpoint}/photos?_start=${startIndex}&_limit=${itemsPerPage}`
-      // {
-      //   headers: this.defaultHeaders,
-      // }
+      {
+        headers: this.defaultHeaders,
+      }
+    );
+  }
+  getThumbnail(id: string): Observable<string> {
+    return this.http.get<string>(
+      `${this.streamEndpoint}/file/thumbnail/${id}`,
+      {
+        headers: this.defaultHeaders,
+      }
     );
   }
 }

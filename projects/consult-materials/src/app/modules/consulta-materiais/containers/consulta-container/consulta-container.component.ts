@@ -3,7 +3,8 @@ import { MenuItem } from 'primeng/api';
 import { ConsultaMateriaisService } from 'projects/consult-materials/src/app/services/consulta-materiais.service';
 import { SearchBoxService } from 'projects/shared/src/lib/services/searchbox.service';
 import { getFileTypeByMIME } from 'projects/shared/src/lib/utils/file-types';
-import { finalize } from 'rxjs/operators';
+import { forkJoin } from 'rxjs';
+import { finalize, map, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-search-container',
@@ -18,7 +19,9 @@ export class ConsultaContainerComponent implements OnInit {
     return new Date(randomTimestamp);
   }
   handleClickTag(value: any): void {
-    console.log(value);
+    if (value) {
+      console.log(value);
+    }
   }
   searchObject: any[] = [];
   listSearch: any[] = [];
@@ -74,38 +77,49 @@ export class ConsultaContainerComponent implements OnInit {
 
     this.consultaService
       .getAll(this.startIndex, this.itemsPerPage)
-      .pipe(finalize(() => console.log(this.searchObject)))
-      .subscribe((items: any) => {
-        this.listSearch = items
-        this.isEmpty = items.length > 0 ? false : true;
+      .pipe(
+        switchMap((items: any) =>
+          forkJoin(
+            items.entries.map((value) =>
+              this.consultaService.getThumbnail(value.id).pipe(
+                map((thumbnail: any) => {
+                  const mimeType =
+                    value.properties['file:content']['mime-type'];
+                  const content = value.properties['file:content'].data;
 
-        const mappedItems = items.entries.map((value) => ({
-          title: value.properties['dc:title'],
-          description: value.properties['dc:description'],
-          types: [
-            {
-              name: getFileTypeByMIME(value.properties['file:content']['mime-type']),
-            },
-            { name: 'Guia Rápido' },
-          ],
-          tags: value.properties['nxtag:tags'],
+                  const name = value.properties['file:content'].name;
 
-          urlMedia: {
-            thumbnail: value.properties['thumb:thumbnail'].data,
-            content: value.properties['file:content'].data,
-            name: value.properties['file:content'].name,
-          },
-          lastModified: value.properties['dc:modified'],
-        }));
-
-        // this.removeOldItems();
+                  return {
+                    id:value.id,
+                    title: value.properties['dc:title'],
+                    description: value.properties['dc:description'],
+                    types: [
+                      { name: getFileTypeByMIME(mimeType) },
+                      { name: 'Guia Rápido' },
+                    ],
+                    tags: value.properties['nxtag:tags'],
+                    urlMedia: {
+                      thumbnail: `data:image/png;base64,${thumbnail.thumbnailBase64}`,
+                      content,
+                      name,
+                    },
+                    lastModified: value.properties['dc:modified'],
+                  };
+                })
+              )
+            )
+          )
+        ),
+        finalize(() => this._loading = false)
+      )
+      .subscribe((mappedItems) => {
+        console.log(mappedItems);
         this.searchObject = [...this.searchObject, ...mappedItems];
         this.searchObject = [...this.searchObject, ...mappedItems];
         this.searchObject = [...this.searchObject, ...mappedItems];
         this.searchObject = [...this.searchObject, ...mappedItems];
 
-        this.startIndex += this.itemsPerPage;
-        this._loading = false;
+        this.isEmpty = mappedItems.length > 0 ? false : true;
       });
   }
 
@@ -128,5 +142,8 @@ export class ConsultaContainerComponent implements OnInit {
       const removeCount = this.searchObject.length - maxItems;
       this.searchObject.splice(0, removeCount);
     }
+  }
+  removerParametrosQueryString(url) {
+    return url.replace(/\?.*$/, '');
   }
 }

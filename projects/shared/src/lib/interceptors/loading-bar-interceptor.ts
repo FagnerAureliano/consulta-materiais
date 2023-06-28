@@ -37,9 +37,9 @@ export class LoadingBarInterceptor implements HttpInterceptor {
 
     return next.handle(req).pipe(
       catchError((err) => {
-        if (!this.production) {
-          alert('error' + err);
-        }
+        // if (!this.production) {
+        //   alert('error' + err);
+        // }
         return throwError(err);
       }),
       finalize(() => {
