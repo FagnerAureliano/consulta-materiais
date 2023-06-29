@@ -43,8 +43,18 @@
         </p-accordionTab>
       </p-accordion>
     </div>
+    <div class="mb-3">
+      <div class="flex">
+        <label class="mb-1 text-400">Título</label>
+      </div>
+      <input
+        pInputText
+        class="p-inputtext-sm p-inputtext-outlined" 
+        formControlName="title"
+      />
+    </div>
     <div class="flex">
-      <label  class="mb-1 text-400">Selecione o arquivo</label>
+      <label class="mb-1 text-400">Selecione o arquivo</label>
     </div>
     <div class="mb-2">
       <p-fileUpload
@@ -55,7 +65,7 @@
         class="col-12 text-left"
         name="demo[]"
         [multiple]="false"
-        accept="image/*"
+        accept="application/pdf,.csv, image/*, application/vnd.ms-excel" 
         (onSelect)="onShowUpload()"
         [customUpload]="true"
         (onClear)="onClear()"
@@ -82,11 +92,11 @@
       ></lib-tag-input>
     </div>
     <div class="flex">
-      <label  class="mb-1 text-400">Descrição do documento</label>
+      <label class="mb-1 text-400">Descrição do documento</label>
     </div>
     <textarea
-    class="w-full"
-      formControlName="descricao"
+      class="w-full"
+      formControlName="description"
       rows="5"
       cols="30"
       pInputTextarea

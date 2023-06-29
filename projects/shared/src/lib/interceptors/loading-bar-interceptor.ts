@@ -24,8 +24,16 @@ export class LoadingBarInterceptor implements HttpInterceptor {
     if (index >= 0) {
       this.requests.splice(index, 1);
     }
+    
     const isLoading = this.requests.length > 0;
-    isLoading ? this.loadingService.start() : this.loadingService.end();
+    
+    if (isLoading) {
+      this.loadingService.start();
+    } else {
+      setTimeout(() => {
+        this.loadingService.end();
+      }, 300);
+    }
   }
 
   intercept(

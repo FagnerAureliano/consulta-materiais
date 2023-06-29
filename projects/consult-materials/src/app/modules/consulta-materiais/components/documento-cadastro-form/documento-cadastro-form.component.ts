@@ -24,7 +24,11 @@ export class DocumentoCadastroFormComponent implements OnInit {
   ngOnInit(): void {
     if (!Object.keys(this.form.controls).length) {
       this.form.addControl(
-        'descricao',
+        'title',
+        this.fb.control(null, [Validators.required])
+      );
+      this.form.addControl(
+        'description',
         this.fb.control(null, [Validators.required])
       );
       this.form.addControl(
@@ -42,7 +46,6 @@ export class DocumentoCadastroFormComponent implements OnInit {
     for (let file of this.fileUpload._files) {
       this.form.patchValue({ document: file });
     }
-    console.log(this.form.value);
   }
   onClear() {
     this.form.get('document').setValue(null);
@@ -54,11 +57,12 @@ export class DocumentoCadastroFormComponent implements OnInit {
         : this.form.get('tags').setValue(null);
     } else {
       this.consultaService.searchTags(data).subscribe((tags) => {
-        this._whitelist = tags;
+
+        const stringArray = tags.map((obj:any) => obj.tag);
+        // console.log(stringArray);
+        
+        this._whitelist = stringArray;
       });
     }
-  }
-  onTest() {
-    console.log(this.form.value);
   }
 }

@@ -8,7 +8,7 @@ import { Material } from '../models/search.models';
 })
 export class ConsultaMateriaisService {
   private defaultHeaders = new HttpHeaders({
-    'Content-Type': 'application/json', 
+    'Content-Type': 'application/json',
   });
   constructor(
     private http: HttpClient,
@@ -17,16 +17,21 @@ export class ConsultaMateriaisService {
   ) {}
 
   searchTags(searchTerm: string): Observable<string[]> {
-    const tags = ['Video', 'PDF', 'Excel', 'Imagem'];
-    const filteredTags = tags.filter((tag) =>
-      tag.toLowerCase().includes(searchTerm.toLowerCase())
+    return this.http.get<any>(
+      `${this.searchEndpoint}/searches/auto-complete?term=${searchTerm}`
     );
-    return of(filteredTags);
+  }
+  createDocument(document: any): Observable<any> {
+    return this.http.post<any>(`${this.streamEndpoint}/file`, document);
   }
 
-  getAll(startIndex: number = 0, itemsPerPage: number): Observable<any[]> {
+  getAll(
+    term: string,
+    startIndex: number = 0,
+    itemsPerPage: number
+  ): Observable<any[]> {
     return this.http.get<any[]>(
-      `${this.searchEndpoint}/searches/entry-point?term=finor&pageSize=${itemsPerPage}&pageIndex=${startIndex}&sortBy=created&sortOrder=desc&continue&continue`,
+      `${this.searchEndpoint}/searches/entry-point?term=${term}&pageSize=${itemsPerPage}&pageIndex=${startIndex}&sortBy=created&sortOrder=desc&continue&continue`,
       // `${this.searchEndpoint}/photos?_start=${startIndex}&_limit=${itemsPerPage}`
       {
         headers: this.defaultHeaders,
