@@ -1,40 +1,50 @@
-<div class="w-12 mt-2">
-  <shrd-searchbox></shrd-searchbox>
-</div>
-<p-divider></p-divider>
-<p-accordion>
-  <p-accordionTab header="FILTRO">
-    <form [formGroup]="_form">
-      <div class="flex my-2 align-items-center gap-1 justify-content-between">
-        <div>
-          <p-checkbox
-            formControlName="PDF"
-            value="PDF"
-            inputId="pdf"
-            class="mr-1"
-          ></p-checkbox>
-          <label for="pdf">PDF</label>
-        </div>
-        <div>
-          <p-checkbox
-            formControlName="video"
-            value="video"
-            inputId="video"
-            class="mr-1"
-          ></p-checkbox>
-          <label for="video">Vídeo</label>
-        </div>
-        <div>
-          <p-checkbox
-            formControlName="guiaRapido"
-            value="guiaRapido"
-            inputId="guiaRapido"
-            class="mr-1"
-          ></p-checkbox>
-          <label for="guiaRapido">Guia Rápido</label>
-        </div>
+<form [formGroup]="_form">
+  <div class="w-12 mt-2">
+    <shrd-searchbox></shrd-searchbox>
+    <span class="p-input-icon-left w-full">
+      <i class="pi pi-search"></i>
+      <input
+        pInputText
+        class="p-inputtext-sm p-inputtext-outlined py-2 pl-5"
+        placeholder="Buscar"
+        formControlName="search"
+      />
+    </span>
+  </div>
+  <p-divider></p-divider>
+  <!-- <p-accordion> -->
+  <!-- <p-accordionTab header="FILTRO"> -->
+  <div class="p-2">
+    <div class="flex my-2 align-items-center gap-1 justify-content-between">
+      <div>
+        <p-checkbox
+          formControlName="PDF"
+          value="PDF"
+          inputId="pdf"
+          class="mr-1"
+        ></p-checkbox>
+        <label for="pdf">PDF</label>
       </div>
-    </form>
+      <div>
+        <p-checkbox
+          formControlName="video"
+          value="video"
+          inputId="video"
+          class="mr-1"
+        ></p-checkbox>
+        <label for="video">Vídeo</label>
+      </div>
+      <div>
+        <p-checkbox
+          formControlName="guiaRapido"
+          value="guiaRapido"
+          inputId="guiaRapido"
+          class="mr-1"
+        ></p-checkbox>
+        <label for="guiaRapido">Guia Rápido</label>
+      </div>
+    </div>
+
     <div class="w-full mt-3 justify-content-between">
       <p-button
         type="button"
@@ -53,5 +63,7 @@
       >
       </p-button>
     </div>
-  </p-accordionTab>
-</p-accordion>
+  </div>
+</form>
+<!-- </p-accordionTab>
+</p-accordion> -->

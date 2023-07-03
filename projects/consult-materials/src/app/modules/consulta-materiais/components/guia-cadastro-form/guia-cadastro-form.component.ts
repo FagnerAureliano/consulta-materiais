@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-guia-cadastro-form',
@@ -7,16 +7,16 @@ import { FormBuilder, FormGroup } from '@angular/forms';
   styleUrls: ['./guia-cadastro-form.component.scss'],
 })
 export class GuiaCadastroFormComponent implements OnInit {
-  text: string;
-  form: FormGroup;
+  @Input() form: FormGroup;
+
   constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
-    this.form = this.fb.group({
-      guiaDocument: [''],
-    });
-    this.form.get('guiaDocument').valueChanges.subscribe((data) => {
-      console.log(data);
-    });
+    if (!Object.keys(this.form.controls).length) {
+      this.form.addControl(
+        'guiaDocument',
+        this.fb.control(null, [Validators.required])
+      );
+    }
   }
 }

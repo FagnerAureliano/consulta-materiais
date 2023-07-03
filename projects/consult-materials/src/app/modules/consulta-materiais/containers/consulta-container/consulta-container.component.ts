@@ -1,10 +1,18 @@
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { ConsultaMateriaisService } from 'projects/consult-materials/src/app/services/consulta-materiais.service';
+import { HasContentService } from 'projects/shared/src/lib/services/has-content.service';
 import { SearchBoxService } from 'projects/shared/src/lib/services/searchbox.service';
 import { getFileTypeByMIME } from 'projects/shared/src/lib/utils/file-types';
-import { Subscription, forkJoin } from 'rxjs';
-import { debounceTime, delay, finalize, map, switchMap } from 'rxjs/operators';
+import { Observable, Subscription, forkJoin, of } from 'rxjs';
+import {
+  catchError,
+  debounceTime,
+  delay,
+  finalize,
+  map,
+  switchMap,
+} from 'rxjs/operators';
 
 @Component({
   selector: 'app-search-container',
@@ -13,6 +21,7 @@ import { debounceTime, delay, finalize, map, switchMap } from 'rxjs/operators';
 })
 export class ConsultaContainerComponent implements OnInit, OnDestroy {
   private subs$: Subscription[] = [];
+  content$: Observable<boolean> = this.hasContent.getActive();
 
   searchObject: any[] = [];
   filterParam: string;
@@ -42,7 +51,8 @@ export class ConsultaContainerComponent implements OnInit, OnDestroy {
 
   constructor(
     private consultaService: ConsultaMateriaisService,
-    private searchBoxService: SearchBoxService
+    private searchBoxService: SearchBoxService,
+    private hasContent: HasContentService
   ) {}
 
   ngOnDestroy(): void {
@@ -50,7 +60,6 @@ export class ConsultaContainerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    // this.loadItems();
     this.searchBoxService.inputChange$
       .pipe(delay(700))
       .pipe(debounceTime(300))
@@ -61,6 +70,7 @@ export class ConsultaContainerComponent implements OnInit, OnDestroy {
         }
         this.loadItems(value[0]);
       });
+    this.hasContent.setActive(false);
   }
 
   loadItems(params: string): void {
@@ -82,47 +92,27 @@ export class ConsultaContainerComponent implements OnInit, OnDestroy {
         .pipe(
           switchMap((items: any) =>
             forkJoin(
-              items.entries.map((value) =>
+              items.entries.map((value: { id: string }) =>
                 this.consultaService.getThumbnail(value.id).pipe(
+                  catchError(() => of(null)),
                   map((thumbnail: any) => {
-                    const mimeType =
-                      value.properties['file:content']['mime-type'];
-                    const content = value.properties['file:content'].data;
-
-                    const name = value.properties['file:content'].name;
-
-                    return {
-                      id: value.id,
-                      title: value.properties['dc:title'],
-                      description: value.properties['dc:description'],
-                      types: [
-                        { name: getFileTypeByMIME(mimeType) },
-                        { name: 'Guia Rápido' },
-                      ],
-                      tags: value.properties['nxtag:tags'],
-                      urlMedia: {
-                        thumbnail: `data:image/png;base64,${thumbnail.thumbnailBase64}`,
-                        content,
-                        name,
-                      },
-                      lastModified: value.properties['dc:modified'],
-                    };
+                    return this.convertObject(value, thumbnail);
                   })
                 )
               )
             )
           ),
           finalize(() => {
-            this._loading = false; // Finalizar o carregamento
-            console.log('finalize');
+            this._loading = false;
+
+            this.hasContent.setActive(
+              this.searchObject.length > 0 ? true : false
+            );
           })
         )
         .subscribe((mappedItems) => {
-          console.log(mappedItems, 'mappedItems');
-
           this.searchObject = [...this.searchObject, ...mappedItems];
           this.startIndex = this.startIndex + 1;
-
           this.isEmpty = mappedItems.length > 0 ? false : true;
         })
     );
@@ -141,7 +131,9 @@ export class ConsultaContainerComponent implements OnInit, OnDestroy {
   }
   handleClickTag(value: any): void {
     if (value) {
-      console.log(value);
+      this.searchObject = [];
+      this.startIndex = 0;
+      this.loadItems(value.label);
     }
   }
 
@@ -151,6 +143,58 @@ export class ConsultaContainerComponent implements OnInit, OnDestroy {
     if (this.searchObject.length >= maxItems) {
       const removeCount = this.searchObject.length - maxItems;
       this.searchObject.splice(0, removeCount);
+    }
+  }
+
+  convertObject(value: any, thumbnail: any) {
+    let mimeType: string;
+    let content: any;
+    let name: any;
+    switch (value.type) {
+      case 'File':
+        mimeType = value.properties['file:content']['mime-type'];
+        content = value.properties['file:content'].data;
+        name = value.properties['file:content'].name;
+
+        return {
+          id: value.id,
+          title: value.properties['dc:title'],
+          description: value.properties['dc:description'],
+          types: [
+            { name: getFileTypeByMIME(mimeType) },
+            { name: 'Guia Rápido' },
+          ],
+          tags: value.properties['nxtag:tags'],
+          urlMedia: {
+            thumbnail: `data:image/png;base64,${thumbnail.thumbnailBase64}`,
+            content,
+            name,
+          },
+          lastModified: value.properties['dc:modified'],
+        };
+      case 'Note':
+        mimeType = value.properties['note:mime_type'];
+        content = value.properties['note:note'];
+        name = value.properties['dc:title'];
+
+        return {
+          id: value.id,
+          title: value.title,
+          description: value.properties['dc:description'],
+          types: [
+            { name: getFileTypeByMIME(mimeType) },
+            { name: 'Guia Rápido' },
+          ],
+          tags: value.properties['nxtag:tags'],
+          urlMedia: {
+            thumbnail: '',
+            content,
+            name,
+          },
+          lastModified: value.properties['dc:modified'],
+        };
+      default:
+        return null;
     }
   }
 }

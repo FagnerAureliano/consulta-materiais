@@ -16,25 +16,27 @@
       (click)="menu.toggle($event)"
     ></button>
   </div>
-  <!-- *ngIf="!isEmpty" -->
-  <div class="flex-row grid mt-1 justify-content-center md:flex">
+
+  <div
+    *ngIf="content$ | async; else logo"
+    class="flex-row grid mt-1 justify-content-center md:flex"
+  >
     <div *ngFor="let file of searchObject" class="sm:col-12 md:col-6 lg:col-6">
       <app-cards [search]="file" (emitTag)="handleClickTag($event)">
       </app-cards>
     </div>
   </div>
-  <!-- <div
-    *ngIf="isEmpty"
-    class="w-full flex text-center z-2 gladio__logo"
-  >
-    <div class="align-self-center" style="z-index: -1">
-      <img
-        class="w-5"
-        src="assets/images/gladio-alado-3d.png"
-        alt="gladio alado"
-      />
+  <ng-template #logo>
+    <div class="w-full flex text-center z-2 gladio__logo">
+      <div class="align-self-center" style="z-index: -1">
+        <img
+          class="w-5"
+          src="assets/images/gladio-alado-3d.png"
+          alt="gladio alado"
+        />
+      </div>
     </div>
-  </div> -->
+  </ng-template>
 
   <p-scrollTop class="bg-blue-300" [threshold]="200"></p-scrollTop>
 </div>

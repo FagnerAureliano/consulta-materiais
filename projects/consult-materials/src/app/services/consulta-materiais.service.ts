@@ -2,6 +2,7 @@ import { Inject, Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Material } from '../models/search.models';
+import { delay } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -38,12 +39,9 @@ export class ConsultaMateriaisService {
       }
     );
   }
-  getThumbnail(id: string): Observable<string> {
-    return this.http.get<string>(
-      `${this.streamEndpoint}/file/thumbnail/${id}`,
-      {
-        headers: this.defaultHeaders,
-      }
-    );
+  getThumbnail(id: string): Observable<any> {
+    return this.http.get<any>(`${this.streamEndpoint}/file/thumbnail/${id}`, {
+      headers: this.defaultHeaders,
+    });
   }
 }

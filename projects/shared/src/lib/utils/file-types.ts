@@ -34,6 +34,7 @@ export function getFileType(fileName: string): string {
   }
 }
 export function getFileTypeByMIME(mimeType: string): string {
+  if (mimeType) {
     // Mapear os MIME types conhecidos para seus respectivos tipos de arquivo
     const mimeTypes = {
       'image/jpeg': 'Imagem',
@@ -43,20 +44,23 @@ export function getFileTypeByMIME(mimeType: string): string {
       'image/svg+xml': 'Imagem',
       'application/pdf': 'PDF',
       'application/msword': 'Documento do Word',
-      'application/vnd.openxmlformats-officedocument.wordprocessingml.document': 'Documento do Word',
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
+        'Documento do Word',
       'application/vnd.ms-excel': 'Planilha do Excel',
-      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': 'Planilha do Excel',
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
+        'Planilha do Excel',
       'application/vnd.ms-powerpoint': 'Apresentação do PowerPoint',
-      'application/vnd.openxmlformats-officedocument.presentationml.presentation': 'Apresentação do PowerPoint',
+      'application/vnd.openxmlformats-officedocument.presentationml.presentation':
+        'Apresentação do PowerPoint',
       'text/plain': 'Arquivo de texto',
       'text/csv': 'Arquivo CSV',
       'application/zip': 'Arquivo compactado',
       'application/x-rar-compressed': 'Arquivo compactado',
       'application/x-tar': 'Arquivo compactado',
-      'application/gzip': 'Arquivo compactado'
+      'application/gzip': 'Arquivo compactado',
       // Adicione mais MIME types e tipos de arquivo conforme necessário
     };
-  
+
     // Verificar se o MIME type é conhecido
     if (mimeType in mimeTypes) {
       return mimeTypes[mimeType];
@@ -64,3 +68,5 @@ export function getFileTypeByMIME(mimeType: string): string {
       return 'Tipo de arquivo desconhecido';
     }
   }
+  return 'Tipo de arquivo desconhecido';
+}

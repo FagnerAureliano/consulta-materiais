@@ -11,7 +11,8 @@ export class MaterialFilterComponent implements OnInit {
   constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
-    this._form = this.fb.group({
+    this._form = this.fb.group({      
+      search: [null],
       PDF: [null],
       video: [null],
       guiaRapido: [null],

@@ -12,8 +12,6 @@ export class MaterialDetailComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
- 
-    
   }
   showDialog() {
     console.log(this.documentId);

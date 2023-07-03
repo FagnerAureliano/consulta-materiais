@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Observable } from 'rxjs';
+import { HasContentService } from '../../services/has-content.service';
 
 @Component({
   selector: 'shrd-sidenav',
@@ -11,9 +12,13 @@ export class SidenavComponent implements OnInit {
 
   @Input() basePath: string = '';
 
-  constructor() {}
+  constructor(private hasContent: HasContentService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.hasContent.getActive().subscribe(hasContent =>{
+      this._isHidden = hasContent
+    })
+  }
 
   toggleNav() {
     this._isHidden = !this._isHidden;
