@@ -6,7 +6,10 @@ import {
   OnInit,
 } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { MessageService } from 'primeng/api';
 import { ConsultaMateriaisService } from 'projects/consult-materials/src/app/services/consulta-materiais.service';
+import { throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'app-guia-cadastro-container',
@@ -22,7 +25,8 @@ export class GuiaCadastroContainerComponent implements OnInit {
     private location: Location,
     private fb: FormBuilder,
     private consultaService: ConsultaMateriaisService,
-    private cdref: ChangeDetectorRef
+    private cdref: ChangeDetectorRef,
+    private messageService: MessageService
   ) {}
 
   ngOnInit(): void {
@@ -40,31 +44,28 @@ export class GuiaCadastroContainerComponent implements OnInit {
     // }
   }
   handleSave(): void {
-    const formData = new FormData();
-    formData.append('file', this._form?.get('guiaForm').value.guiaDocument);
-    const data = {
-      guia: this._form?.get('guiaForm').value.guiaDocument,
+    const { content, title, description, tags } =
+      this._form?.get('guiaForm').value;
+
+    const observableResolved = (_) => {
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Tudo OK',
+        detail: `${'Documento salvo com sucesso'}`,
+      });
     };
-    // const { title, description, tags } = {
-    //   title: 'description',
-    //   description: 'description',
-    //   tags: 'description',
-    // };
 
-    // formData.append(
-    //   'data',
-    //   JSON.stringify({
-    //     title,
-    //     description,
-    //     tags,
-    //   })
-    // );
-
-    // this.consultaService.createDocument(formData).subscribe(() => {
-    //   this.goBack();
-    // });
-
-    console.log(data);
+    this.consultaService
+      .createDocumentNote({ content, title, description, tags })
+      .pipe(
+        catchError((err) => {
+          return throwError(err);
+        })
+      )
+      .subscribe((res) => {
+        observableResolved(res);
+        this.goBack();
+      });
   }
   @HostListener('window:resize', ['$event'])
   getScreenSize() {

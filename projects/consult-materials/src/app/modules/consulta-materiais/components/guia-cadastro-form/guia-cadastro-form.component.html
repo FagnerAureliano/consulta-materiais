@@ -1,22 +1,59 @@
-<div class="border-1 p-3 border-200 border-round">
-  <div class=" l-form-header text-left border-round p-2 mb-2 w-full">
-    <span class="l-form-header mb-3">Guia rápido</span>
-  </div>
+<div class="border-1 p-3 border-200 border-round"> 
   <form [formGroup]="form">
-    <div class="guide-header mb-2 border-1 border-300 border-round p-2">
-      <p class="text-left">
-        Use o editor de texto abaixo para escrever instruções claras e concisas
-        que irão guiar os usuários. Você pode formatar o texto, adicionar
-        títulos, listas e até mesmo inserir imagens para tornar seu guia mais
-        visualmente atraente. Lembre-se de que este guia rápido será uma
-        referência útil para os usuários, portanto, seja objetivo e forneça
-        informações relevantes.
-      </p>
+    <div class="guide-header text-left">
+      <p-accordion class="px-4 pb-4">
+        <p-accordionTab header="Orientações">
+          <div class="w-full border-1 border-200 p-4 border-round">
+            <p class="text-left">
+              Use o editor de texto abaixo para escrever instruções claras e concisas
+              que irão guiar os usuários. Você pode formatar o texto, adicionar
+              títulos, listas e até mesmo inserir imagens para tornar seu guia mais
+              visualmente atraente. Lembre-se de que este guia rápido será uma
+              referência útil para os usuários, portanto, seja objetivo e forneça
+              informações relevantes.
+            </p>
+          </div>
+        </p-accordionTab>
+      </p-accordion>
     </div>
+    <div class="mb-3">
+      <div class="flex">
+        <label class="mb-1 text-500">Título</label>
+      </div>
+      <input
+        pInputText
+        class="p-inputtext-sm p-inputtext-outlined" 
+        formControlName="title"
+      />
+    </div>
+    <div class="flex">
+      <label class="mb-1 text-500">Selecione o arquivo</label>
+    </div>
+
     <p-editor
       class="w-full"
       formControlName="guiaDocument"
       [style]="{ height: '320px' }"
     ></p-editor>
+    <div class="mb-3">
+      <div class="flex">
+        <label class="mb-1 text-500">Insira as tags</label>
+      </div>
+      <lib-tag-input
+        [whitelist]="_whitelist"
+        (characterInputed)="handleSearchTags($event)"
+        (tagsEmitter)="handleSearchTags($event)"
+      ></lib-tag-input>
+    </div>
+    <div class="flex">
+      <label class="mb-1 text-500">Descrição do documento</label>
+    </div>
+    <textarea
+      class="w-full"
+      formControlName="description"
+      rows="5"
+      cols="30"
+      pInputTextarea
+    ></textarea>
   </form>
 </div>
