@@ -12,10 +12,11 @@ export class MaterialFilterComponent implements OnInit {
 
   ngOnInit(): void {
     this._form = this.fb.group({      
-      search: [null],
+      textSearch: [null],
+      all: [null],
       PDF: [null],
-      video: [null],
-      guiaRapido: [null],
+      movie: [null],
+      guide: [null],
     });
   }
   searchFilter() {
