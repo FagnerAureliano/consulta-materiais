@@ -5,16 +5,17 @@
       <i class="pi pi-search"></i>
       <input
         pInputText
-        class="p-inputtext p-inputtext-outlined py-2 pl-5"
+        class="p-inputtext p-inputtext-outlined py-2  "
         placeholder="Buscar"
-        formControlName="textSearch"
+        formControlName="searchText"
+        (keydown.enter)="searchFilter()"
       />
     </span>
   </div>
   <p-divider></p-divider>
   <!-- <p-accordion> -->
   <!-- <p-accordionTab header="FILTRO"> -->
-  <div class="p-2">
+  <div class="pb-1">
     <div class="flex my-2 align-items-center gap-1 justify-content-between">
       <div>
         <p-checkbox
@@ -68,6 +69,7 @@
         icon="pi pi-search"
         styleClass="p-button-text bg-bluegray-50 col-6 p-button-sm"
         label="BUSCAR"
+        (keydown.enter)="searchFilter()"
         (onClick)="searchFilter()"
       >
       </p-button>

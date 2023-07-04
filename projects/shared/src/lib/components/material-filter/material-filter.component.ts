@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { MaterialFilterService } from '../../services/material-filter.service';
 
 @Component({
   selector: 'mat-material-filter',
@@ -8,21 +9,21 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 })
 export class MaterialFilterComponent implements OnInit {
   _form: FormGroup;
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private fb: FormBuilder,
+    private materialFilter: MaterialFilterService
+  ) {}
 
   ngOnInit(): void {
-    this._form = this.fb.group({      
-      textSearch: [null],
+    this._form = this.fb.group({
+      searchText: [null],
       all: [null],
       PDF: [null],
       movie: [null],
       guide: [null],
     });
   }
-  searchFilter() {
-    console.log(this._form.value);
-  }
-  handleInputSearch(event) {
-    
+  searchFilter() {     
+    this.materialFilter.emitContent(this._form.value);
   }
 }
