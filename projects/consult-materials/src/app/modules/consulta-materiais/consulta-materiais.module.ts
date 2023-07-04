@@ -17,13 +17,15 @@ import { DocumentoCadastroContainerComponent } from './containers/documento-cada
 
 import { CardModule } from 'primeng/card';
 import { TagModule } from 'primeng/tag';
-import { ChipsModule } from 'primeng/chips';
 import { MenuModule } from 'primeng/menu';
+import { ToastModule } from 'primeng/toast';
+import { ChipsModule } from 'primeng/chips';
 import { ButtonModule } from 'primeng/button';
 import { EditorModule } from 'primeng/editor';
 import { DialogModule } from 'primeng/dialog';
 import { DividerModule } from 'primeng/divider';
 import { AccordionModule } from 'primeng/accordion';
+
 import { ScrollTopModule } from 'primeng/scrolltop';
 import { FileUploadModule } from 'primeng/fileupload';
 import { InputTextareaModule } from 'primeng/inputtextarea';
@@ -35,6 +37,7 @@ const PRIME_COMPONENTS = [
   TagModule,
   CardModule,
   MenuModule,
+  ToastModule,
   ChipsModule,
   ButtonModule,
   DialogModule,

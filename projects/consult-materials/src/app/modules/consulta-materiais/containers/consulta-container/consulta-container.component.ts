@@ -2,6 +2,7 @@ import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { ConsultaMateriaisService } from 'projects/consult-materials/src/app/services/consulta-materiais.service';
 import { HasContentService } from 'projects/shared/src/lib/services/has-content.service';
+import { MaterialFilterService } from 'projects/shared/src/lib/services/material-filter.service';
 import { SearchBoxService } from 'projects/shared/src/lib/services/searchbox.service';
 import { getFileTypeByMIME } from 'projects/shared/src/lib/utils/file-types';
 import { Observable, Subscription, forkJoin, of } from 'rxjs';
@@ -52,6 +53,7 @@ export class ConsultaContainerComponent implements OnInit, OnDestroy {
   constructor(
     private consultaService: ConsultaMateriaisService,
     private searchBoxService: SearchBoxService,
+    private filterContent: MaterialFilterService,
     private hasContent: HasContentService
   ) {}
 
@@ -60,16 +62,13 @@ export class ConsultaContainerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.searchBoxService.inputChange$
-      .pipe(delay(700))
-      .pipe(debounceTime(300))
-      .subscribe((value) => {
-        if (value.length > 0) {
-          this.searchObject = [];
-          this.startIndex = 0;
-        }
-        this.loadItems(value[0]);
-      });
+    this.filterContent.inputChange$.subscribe((value) => {
+      if (value.length > 0) {
+        this.searchObject = [];
+        this.startIndex = 0;
+      }
+      this.loadItems(value.searchText);
+    });
     this.hasContent.setActive(false);
   }
 

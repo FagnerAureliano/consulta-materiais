@@ -22,8 +22,11 @@ export class ConsultaMateriaisService {
       `${this.searchEndpoint}/searches/auto-complete?term=${searchTerm}`
     );
   }
-  createDocument(document: any): Observable<any> {
+  createDocumentFile(document: any): Observable<any> {
     return this.http.post<any>(`${this.streamEndpoint}/file`, document);
+  }
+  createDocumentNote(document: any): Observable<any> {
+    return this.http.post<any>(`${this.streamEndpoint}/note`, document);
   }
 
   getAll(
