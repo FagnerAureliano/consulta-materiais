@@ -8,7 +8,7 @@ export class MaterialFilterService {
   private content$: Subject<any> = new Subject<any>();
   inputChange$ = this.content$.asObservable();
 
-  emitContent(content: any): void {
+  emitContent(content: Object): void {
     this.content$.next(content);
   }
 }

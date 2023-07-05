@@ -149,20 +149,23 @@ export class ConsultaContainerComponent implements OnInit, OnDestroy {
     let mimeType: string;
     let content: any;
     let name: any;
+    const types = [];
     switch (value.type) {
       case 'File':
         mimeType = value.properties['file:content']['mime-type'];
         content = value.properties['file:content'].data;
         name = value.properties['file:content'].name;
 
+        for (const tag of value.properties['dc:contributors']) {
+          types.push({ name: tag });
+        }
+        types.push({ name: getFileTypeByMIME(mimeType) });
+
         return {
           id: value.id,
           title: value.properties['dc:title'],
           description: value.properties['dc:description'],
-          types: [
-            { name: getFileTypeByMIME(mimeType) },
-            { name: 'Guia Rápido' },
-          ],
+          types,
           tags: value.properties['nxtag:tags'],
           urlMedia: {
             thumbnail: `data:image/png;base64,${thumbnail.thumbnailBase64}`,
@@ -175,15 +178,16 @@ export class ConsultaContainerComponent implements OnInit, OnDestroy {
         mimeType = value.properties['note:mime_type'];
         content = value.properties['note:note'];
         name = value.properties['dc:title'];
+        for (const tag of value.properties['dc:contributors']) {
+          types.push({ name: tag });
+        }
+        types.push({ name: getFileTypeByMIME(mimeType) });
 
         return {
           id: value.id,
           title: value.title,
           description: value.properties['dc:description'],
-          types: [
-            { name: getFileTypeByMIME(mimeType) },
-            { name: 'Guia Rápido' },
-          ],
+          types,
           tags: value.properties['nxtag:tags'],
           urlMedia: {
             thumbnail: '',

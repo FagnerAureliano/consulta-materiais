@@ -23,7 +23,7 @@ export class MaterialFilterComponent implements OnInit {
       guide: [null],
     });
   }
-  searchFilter() {     
+  searchFilter(): void {
     this.materialFilter.emitContent(this._form.value);
   }
 }

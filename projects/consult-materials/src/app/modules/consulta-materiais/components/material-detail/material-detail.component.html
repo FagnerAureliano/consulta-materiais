@@ -1,20 +1,19 @@
- 
 <p-button
-label="VER MAIS"
-type="button"
-styleClass="p-button-outlined p-button-sm"
-(click)="showDialog()"
+  label="VER MAIS"
+  type="button"
+  styleClass="p-button-outlined p-button-sm"
+  (click)="showDialog()"
 >
 </p-button>
 <p-dialog
   header="Header"
   [(visible)]="visible"
   [modal]="true"
-  [style]="{ width: '60vw', height: '90vh' }"
+  styleClass="custom-dialog"
   [draggable]="false"
   [resizable]="false"
 >
-  <p class="m-0 h" >
+  <p class="m-0 h">
     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
     tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
     quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
@@ -22,4 +21,7 @@ styleClass="p-button-outlined p-button-sm"
     cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
     non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
   </p>
+
+  <embed *ngIf="fileURL" [src]="fileURL" type="application/pdf" width="100%" height="500px">
+
 </p-dialog>
