@@ -11,12 +11,15 @@ export class GuiaCadastroFormComponent implements OnInit {
   @Input() form: FormGroup;
   _whitelist: string[];
 
-  constructor(private fb: FormBuilder,   private consultaService: ConsultaMateriaisService) {}
+  constructor(
+    private fb: FormBuilder,
+    private consultaService: ConsultaMateriaisService
+  ) {}
 
   ngOnInit(): void {
     if (!Object.keys(this.form.controls).length) {
       this.form.addControl(
-        'guiaDocument',
+        'content',
         this.fb.control(null, [Validators.required])
       );
       this.form.addControl(
@@ -40,10 +43,9 @@ export class GuiaCadastroFormComponent implements OnInit {
         : this.form.get('tags').setValue(null);
     } else {
       this.consultaService.searchTags(data).subscribe((tags) => {
-
-        const stringArray = tags.map((obj:any) => obj.tag);
+        const stringArray = tags.map((obj: any) => obj.tag);
         // console.log(stringArray);
-        
+
         this._whitelist = stringArray;
       });
     }

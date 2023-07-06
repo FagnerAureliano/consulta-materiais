@@ -3,13 +3,14 @@
     width: 80vw;
     height: 90vh;
   }
+
   @media only screen and (max-width: 768px) {
     ::ng-deep .p-dialog {
       width: 90vw;
       height: 90vh;
     }
   }
-   @media only screen and (max-width: 425px) {
+  @media only screen and (max-width: 425px) {
     ::ng-deep .p-dialog {
       width: 99vw;
       height: 90vh;

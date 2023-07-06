@@ -58,7 +58,7 @@ export class DocumentoCadastroContainerComponent implements OnInit {
     };
 
     this.consultaService
-      .createDocumentNote(formData)
+      .createDocumentFile(formData)
       .pipe(
         catchError((err) => {
           return throwError(err);

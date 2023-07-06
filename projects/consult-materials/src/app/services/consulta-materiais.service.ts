@@ -49,10 +49,10 @@ export class ConsultaMateriaisService {
   }
    getDocumentFile(id: string): Observable<any> {
     
-    return this.http.get<any>(`${this.streamEndpoint}/file/document-blob/${id}`,{ responseType: 'blob' as 'json' });
+    return this.http.get<any>(`${this.streamEndpoint}/file/${id}`,{ responseType: 'blob' as 'json' });
   }
-  getDocumentByID(id: string): Observable<Material> {
-    return this.http.get<Material>(`${this.searchEndpoint}/files/${id}`, {
+  getDocumentByID(id: string): Observable<Object> {
+    return this.http.get<Object>(`${this.searchEndpoint}/files/${id}`, {
       headers: this.defaultHeaders,
     });
   }

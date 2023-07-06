@@ -63,7 +63,7 @@ export class ConsultaContainerComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.filterContent.inputChange$.subscribe((value) => {
-      if (value.length > 0) {
+      if (value) {
         this.searchObject = [];
         this.startIndex = 0;
       }

@@ -5,23 +5,52 @@
   (click)="showDialog()"
 >
 </p-button>
+<!-- [closable]="false" -->
 <p-dialog
-  header="Header"
   [(visible)]="visible"
   [modal]="true"
   styleClass="custom-dialog"
   [draggable]="false"
   [resizable]="false"
 >
-  <p class="m-0 h">
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
-    non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-  </p>
-
-  <embed *ngIf="fileURL" [src]="fileURL" type="application/pdf" width="100%" height="500px">
-
+  <div class="w-full l-form-header py-2 border-round text-left mb-2">
+    <span class="l-form-header py-2 px-2">{{
+      material?.type === "File" ? "Documento" : "Guia Rápido"
+    }}</span>
+  </div>
+  <div class="my-2 text-left flex">
+    <div *ngFor="let file of material?.properties['nxtag:tags']" li-index>
+      <p-tag
+      class="uppercase border-white border-right-1 cursor-pointer font-bold"
+      value="{{ file.label }}" 
+    ></p-tag>
+    </div>
+  </div>
+  <div class="mb-2 text-left border-round border-1 border-200 p-3">
+    <div class="flex">
+      <label class="mb-1 text-500">Título</label>
+    </div>
+    {{ material?.title }}
+  </div>
+  <div class="border-round border-1 border-200 p-3">
+    <div *ngIf="material?.type === 'File'; else nota">
+      <embed
+        *ngIf="fileURL"
+        [src]="fileURL"
+        [type]="mimeType"
+        width="100%"
+        height="500px"
+      />
+       <!-- <iframe [src]="fileURL" width="100%" height="500px"></iframe> -->
+    </div>
+    <ng-template #nota>
+      <div [innerHTML]="data" class="text-left note_content"></div>
+    </ng-template>
+  </div>
+  <div class="mt-2 text-left border-round border-1 border-200 p-3">
+    <div class="flex">
+      <label class="mb-1 text-500">Descrição</label>
+    </div>
+    {{ material?.properties["dc:description"] }}
+  </div>
 </p-dialog>
