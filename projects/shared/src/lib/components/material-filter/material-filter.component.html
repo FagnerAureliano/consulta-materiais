@@ -16,7 +16,7 @@
   <!-- <p-accordion> -->
   <!-- <p-accordionTab header="FILTRO"> -->
   <div class="pb-1">
-    <div class="flex my-2 align-items-center gap-1 justify-content-between">
+    <div class="flex py-2 align-items-center gap-1 justify-content-between">
       <div>
         <p-checkbox
           formControlName="all"
@@ -55,13 +55,13 @@
       </div>
     </div>
 
-    <div class="w-full mt-3 justify-content-between">
+    <div class="w-full pt-3 " >
       <p-button
         type="button"
         icon="pi pi-refresh"
         styleClass="p-button-text col-6 p-button-sm"
         label="LIMPAR"
-        (onClick)="searchFilter()"
+        (onClick)="clear()"
       >
       </p-button>
       <p-button

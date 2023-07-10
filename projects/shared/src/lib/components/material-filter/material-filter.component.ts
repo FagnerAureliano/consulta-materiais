@@ -26,4 +26,7 @@ export class MaterialFilterComponent implements OnInit {
   searchFilter(): void {
     this.materialFilter.emitContent(this._form.value);
   }
+  clear(): void {
+    this._form.reset();
+  }
 }
