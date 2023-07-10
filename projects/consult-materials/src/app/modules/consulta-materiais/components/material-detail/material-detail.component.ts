@@ -34,6 +34,9 @@ export class MaterialDetailComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {}
+  handleDownload(): void {
+    console.log('tested download');
+  }
   showDialog(): void {
     this._subs$.push(
       this.service

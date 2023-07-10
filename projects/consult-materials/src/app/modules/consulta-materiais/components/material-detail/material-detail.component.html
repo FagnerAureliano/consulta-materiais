@@ -5,26 +5,34 @@
   (click)="showDialog()"
 >
 </p-button>
-<!-- [closable]="false" -->
 <p-dialog
+  styleClass="custom-dialog"
+  closeOnEscape="true"
+  [dismissableMask]="true"
+  [blockScroll]="true"
   [(visible)]="visible"
   [modal]="true"
-  styleClass="custom-dialog"
   [draggable]="false"
   [resizable]="false"
 >
   <div class="w-full l-form-header py-2 border-round text-left mb-2">
-    <span class="l-form-header py-2 px-2">{{
-      material?.type === "File" ? "Documento" : "Guia Rápido"
-    }}</span>
+    <span class="l-form-header py-2 px-2">
+      {{ material?.type === "File" ? "Documento" : "Guia Rápido" }}
+    </span>
   </div>
   <div class="my-2 text-left flex">
     <div *ngFor="let file of material?.properties['nxtag:tags']" li-index>
       <p-tag
-      class="uppercase border-white border-right-1 cursor-pointer font-bold"
-      value="{{ file.label }}" 
-    ></p-tag>
+        class="uppercase border-white border-right-1 cursor-pointer font-bold"
+        value="{{ file.label }}"
+      ></p-tag>
     </div>
+  </div>
+  <div class="text-right py-2 text-gray-700 text-sm">
+    <i class="pi pi-calendar-minus"></i>
+    <span class="text-sm text-gray-700">
+      {{ material?.properties["dc:modified"] | date : "short" }}
+    </span>
   </div>
   <div class="mb-2 text-left border-round border-1 border-200 p-3">
     <div class="flex">
@@ -41,16 +49,42 @@
         width="100%"
         height="500px"
       />
-       <!-- <iframe [src]="fileURL" width="100%" height="500px"></iframe> -->
     </div>
     <ng-template #nota>
       <div [innerHTML]="data" class="text-left note_content"></div>
     </ng-template>
+    <div class="text-right py-2 text-gray-700 text-sm flex flex-row-reverse">
+      <div class="w-1 cursor-pointer bg-gray-100 border-round" (click)="handleDownload()">
+        <span class="text-sm text-gray-700">Download</span>
+        <i class="pi pi-download ml-2"></i>
+      </div>
+    </div>
   </div>
   <div class="mt-2 text-left border-round border-1 border-200 p-3">
     <div class="flex">
       <label class="mb-1 text-500">Descrição</label>
     </div>
     {{ material?.properties["dc:description"] }}
+  </div>
+
+  <div class="w-full py-3 text-right gap-2">
+    <button
+      type="button"
+      class="p-button-sm p-button-text mr-1"
+      pButton
+      icon="pi pi-arrow-left"
+      label="FECHAR"
+      (click)="visible = false"
+    ></button>
+
+    <button
+      *ngIf="false"
+      type="button"
+      class="p-button-sm"
+      pButton
+      icon="pi pi-pencil"
+      label="EDITAR"
+      (click)="visible = false"
+    ></button>
   </div>
 </p-dialog>

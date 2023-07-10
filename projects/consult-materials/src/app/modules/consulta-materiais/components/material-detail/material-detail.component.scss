@@ -2,8 +2,29 @@
   ::ng-deep .p-dialog {
     width: 80vw;
     height: 90vh;
-  }
+    .p-dialog-header {
+      padding: 0rem;
 
+      .p-dialog-header-icon:last-child {
+        margin-right: 0;
+        top: -0.8rem;
+        left: 0.7rem;
+        height: 1.5rem;
+        background: var(--primary);
+        color: white;
+        width: 1.5rem;
+      }
+      .p-dialog-header-icon:last-child:hover {
+        margin-right: 0;
+        top: -0.8rem;
+        left: 0.7rem;
+        height: 1.5rem;
+        background: #4b6da7 ;
+        color: white;
+        width: 1.5rem;
+      }
+    }
+  }
   @media only screen and (max-width: 768px) {
     ::ng-deep .p-dialog {
       width: 90vw;
