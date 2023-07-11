@@ -20,11 +20,10 @@ export class UserService {
 
   constructor(
     protected http: HttpClient,
-    @Inject('SEARCH_API_ENDPOINT') private endpoint: any
+    @Inject('USER_API_ENDPOINT') private endpoint: any
   ) {}
 
   getCurrentUser(): Observable<User> {
-    // return this.http.get<User>(`${this.endpoint}/user`);
-    return null
+    return this.http.get<User>(`${this.endpoint}/user`); 
   }
 }

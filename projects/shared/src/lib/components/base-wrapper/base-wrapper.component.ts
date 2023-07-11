@@ -99,15 +99,15 @@ export class BaseWrapperComponent implements OnInit, OnDestroy {
   }
 
   handleUserName() {
-    return 'Usuário não identificado';
-    // return (
-    //   this.userService.user?.nome
-    //     .split(' ')
-    //     .map((name: string) => `${name[0].toUpperCase()}${name.slice(1).toLowerCase()}`)
-    //     .concat('-')
-    //     .concat(this.userService.user.organizacao.sigla || '?')
-    //     .join(' ') || 'Usuário não identificado'
-    // );
+    // return 'Usuário não identificado';
+    return (
+      this.userService.user?.username
+        .split(' ')
+        .map((name: string) => `${name[0].toUpperCase()}${name.slice(1).toLowerCase()}`)
+        .concat('-')
+        .concat(this.userService.user.pessoa.organizacaoSigla || '?')
+        .join(' ') || 'Usuário não identificado'
+    );
   }
 
   /**

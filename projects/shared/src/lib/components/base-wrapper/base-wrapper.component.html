@@ -41,15 +41,27 @@
       </div>
       <div id="accord" class="panel mx-1 border-top-1 border-gray-200 w-full">
         <div class="mt-2 flex align-items-center">
-          <p-avatar [label]="'?'" shape="circle"></p-avatar>
+          <p-avatar
+            [label]="
+              !this.userService.user?.pessoa?.foto
+                ? this.userService.user?.pessoa?.nome !==
+                  'Usuário não identificado'
+                  ? this.userService.user?.pessoa?.nome[0]
+                  : '?'
+                : null
+            "
+            [image]="
+              this.userService.user?.pessoa?.foto
+                ? 'data:image/jpeg;base64,' +
+                  this.userService.user?.pessoa?.foto
+                : null
+            "
+            shape="circle"
+          ></p-avatar>
           <p-button
             icon="pi pi-angle-down"
-            styleClass="p-button-text p-button-plain ml-2"
-            [label]="
-              false
-                ? this.userService.user?.pessoa?.nome
-                : 'Usuário não identificado'
-            "
+            styleClass="p-button-text text-sm p-button-plain ml-2"
+            [label]="this.userService.user?.pessoa?.nome"
             iconPos="right"
             (click)="op.toggle($event)"
           ></p-button>
@@ -61,18 +73,18 @@
             [dismissable]="true"
           >
             <ng-template pTemplate>
-              <span class="c-header__role-panel-title mb-2">
+              <span class="c-header__role-panel-title mb-2 text-sm ">
                 Papéis atribuídos ao usuário
               </span>
               <ul
-                *ngIf="false ? this.userService.user?.roles : false"
+                *ngIf="this.userService.user?.roles"
                 class="c-header__role-list"
               >
                 <li
                   *ngFor="let role of this.userService.user?.mapedRoles"
                   class="c-header__role mt-1 flex align-items-center"
                 >
-                  <i class="pi pi-circle-on mr-2"></i>
+                  <i class="pi pi-circle-on mr-2 text-sm "></i>
                   <span>{{ role }}</span>
                 </li>
               </ul>
@@ -91,16 +103,16 @@
           <a href="#" target="_blank" rel="noopener">
             <p-button
               label="Ajuda"
-              icon="pi pi-question-circle text-base"
-              styleClass="p-button-sm text-base p-button-text p-button-plain"
+              icon="pi pi-question-circle "
+              styleClass="p-button-sm p-button-text p-button-plain"
             ></p-button>
           </a>
         </div>
-        <div class="border-top-1 border-gray-200 w-full">
+        <div class="border-top-1 pt-1 border-gray-200 w-full">
           <p-button
             label="Sair"
             icon="pi pi-sign-out"
-            styleClass="p-button-textp-button-plain"
+            styleClass="p-button-text p-button-sm p-button-plain"
             (onClick)="handleLogout()"
           ></p-button>
         </div>
@@ -136,7 +148,7 @@
           [label]="screenWidth > 768 ? 'NOTIFICAÇÕES' : null"
           icon="pi pi-bell"
           [styleClass]="
-            screenWidth > 768 ? 'p-button-outlined mr-5' : 'p-button-text mr-5'
+            screenWidth > 768 ? 'p-button-outlined mr-5 text-sm  ' : 'p-button-text text-sm  mr-5'
           "
           [disabled]="true"
         >
@@ -148,12 +160,8 @@
         >
           <p-button
             icon="pi pi-angle-down"
-            styleClass="p-button-text p-button-plain"
-            [label]="
-              false
-                ? this.userService.user?.pessoa?.nome
-                : 'Usuário não identificado'
-            "
+            styleClass="p-button-text p-button-plain text-sm"
+            [label]="this.userService.user?.pessoa?.nome"
             iconPos="right"
             (click)="op.toggle($event)"
           ></p-button>
@@ -165,18 +173,18 @@
             [dismissable]="true"
           >
             <ng-template pTemplate>
-              <span class="c-header__role-panel-title mb-2">
+              <span class="c-header__role-panel-title mb-2 text-sm ">
                 Papéis atribuídos ao usuário
               </span>
               <ul
-                *ngIf="false ? this.userService.user?.roles : false"
+                *ngIf="this.userService.user?.roles"
                 class="c-header__role-list"
               >
                 <li
                   *ngFor="let role of this.userService.user?.mapedRoles"
                   class="c-header__role mt-1 flex align-items-center"
                 >
-                  <i class="pi pi-circle-on mr-2"></i>
+                  <i class="pi pi-circle-on mr-2 text-sm "></i>
                   <span>{{ role }}</span>
                 </li>
               </ul>
