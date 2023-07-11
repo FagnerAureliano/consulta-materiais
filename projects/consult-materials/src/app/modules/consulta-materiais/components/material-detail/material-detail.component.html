@@ -23,17 +23,12 @@
   <div class="my-2 text-left flex">
     <div *ngFor="let file of material?.properties['nxtag:tags']" li-index>
       <p-tag
-        class="uppercase border-white border-right-1 cursor-pointer font-bold"
+        class="uppercase border-white border-right-1 font-bold"
         value="{{ file.label }}"
       ></p-tag>
     </div>
   </div>
-  <div class="text-right py-2 text-gray-700 text-sm">
-    <i class="pi pi-calendar-minus"></i>
-    <span class="text-sm text-gray-700">
-      {{ material?.properties["dc:modified"] | date : "short" }}
-    </span>
-  </div>
+
   <div class="mb-2 text-left border-round border-1 border-200 p-3">
     <div class="flex">
       <label class="mb-1 text-500">Título</label>
@@ -43,23 +38,39 @@
   <div class="border-round border-1 border-200 p-3">
     <div *ngIf="material?.type === 'File'; else nota">
       <embed
-        *ngIf="fileURL"
-        [src]="fileURL"
+        *ngIf="file_material"
+        [src]="file_material"
         [type]="mimeType"
+        [title]="material?.title"
         width="100%"
         height="500px"
       />
     </div>
     <ng-template #nota>
-      <div [innerHTML]="data" class="text-left note_content"></div>
+      <div [innerHTML]="note_material" class="text-left"></div>
     </ng-template>
-    <div class="text-right py-2 text-gray-700 text-sm flex flex-row-reverse">
-      <div class="w-1 cursor-pointer bg-gray-100 border-round" (click)="handleDownload()">
-        <span class="text-sm text-gray-700">Download</span>
-        <i class="pi pi-download ml-2"></i>
+    <div
+      class="text-right text-gray-700 text-sm flex justify-content-between pt-3"
+    >
+      <div class="text-right text-gray-700 text-sm">
+        <i class="pi pi-calendar-minus"></i>
+        <span class="text-sm text-gray-700">
+          {{ material?.properties["dc:modified"] | date : "short" }}
+        </span>
+      </div>
+      <div>
+        <p-button
+          label="Download"
+          type="button"
+          icon="pi pi-download"
+          styleClass="p-button-outlined p-button-sm"
+          (click)="handleDownload()"
+        >
+        </p-button>
       </div>
     </div>
   </div>
+
   <div class="mt-2 text-left border-round border-1 border-200 p-3">
     <div class="flex">
       <label class="mb-1 text-500">Descrição</label>
@@ -67,18 +78,19 @@
     {{ material?.properties["dc:description"] }}
   </div>
 
-  <div class="w-full py-3 text-right gap-2">
+  <div
+    *ngIf="hasPermission"
+    class="mt-2 w-full p-3 text-right border-round border-1 border-200"
+  >
     <button
       type="button"
-      class="p-button-sm p-button-text mr-1"
+      class="p-button-sm p-button-danger p-button-text mr-1"
       pButton
-      icon="pi pi-arrow-left"
-      label="FECHAR"
+      icon="pi pi-trash"
+      label="EXCLUIR"
       (click)="visible = false"
     ></button>
-
     <button
-      *ngIf="false"
       type="button"
       class="p-button-sm"
       pButton
