@@ -48,8 +48,7 @@ export class AuthGuard extends KeycloakAuthGuard implements CanActivateChild {
   private handleRoles(roles: string[]): string[] {
     return (
       roles
-        // ?.filter((role) => role?.includes('ROLE_MATERIAL_APOIO_USER'))
-        ?.filter((role) => role?.includes('ROLE_SISPLAER_USER'))
+        ?.filter((role) => role?.includes('ORCAMENTO'))
         ?.map((role) => NameByRole[role])
         ?.sort() || []
     );

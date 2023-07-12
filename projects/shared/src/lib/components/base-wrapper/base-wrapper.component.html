@@ -73,27 +73,26 @@
             [dismissable]="true"
           >
             <ng-template pTemplate>
-              <span class="c-header__role-panel-title mb-2 text-sm ">
+              <span class="c-header__role-panel-title mb-2 text-sm">
                 Papéis atribuídos ao usuário
               </span>
-              <ul
+              <div
                 *ngIf="this.userService.user?.roles"
                 class="c-header__role-list"
               >
-                <li
+                <div
                   *ngFor="let role of this.userService.user?.mapedRoles"
                   class="c-header__role mt-1 flex align-items-center"
                 >
-                  <i class="pi pi-circle-on mr-2 text-sm "></i>
-                  <span>{{ role }}</span>
-                </li>
-              </ul>
+                  <i class="pi pi-circle-on mr-2 text-sm"></i>
+                  <span class="text-sm">{{ role }}</span>
+                </div>
+              </div>
             </ng-template>
           </p-overlayPanel>
         </div>
         <div
-          class="c-header__session-time mr-5 mt-3 flex align-items-center"
-          style="margin-left: 0.7rem"
+          class="c-header__session-time mr-5 text-sm mt-3 flex align-items-center"
         >
           <i class="pi pi-clock mr-2"></i>
           <span>Sessão expira em</span>
@@ -108,7 +107,7 @@
             ></p-button>
           </a>
         </div>
-        <div class="border-top-1 pt-1 border-gray-200 w-full">
+        <div class="border-top-1 pt-2 border-gray-200 w-full">
           <p-button
             label="Sair"
             icon="pi pi-sign-out"
@@ -148,7 +147,9 @@
           [label]="screenWidth > 768 ? 'NOTIFICAÇÕES' : null"
           icon="pi pi-bell"
           [styleClass]="
-            screenWidth > 768 ? 'p-button-outlined mr-5 text-sm  ' : 'p-button-text text-sm  mr-5'
+            screenWidth > 768
+              ? 'p-button-outlined mr-5 text-sm  '
+              : 'p-button-text text-sm  mr-5'
           "
           [disabled]="true"
         >
@@ -173,25 +174,25 @@
             [dismissable]="true"
           >
             <ng-template pTemplate>
-              <span class="c-header__role-panel-title mb-2 text-sm ">
-                Papéis atribuídos ao usuário
+              <span class="c-header__role-panel-title mb-2 text-sm">
+                Papéis atribuídos ao usuárioa
               </span>
-              <ul
+              <div
                 *ngIf="this.userService.user?.roles"
                 class="c-header__role-list"
               >
-                <li
+                <div
                   *ngFor="let role of this.userService.user?.mapedRoles"
                   class="c-header__role mt-1 flex align-items-center"
                 >
-                  <i class="pi pi-circle-on mr-2 text-sm "></i>
-                  <span>{{ role }}</span>
-                </li>
-              </ul>
+                  <i class="pi pi-circle-on mr-2 text-sm"></i>
+                  <span class="text-sm">{{ role }}</span>
+                </div>
+              </div>
             </ng-template>
           </p-overlayPanel>
         </div>
-        <p-avatar [label]="'?'" shape="circle" styleClass="mr-4"></p-avatar>
+        <p-avatar [label]="'?'" shape="circle"></p-avatar>
         <p-button
           icon="pi pi-sign-out"
           iconPos="right"

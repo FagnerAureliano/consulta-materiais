@@ -5,16 +5,27 @@
   font-weight: 700;
 }
 
-::ng-deep .pi-home:before {
-  content: "\e925";
-  font-size: 1.5rem;
+::ng-deep {
+  .pi-home:before {
+    content: "\e925";
+    font-size: 1.5rem;
+  }
+  .pi-circle-on:before {
+    font-size: 6px;
+    color: var(--primary);
+  }
+  .pi-question-circle:before {
+    font-size: 14px;
+  }
+  .pi-sign-out:before {
+    font-size: 14px;
+  }
 }
-.font_label{
+.font_label {
   font-weight: 400 !important;
 }
 :host {
   display: block;
-  
 
   .l-header {
     z-index: 4;
@@ -51,11 +62,12 @@
       }
 
       .c-header__session-time {
+        margin-left: 0.7rem;
+        white-space: break-spaces;
         * {
           color: var(--grey);
         }
       }
-      
     }
 
     .c-sub-header {
