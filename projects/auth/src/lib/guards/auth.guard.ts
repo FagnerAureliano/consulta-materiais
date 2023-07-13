@@ -90,7 +90,6 @@ export class AuthGuard extends KeycloakAuthGuard implements CanActivateChild {
       });
     } else {
       try {
-        console.log('user');
         if (!this.userService.user) {
           const user: User = await this.userService
             .getCurrentUser()
