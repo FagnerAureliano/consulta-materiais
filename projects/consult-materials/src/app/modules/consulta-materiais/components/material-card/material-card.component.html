@@ -1,55 +1,73 @@
 <div
-  class="card bg-white border-1 border-gray-300 text-white text-center p-4 border-round shadow-1 m-2"
+  class="card bg-white border-1 border-gray-300 text-center p-4 border-round shadow-1 m-2"
 >
-  <div class="card-header flex">
-    
+  <div
+    class="flex text-left flex pl-1 text-gray-700 w-full p-2 border-round l-form-header"
+  >
+    <div class="pl-2">
+      <i class="pi pi-folder pr-1"></i>
+      <i class="pi pi-angle-right"></i>
+    </div>
     <div *ngFor="let file of search.types" li-index>
-      <p-tag
-        class="uppercase border-white border-right-1 cursor-pointer font-bold"
-        value="{{ file.name }}"
+      <div
+        class="capitalize pr-1 cursor-pointer font-light"
         (click)="emitTag.emit(file)"
-      ></p-tag>
+      >
+        {{ file.valor | wordConverter }}
+      </div>
     </div>
   </div>
-  <div class="w-full border-bottom-1 border-gray-200 my-1"></div>
-  <div class="card-header flex">
-    <!-- <i class="bg-blue-300 pi pi-tag align-self-center"></i> -->
-    <div *ngFor="let file of search.tags" li-index>
-      <p-tag
-        class="uppercase border-white border-right-1 cursor-pointer font-bold"
-        value="{{ file.label }}"
-        (click)="emitTag.emit(file)"
-      ></p-tag>
+  <div class="w-full pt-2"></div>
+  <div class="pb-2 text-justify">
+    <div>
+      {{ search.title | truncateText : 30 }}
     </div>
-  </div>
-  <p-divider></p-divider>
-  <div class="text-gray-900 pb-3 text-justify">
-    <h3>
-      {{ search.title }}
-    </h3>
   </div>
   <div>
     <img
-      class="w-full border-1 border-gray-300 border-round image-responsive"
+      class="w-full border-1 border-gray-200 border-round image-responsive"
       src="{{ search?.urlMedia?.thumbnail }}"
     />
+    <div class="flex pt-1 text-justify">
+      <div *ngFor="let file of search.tags" li-index>
+        <p-tag
+          class="uppercase border-white border-right-1 cursor-pointer font-bold"
+          value="#{{ file.label }}"
+          (click)="emitTag.emit(file)"
+        ></p-tag>
+      </div>
+    </div>
     <div class="w-12 h-5rem">
-      <p
-        class="text-gray-900 pb-3 text-justify"
-        [ngClass]="{ 'truncate-text': search.description?.length > 100 }"
-      >
-        {{ search?.description }}
+      <p class="text-gray-800 pb-3 text-justify">
+        {{ search?.description | truncateText : 150 }}
       </p>
     </div>
-    <div class="text-gray-700 text-sm text-left">
+    <div class="text-sm text-left">
       <i class="pi pi-calendar-minus"></i>
       Atualizado: {{ search.lastModified | date : "short" }}
     </div>
-    <p-divider></p-divider>
+    <div class="w-full border-top-1 border-gray-200 my-2"></div>
     <div class="w-full mb-2 text-right">
-      <app-material-detail
-      [documentId]="search.id"
-      > </app-material-detail>
+      <div class="flex justify-content-end">
+        <button
+          pButton
+          pRipple
+          label="EXCLUIR"
+          type="button"
+          icon="pi pi-trash"
+          class="p-button-text p-button- p-button-danger p-button-sm l-button mr-1"
+        ></button>
+        <button
+          pButton
+          pRipple
+          label="EDITAR"
+          type="button"
+          pInitEditableRow
+          icon="pi pi-pencil"
+          class="p-button-text p-button- p-button-primary p-button-sm p-mr-1 l-button mr-1"
+        ></button>
+        <app-material-detail [documentId]="search.id"> </app-material-detail>
+      </div>
     </div>
   </div>
 </div>

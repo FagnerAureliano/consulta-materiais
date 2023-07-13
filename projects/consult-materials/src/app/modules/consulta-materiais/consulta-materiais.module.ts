@@ -6,6 +6,7 @@ import localePt from '@angular/common/locales/pt';
 
 import { ConsultaMateriaisRoutingModule } from './consulta-materiais-routing.module';
 import { MaterialCardsComponent } from './components/material-card/material-card.component';
+import { WordsManipulateModule } from 'projects/shared/src/lib/pipes/words-manipulate.module';
 import { TagInputModule } from 'projects/shared/src/lib/components/tag-input/tag-input.module';
 import { MaterialDetailComponent } from './components/material-detail/material-detail.component';
 import { LoadingBarModule } from 'projects/shared/src/lib/components/loading-bar/loading-bar.module';
@@ -66,6 +67,7 @@ const PRIME_COMPONENTS = [
     TagInputModule,
     LoadingBarModule,
     ReactiveFormsModule,
+    WordsManipulateModule,
     ConsultaMateriaisRoutingModule,
 
     PRIME_COMPONENTS,
