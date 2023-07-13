@@ -26,8 +26,7 @@ export class AuthGuard extends KeycloakAuthGuard implements CanActivateChild {
   constructor(
     protected readonly router: Router,
     protected readonly keycloak: KeycloakService,
-    protected userService: UserService,
-    // private loading: LoadingBarService
+    protected userService: UserService // private loading: LoadingBarService
   ) {
     super(router, keycloak);
   }
@@ -48,7 +47,7 @@ export class AuthGuard extends KeycloakAuthGuard implements CanActivateChild {
   private handleRoles(roles: string[]): string[] {
     return (
       roles
-        ?.filter((role) => role?.includes('ORCAMENTO'))
+        ?.filter((role) => role?.includes('MATERIAL_APOIO'))
         ?.map((role) => NameByRole[role])
         ?.sort() || []
     );
@@ -91,14 +90,11 @@ export class AuthGuard extends KeycloakAuthGuard implements CanActivateChild {
       });
     } else {
       try {
-
         console.log('user');
         if (!this.userService.user) {
           const user: User = await this.userService
             .getCurrentUser()
             .toPromise();
-            console.log(user);
-
 
           this.userService.user = user;
           this.userService.user.pessoa.nome = this.handleUserName(

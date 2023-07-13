@@ -1,10 +1,11 @@
 export enum NameByRole {
-  'ROLE_MATERIAL_APOIO_USER' = 'Usuário do Consulta Material de Apoio',
-  'ROLE_MATERIAL_APOIO_ADMIN' = 'Administrador do sistema',
-  'ORCAMENTO' = 'Orçamento (role temp)',
+  'MATERIAL_APOIO_USER' = 'Usuário do Consulta Material de Apoio',
+  'MATERIAL_APOIO_ADMIN' = 'Administrador do sistema',
+  'MATERIAL_APOIO_ORCAMENTO' = 'Usuário Orçamento',
 }
 
 export enum Role {
-  'USER' = 'ROLE_MATERIAL_APOIO_USER',
-  'ADMIN' = 'ROLE_MATERIAL_APOIO_ADMIN',
+  'USER' = 'MATERIAL_APOIO_USER',
+  'ADMIN' = 'MATERIAL_APOIO_ADMIN',
+  'ORCAMENTO' = 'MATERIAL_APOIO_ORCAMENTO',
 }
