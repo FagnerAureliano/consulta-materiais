@@ -3,16 +3,12 @@ import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { ConsultaMateriaisService } from 'projects/consult-materials/src/app/services/consulta-materiais.service';
 import { HasContentService } from 'projects/shared/src/lib/services/has-content.service';
 import { MaterialFilterService } from 'projects/shared/src/lib/services/material-filter.service';
-import { SearchBoxService } from 'projects/shared/src/lib/services/searchbox.service';
-import { getFileTypeByMIME } from 'projects/shared/src/lib/utils/file-types';
 import { Observable, Subscription, forkJoin, of, throwError } from 'rxjs';
 import {
   catchError,
-  debounceTime,
-  delay,
   finalize,
   map,
-  switchMap,
+  switchMap
 } from 'rxjs/operators';
 
 @Component({
@@ -108,7 +104,12 @@ export class ConsultaContainerComponent implements OnInit, OnDestroy {
                 this.consultaService.getThumbnail(value.id).pipe(
                   catchError(() => of(null)),
                   map((thumbnail: any) => {
-                    return this.convertObject(value, thumbnail);
+                    return {
+                      ...value,
+                      thumbnail: thumbnail
+                        ? `data:image/png;base64,${thumbnail.thumbnailBase64}`
+                        : '',
+                    };
                   })
                 )
               )
@@ -176,36 +177,5 @@ export class ConsultaContainerComponent implements OnInit, OnDestroy {
         this._isActionBtnDisabled = false;
       },
     });
-  }
-
-  convertObject(value: any, thumbnail: any) {
-    switch (value.type) {
-      case 'File':
-        return {
-          id: value.id,
-          title: value.properties['dc:title'],
-          description: value.properties['dc:description'],
-          types: value.properties['fi:metadados'],
-          tags: value.properties['nxtag:tags'],
-          urlMedia: {
-            thumbnail: `data:image/png;base64,${thumbnail.thumbnailBase64}`,
-          },
-          lastModified: value.properties['dc:modified'],
-        };
-      case 'Note':
-        return {
-          id: value.id,
-          title: value.title,
-          description: value.properties['dc:description'],
-          types: value.properties['fi:metadados'],
-          tags: value.properties['nxtag:tags'],
-          urlMedia: {
-            thumbnail: '',
-          },
-          lastModified: value.properties['dc:modified'],
-        };
-      default:
-        return null;
-    }
   }
 }

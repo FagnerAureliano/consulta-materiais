@@ -8,7 +8,7 @@
       <i class="pi pi-folder pr-1"></i>
       <i class="pi pi-angle-right"></i>
     </div>
-    <div *ngFor="let file of document.types" li-index>
+    <div *ngFor="let file of document.properties['fi:metadados']" li-index>
       <div
         class="capitalize pr-1 cursor-pointer font-light"
         (click)="emitTag.emit(file)"
@@ -20,16 +20,16 @@
   <div class="w-full pt-2"></div>
   <div class="pb-2 text-justify">
     <div>
-      {{ document.title | truncateText : 30 }}
+      {{ document?.properties['dc:title'] | truncateText : 30 }}
     </div>
   </div>
   <div>
     <img
       class="w-full border-1 border-gray-200 border-round image-responsive"
-      src="{{ document?.urlMedia?.thumbnail }}"
+      src="{{ document?.thumbnail }}"
     />
     <div class="flex pt-1 text-justify">
-      <div *ngFor="let file of document.tags" li-index>
+      <div *ngFor="let file of document.properties['nxtag:tags']" li-index>
         <p-tag
           class="uppercase border-white border-right-1 cursor-pointer font-bold"
           value="#{{ file.label }}"
@@ -39,12 +39,12 @@
     </div>
     <div class="w-12 h-5rem">
       <p class="text-gray-800 pb-3 text-justify">
-        {{ document?.description | truncateText : 150 }}
+        {{ document?.properties['dc:description'] | truncateText : 150 }}
       </p>
     </div>
     <div class="text-sm text-gray-600 text-left">
       <i class="pi pi-calendar-minus"></i>
-      Atualizado: {{ document.lastModified | date : "short" }}
+      Atualizado: {{ document.properties['dc:modified'] | date : "short" }}
     </div>
     <div class="w-full border-top-1 border-gray-200 my-2"></div>
     <div class="w-full mb-2 text-right">
