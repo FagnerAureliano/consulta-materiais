@@ -6,6 +6,12 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
   styleUrls: ['./material-card.component.scss'],
 })
 export class MaterialCardsComponent {
-  @Input() search!: any;
+  @Input() document!: any;
+  @Input() isActionBtnDisabled: boolean = false;
   @Output() emitTag: EventEmitter<any> = new EventEmitter();
+  @Output() deleteEmitter: EventEmitter<any> = new EventEmitter();
+
+  handleDelete(): void {
+    this.deleteEmitter.emit(this.document.id);
+  }
 }

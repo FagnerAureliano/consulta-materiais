@@ -1,11 +1,11 @@
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
-import { MenuItem } from 'primeng/api';
+import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { ConsultaMateriaisService } from 'projects/consult-materials/src/app/services/consulta-materiais.service';
 import { HasContentService } from 'projects/shared/src/lib/services/has-content.service';
 import { MaterialFilterService } from 'projects/shared/src/lib/services/material-filter.service';
 import { SearchBoxService } from 'projects/shared/src/lib/services/searchbox.service';
 import { getFileTypeByMIME } from 'projects/shared/src/lib/utils/file-types';
-import { Observable, Subscription, forkJoin, of } from 'rxjs';
+import { Observable, Subscription, forkJoin, of, throwError } from 'rxjs';
 import {
   catchError,
   debounceTime,
@@ -28,6 +28,7 @@ export class ConsultaContainerComponent implements OnInit, OnDestroy {
   filterParam: string;
   itemsPerPage = 6;
   startIndex = 0;
+  _isActionBtnDisabled: boolean = false;
 
   _loading = false;
   items: MenuItem[] = [
@@ -52,11 +53,23 @@ export class ConsultaContainerComponent implements OnInit, OnDestroy {
 
   constructor(
     private consultaService: ConsultaMateriaisService,
-    private searchBoxService: SearchBoxService,
+    private confirmationService: ConfirmationService,
     private filterContent: MaterialFilterService,
-    private hasContent: HasContentService
+    private hasContent: HasContentService,
+    private messageService: MessageService
   ) {}
 
+  @HostListener('window:scroll', ['$event'])
+  onScroll(event: Event): void {
+    const windowHeight = window.innerHeight;
+    const scrollHeight = document.documentElement.scrollHeight;
+    const scrollTop = document.documentElement.scrollTop;
+    const bottomOffset = scrollHeight - (scrollTop + windowHeight);
+
+    if (bottomOffset <= 100) {
+      this.loadItems(this.filterParam);
+    }
+  }
   ngOnDestroy(): void {
     this.subs$.forEach((sub$) => sub$.unsubscribe());
   }
@@ -117,17 +130,6 @@ export class ConsultaContainerComponent implements OnInit, OnDestroy {
     );
   }
 
-  @HostListener('window:scroll', ['$event'])
-  onScroll(event: Event): void {
-    const windowHeight = window.innerHeight;
-    const scrollHeight = document.documentElement.scrollHeight;
-    const scrollTop = document.documentElement.scrollTop;
-    const bottomOffset = scrollHeight - (scrollTop + windowHeight);
-
-    if (bottomOffset <= 100) {
-      this.loadItems(this.filterParam);
-    }
-  }
   handleClickTag(value: any): void {
     if (value) {
       this.searchObject = [];
@@ -136,53 +138,61 @@ export class ConsultaContainerComponent implements OnInit, OnDestroy {
     }
   }
 
-  removeOldItems() {
-    const maxItems = 100; // Maximum number of items to keep in the list
+  deleteDocument(id: any): void {
+    this._isActionBtnDisabled = true;
 
-    if (this.searchObject.length >= maxItems) {
-      const removeCount = this.searchObject.length - maxItems;
-      this.searchObject.splice(0, removeCount);
-    }
+    this.confirmationService.confirm({
+      acceptLabel: 'Sim, deletar',
+      rejectLabel: 'Cancelar',
+      target: event.target,
+      message:
+        'Após deletado, não será possível recupera-lo. Tem certeza disso?',
+      icon: 'pi pi-info-circle',
+      accept: () => {
+        this.subs$.push(
+          this.consultaService
+            .deleteDocument(id)
+            .pipe(
+              catchError((err) => {
+                this._isActionBtnDisabled = false;
+                return throwError(err);
+              })
+            )
+            .subscribe(() => {
+              this._isActionBtnDisabled = false;
+              this.messageService.add({
+                severity: 'success',
+                summary: 'Tudo OK',
+                detail: 'Documento deletado com sucesso',
+              });
+
+              this.searchObject = this.searchObject.filter(
+                (objeto) => objeto.id !== id
+              );
+            })
+        );
+      },
+      reject: () => {
+        this._isActionBtnDisabled = false;
+      },
+    });
   }
 
   convertObject(value: any, thumbnail: any) {
-    let mimeType: string;
-    let content: any;
-    let name: any;
-    const types = [];
     switch (value.type) {
       case 'File':
-        mimeType = value.properties['file:content']['mime-type'];
-        content = value.properties['file:content'].data;
-        name = value.properties['file:content'].name;
-
-        // for (const tag of value.properties['fi:metadados']) {
-        //   types.push({ name: tag });
-        // }
-        // types.push({ name: getFileTypeByMIME(mimeType) });
-
         return {
           id: value.id,
           title: value.properties['dc:title'],
           description: value.properties['dc:description'],
-          types:value.properties['fi:metadados'],
+          types: value.properties['fi:metadados'],
           tags: value.properties['nxtag:tags'],
           urlMedia: {
             thumbnail: `data:image/png;base64,${thumbnail.thumbnailBase64}`,
-            content,
-            name,
           },
           lastModified: value.properties['dc:modified'],
         };
       case 'Note':
-        mimeType = value.properties['note:mime_type'];
-        content = value.properties['note:note'];
-        name = value.properties['dc:title'];
-        // for (const tag of value.properties['fi:metadados']) {
-        //   types.push({ name: tag });
-        // }
-        // types.push({ name: getFileTypeByMIME(mimeType) });
-
         return {
           id: value.id,
           title: value.title,
@@ -191,8 +201,6 @@ export class ConsultaContainerComponent implements OnInit, OnDestroy {
           tags: value.properties['nxtag:tags'],
           urlMedia: {
             thumbnail: '',
-            content,
-            name,
           },
           lastModified: value.properties['dc:modified'],
         };

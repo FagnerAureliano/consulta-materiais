@@ -28,6 +28,7 @@ import { DividerModule } from 'primeng/divider';
 import { AccordionModule } from 'primeng/accordion';
 import { ScrollTopModule } from 'primeng/scrolltop';
 import { FileUploadModule } from 'primeng/fileupload';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { VirtualScrollerModule } from 'primeng/virtualscroller';
 
@@ -46,6 +47,7 @@ const PRIME_COMPONENTS = [
   AccordionModule,
   ScrollTopModule,
   FileUploadModule,
+  ConfirmDialogModule,
   InputTextareaModule,
   VirtualScrollerModule,
 ];

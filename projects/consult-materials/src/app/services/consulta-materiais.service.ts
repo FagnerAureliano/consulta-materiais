@@ -42,14 +42,20 @@ export class ConsultaMateriaisService {
       }
     );
   }
+  deleteDocument(id: string): Observable<any> {
+    return this.http.delete<any>(`${this.streamEndpoint}/file/${id}`, {
+      headers: this.defaultHeaders,
+    });
+  }
   getThumbnail(id: string): Observable<any> {
     return this.http.get<any>(`${this.streamEndpoint}/file/thumbnail/${id}`, {
       headers: this.defaultHeaders,
     });
   }
-   getDocumentFile(id: string): Observable<any> {
-    
-    return this.http.get<any>(`${this.streamEndpoint}/file/${id}`,{ responseType: 'blob' as 'json' });
+  getDocumentFile(id: string): Observable<any> {
+    return this.http.get<any>(`${this.streamEndpoint}/file/${id}`, {
+      responseType: 'blob' as 'json',
+    });
   }
   getDocumentByID(id: string): Observable<Object> {
     return this.http.get<Object>(`${this.searchEndpoint}/files/${id}`, {
