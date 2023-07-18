@@ -1,4 +1,9 @@
-import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  HostListener,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { ConsultaMateriaisService } from 'projects/consult-materials/src/app/services/consulta-materiais.service';
 import { HasContentService } from 'projects/shared/src/lib/services/has-content.service';
@@ -59,8 +64,7 @@ export class ConsultaContainerComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.subs$.forEach((sub$) => sub$.unsubscribe());
   }
-
-  ngOnInit(): void {
+  ngOnInit(): void { 
     this.filterContent.inputChange$.subscribe((value) => {
       if (value) {
         this.searchObject = [];

@@ -5,7 +5,7 @@ import {
   SafeResourceUrl,
 } from '@angular/platform-browser';
 import { ConsultaMateriaisService } from 'projects/consult-materials/src/app/services/consulta-materiais.service';
-import { Subject, Subscription, of, throwError } from 'rxjs';
+import { Subscription, of, throwError } from 'rxjs';
 import { catchError, finalize, tap } from 'rxjs/operators';
 
 @Component({
@@ -13,7 +13,7 @@ import { catchError, finalize, tap } from 'rxjs/operators';
   templateUrl: './material-detail.component.html',
   styleUrls: ['./material-detail.component.scss'],
 })
-export class MaterialDetailComponent implements OnInit, OnDestroy {
+export class MaterialDetailComponent implements OnDestroy {
   private _subs$: Subscription[] = [];
   @Input() documentId: any;
 
@@ -24,6 +24,8 @@ export class MaterialDetailComponent implements OnInit, OnDestroy {
   material: any;
   hasPermission: boolean = true;
 
+  htmlElement = document.documentElement; // Obtém o elemento HTML raiz
+
   constructor(
     private service: ConsultaMateriaisService,
     private sanitizer: DomSanitizer
@@ -33,7 +35,6 @@ export class MaterialDetailComponent implements OnInit, OnDestroy {
     this._subs$.forEach((subs) => subs.unsubscribe());
   }
 
-  ngOnInit(): void {}
   handleDownload(): void {
     this._subs$.push(
       this.service
@@ -86,12 +87,17 @@ export class MaterialDetailComponent implements OnInit, OnDestroy {
             this.visible = true;
           })
         )
-        .subscribe((response) => { 
+        .subscribe((response) => {
           this.material = response;
           this.note_material = this.sanitizer.bypassSecurityTrustHtml(
             response.properties['note:note']
           );
         })
     );
+  }
+  onShow(isOpen: boolean): void {
+    isOpen
+      ? (this.htmlElement.style.overflow = 'hidden')
+      : (this.htmlElement.style.overflow = '');
   }
 }
