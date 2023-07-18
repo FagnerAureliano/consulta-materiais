@@ -8,13 +8,9 @@ export const environment = {
   KEYCLOAK_URL: 'http://localhost:8190/auth',
   KEYCLOAK_REALM: 'FAB',
   KEYCLOAK_CLIENT_ID: 'material-apoio-api',
-  // KEYCLOAK_CLIENT_ID: 'sisplaer',
 
   SEARCH_FRONT_URL: 'http://localhost:4300/consult-materials/#/',
   STREAM_API_ENDPOINT: 'http://localhost:8080/api/v1',
   SEARCH_API_ENDPOINT: 'http://localhost:8081/api/v1',
   USER_API_ENDPOINT: 'http://localhost:8082/api/v1',
-
-
-  EXTERNAL_API: 'https://jsonplaceholder.typicode.com',
 };

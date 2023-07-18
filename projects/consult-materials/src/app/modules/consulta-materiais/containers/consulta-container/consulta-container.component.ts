@@ -4,12 +4,7 @@ import { ConsultaMateriaisService } from 'projects/consult-materials/src/app/ser
 import { HasContentService } from 'projects/shared/src/lib/services/has-content.service';
 import { MaterialFilterService } from 'projects/shared/src/lib/services/material-filter.service';
 import { Observable, Subscription, forkJoin, of, throwError } from 'rxjs';
-import {
-  catchError,
-  finalize,
-  map,
-  switchMap
-} from 'rxjs/operators';
+import { catchError, finalize, map, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-search-container',
@@ -37,11 +32,6 @@ export class ConsultaContainerComponent implements OnInit, OnDestroy {
       label: 'Guia Rápido',
       icon: 'pi pi-fw pi-directions',
       routerLink: '/materials/guia-cadastro',
-    },
-    {
-      label: 'Perguntas Frequentes',
-      icon: 'pi pi-fw pi-question-circle',
-      styleClass: 'text-left',
     },
   ];
 
@@ -143,11 +133,10 @@ export class ConsultaContainerComponent implements OnInit, OnDestroy {
     this._isActionBtnDisabled = true;
 
     this.confirmationService.confirm({
-      acceptLabel: 'Sim, deletar',
+      acceptLabel: 'Sim, excluir',
       rejectLabel: 'Cancelar',
       target: event.target,
-      message:
-        'Após deletado, não será possível recupera-lo. Tem certeza disso?',
+      message: 'Deseja realmente excluir este documento?',
       icon: 'pi pi-info-circle',
       accept: () => {
         this.subs$.push(

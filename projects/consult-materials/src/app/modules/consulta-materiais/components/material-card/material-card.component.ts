@@ -10,8 +10,12 @@ export class MaterialCardsComponent {
   @Input() isActionBtnDisabled: boolean = false;
   @Output() emitTag: EventEmitter<any> = new EventEmitter();
   @Output() deleteEmitter: EventEmitter<any> = new EventEmitter();
+  @Output() updateEmitter: EventEmitter<any> = new EventEmitter();
 
   handleDelete(): void {
+    this.deleteEmitter.emit(this.document.id);
+  }
+  handleUpdate(): void {
     this.deleteEmitter.emit(this.document.id);
   }
 }

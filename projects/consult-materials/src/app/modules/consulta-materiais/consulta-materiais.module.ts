@@ -30,6 +30,7 @@ import { ScrollTopModule } from 'primeng/scrolltop';
 import { FileUploadModule } from 'primeng/fileupload';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { InputTextareaModule } from 'primeng/inputtextarea';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { VirtualScrollerModule } from 'primeng/virtualscroller';
 
 registerLocaleData(localePt);
@@ -49,6 +50,7 @@ const PRIME_COMPONENTS = [
   FileUploadModule,
   ConfirmDialogModule,
   InputTextareaModule,
+  ProgressSpinnerModule,
   VirtualScrollerModule,
 ];
 

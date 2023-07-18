@@ -41,17 +41,33 @@
   </div>
   <div class="border-round border-1 border-200 p-3">
     <div *ngIf="material?.type === 'File'; else nota">
-      <embed
-        *ngIf="file_material"
-        [src]="file_material"
-        [type]="mimeType"
-        [title]="material?.title"
-        width="100%"
-        height="500px"
-      />
+      <div *ngIf="file_material != null; else loading">
+        <embed
+          *ngIf="file_material"
+          [src]="file_material"
+          [type]="mimeType"
+          [title]="material?.title"
+          width="100%"
+          height="500px"
+        />
+      </div>
     </div>
     <ng-template #nota>
-      <div [innerHTML]="note_material" class="text-left"></div>
+      <div *ngIf="note_material != null; else loading">
+        <div [innerHTML]="note_material" class="text-left"></div>
+      </div>
+    </ng-template>
+    <ng-template #loading>
+      <div
+        class="w-full flex align-items-center justify-content-center h-30rem bg-gray-50"
+      >
+        <p-progressSpinner
+          [style]="{ width: '50px', height: '50px' }"
+          strokeWidth="3"
+          styleClass="custom-spinner"
+          animationDuration=".7s"
+        ></p-progressSpinner>
+      </div>
     </ng-template>
     <div class="w-full border-top-1 border-gray-200 my-2 text-left pt-2 flex">
       <div *ngFor="let file of material?.properties['nxtag:tags']" li-index>
