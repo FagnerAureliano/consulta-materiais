@@ -20,20 +20,21 @@
         icon="pi pi-arrow-left"
         (onClick)="goBack()"
         [label]="screenWidth > 425 ? 'VOLTAR' : ''"
-        class=""
       ></p-button>
       <p-button
         styleClass=""
         (onClick)="handleSave()"
         icon="pi pi-check"
         label="SALVAR"
-        ></p-button>
-        <!-- [disabled]="this._form?.get('guiaForm')?.invalid" -->
+        [disabled]="this._form?.get('guiaForm')?.invalid"
+      ></p-button>
     </div>
   </div>
   <div class="w-full mt-2">
     <p-card>
-      <app-guia-cadastro-form  [form]="_form.get('guiaForm')"></app-guia-cadastro-form>
+      <app-guia-cadastro-form
+        [form]="_form.get('guiaForm')"
+      ></app-guia-cadastro-form>
     </p-card>
   </div>
 </div>

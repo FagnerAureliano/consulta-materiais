@@ -30,7 +30,7 @@ const routes: Routes = [
           url: 'externalUrlRedirectResolver',
         },
         data: {
-          externalUrl: `${environment.SEARCH_FRONT_URL}`,
+          externalUrl: `${environment.SEARCH_FRONT_URL}/materials/search`,
         },
       },
     ]
