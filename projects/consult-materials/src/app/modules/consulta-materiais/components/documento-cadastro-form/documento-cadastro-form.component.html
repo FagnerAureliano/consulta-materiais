@@ -65,7 +65,7 @@
         class="col-12 text-left"
         name="demo[]"
         [multiple]="false"
-        accept="application/pdf,.csv, image/*, video/*, application/vnd.ms-excel" 
+        accept="application/*,.csv, image/*, video/*" 
         (onSelect)="onShowUpload()"
         [customUpload]="true"
         (onClear)="onClear()"
@@ -86,7 +86,7 @@
         <label class="mb-1 text-500">Insira as tags</label>
       </div>
       <lib-tag-input
-        [whitelist]="_whitelist"
+        [whitelist]="whitelist"
         (characterInputed)="handleSearchTags($event)"
         (tagsEmitter)="handleSearchTags($event)"
       ></lib-tag-input>

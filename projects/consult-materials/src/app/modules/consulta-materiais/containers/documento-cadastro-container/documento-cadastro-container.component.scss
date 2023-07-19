@@ -6,14 +6,23 @@
   .card_responsivo {
     width: 75vw;
   }
+  h1 {
+    font-size: 2.5rem;
+  }
   @media only screen and (max-width: 768px) {
     .card_responsivo {
       width: 95vw;
+    }
+    h1 {
+      font-size: 1.75rem;
     }
   }
   @media only screen and (max-width: 425px) {
     .card_responsivo {
       width: 100vw;
+    }
+    h1 {
+      font-size: 1.75rem;
     }
     .div_buttons {
       padding: 0.5rem;

@@ -18,7 +18,8 @@ export class MaterialFilterComponent implements OnInit {
     this._form = this.fb.group({
       searchText: [null],
       all: [null],
-      PDF: [null],
+      pdf: [null],
+      spreadsheet: [null],
       movie: [null],
       guide: [null],
     });

@@ -1,14 +1,9 @@
 import { Location } from '@angular/common';
-import {
-  ChangeDetectorRef,
-  Component,
-  HostListener,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { ConsultaMateriaisService } from 'projects/consult-materials/src/app/services/consulta-materiais.service';
-import { throwError } from 'rxjs';
+import { Subscription, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 @Component({
@@ -16,18 +11,24 @@ import { catchError } from 'rxjs/operators';
   templateUrl: './guia-cadastro-container.component.html',
   styleUrls: ['./guia-cadastro-container.component.scss'],
 })
-export class GuiaCadastroContainerComponent implements OnInit {
+export class GuiaCadastroContainerComponent implements OnInit, OnDestroy {
+  private subs$: Subscription[] = [];
   screenWidth: number;
   isMobileScreen: boolean = false;
   _form: FormGroup;
+  _whitelist: string[];
 
   constructor(
-    private location: Location,
     private fb: FormBuilder,
-    private consultaService: ConsultaMateriaisService,
     private cdref: ChangeDetectorRef,
-    private messageService: MessageService
+    private location: Location,
+    private messageService: MessageService,
+    private consultaService: ConsultaMateriaisService
   ) {}
+
+  ngOnDestroy(): void {
+    this.subs$.forEach((subs) => subs.unsubscribe());
+  }
 
   ngOnInit(): void {
     this._form = this.fb.group({
@@ -54,22 +55,28 @@ export class GuiaCadastroContainerComponent implements OnInit {
         detail: `${'Documento salvo com sucesso'}`,
       });
     };
-
-    this.consultaService
-      .createDocumentNote({ content, title, description, tags })
-      .pipe(
-        catchError((err) => {
-          return throwError(err);
+    this.subs$.push(
+      this.consultaService
+        .createDocumentNote({ content, title, description, tags })
+        .pipe(
+          catchError((err) => {
+            return throwError(err);
+          })
+        )
+        .subscribe((res) => {
+          observableResolved(res);
+          this.goBack();
         })
-      )
-      .subscribe((res) => {
-        observableResolved(res);
-        this.goBack();
-      });
+    );
   }
-  @HostListener('window:resize', ['$event'])
-  getScreenSize() {
-    this.screenWidth = window.innerWidth;
-    this.isMobileScreen = this.screenWidth < 450;
+  handleSearchTags(data: string): void {
+    this.subs$.push(
+      this.consultaService.searchTags(data).subscribe((tags: string[]) => {
+        this._whitelist = tags.map((obj: any) => obj.tag);
+      })
+    );
+  }
+  onClear(): void {
+    this._form.reset();
   }
 }

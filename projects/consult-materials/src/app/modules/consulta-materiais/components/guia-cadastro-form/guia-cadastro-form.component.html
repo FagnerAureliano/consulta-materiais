@@ -40,7 +40,7 @@
         <label class="mb-1 text-500">Insira as tags</label>
       </div>
       <lib-tag-input
-        [whitelist]="_whitelist"
+        [whitelist]="whitelist"
         (characterInputed)="handleSearchTags($event)"
         (tagsEmitter)="handleSearchTags($event)"
       ></lib-tag-input>

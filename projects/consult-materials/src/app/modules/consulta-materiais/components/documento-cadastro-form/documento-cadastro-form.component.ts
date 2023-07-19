@@ -1,8 +1,13 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FileUpload } from 'primeng/fileupload';
-import { ConsultaMateriaisService } from 'projects/consult-materials/src/app/services/consulta-materiais.service';
-import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'app-documento-cadastro-form',
@@ -10,16 +15,14 @@ import { Observable, of } from 'rxjs';
   styleUrls: ['./documento-cadastro-form.component.scss'],
 })
 export class DocumentoCadastroFormComponent implements OnInit {
-  @Input() form: FormGroup;
-  uploadedFiles: any[] = [];
-  _whitelist: string[];
-
   @ViewChild('fileUpload') fileUpload: FileUpload;
+  @Input() form: FormGroup;
+  @Output() tagsEmitter = new EventEmitter();
+  @Input() whitelist: string[] = [];
 
-  constructor(
-    private fb: FormBuilder,
-    private consultaService: ConsultaMateriaisService
-  ) {}
+  uploadedFiles: any[] = [];
+
+  constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
     if (!Object.keys(this.form.controls).length) {
@@ -52,17 +55,9 @@ export class DocumentoCadastroFormComponent implements OnInit {
   }
   handleSearchTags(data: string | string[]): void {
     if (Array.isArray(data)) {
-      data.length > 0
-        ? this.form.get('tags').setValue(data)
-        : this.form.get('tags').setValue(null);
+      this.form.get('tags').setValue(data.length > 0 ? data : null);
     } else {
-      this.consultaService.searchTags(data).subscribe((tags) => {
-
-        const stringArray = tags.map((obj:any) => obj.tag);
-        // console.log(stringArray);
-        
-        this._whitelist = stringArray;
-      });
+      this.tagsEmitter.emit(data);
     }
   }
 }
