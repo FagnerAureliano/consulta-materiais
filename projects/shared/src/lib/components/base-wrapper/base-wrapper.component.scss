@@ -113,7 +113,6 @@
   .l-body {
     min-height: 100vh;
     padding-top: 1.8rem * 2;
-    // background-image: url("../../../../../../resources/assets/images/gladio-alado-3d.png");
   }
 }
 
@@ -133,4 +132,9 @@
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.2s ease-out;
+}
+@media only screen and (max-width: 768px) {
+  .c_expire {
+    display: none;
+  }
 }
