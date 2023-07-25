@@ -23,14 +23,14 @@
         (onClick)="handleSave()"
         icon="pi pi-check"
         label="SALVAR"
-        [disabled]="this._form?.get('guiaForm')?.invalid"
+        [disabled]="this._form?.invalid"
       ></p-button>
     </div>
   </div>
   <div class="w-full mt-2">
     <p-card>
       <app-guia-cadastro-form
-        [form]="_form.get('guiaForm')"
+        [form]="_form"
         [whitelist]="_whitelist"
         (tagsEmitter)="handleSearchTags($event)"
       ></app-guia-cadastro-form>

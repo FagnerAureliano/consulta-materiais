@@ -1,6 +1,6 @@
 import { Location } from '@angular/common';
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { ConsultaMateriaisService } from 'projects/consult-materials/src/app/services/consulta-materiais.service';
 import { Subscription, throwError } from 'rxjs';
@@ -19,7 +19,6 @@ export class DocumentoCadastroContainerComponent implements OnInit, OnDestroy {
 
   constructor(
     private fb: FormBuilder,
-    private cdref: ChangeDetectorRef,
     private location: Location,
     private messageService: MessageService,
     private consultaService: ConsultaMateriaisService
@@ -31,32 +30,34 @@ export class DocumentoCadastroContainerComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this._form = this.fb.group({
-      documentForm: this.fb.group({}),
+      document: [null, Validators.required],
+      tags: [null, Validators.required],
+      title: [null, Validators.required],
+      description: [null, Validators.required],
     });
   }
   goBack(): void {
     this.location.back();
   }
-  ngAfterContentChecked(): void {
-    // if (!this.isEdit) {
-    this._form.markAllAsTouched();
-    this.cdref.detectChanges();
-    // }
-  }
+ 
   handleSearchTags(data: string): void {
-    this.subs$.push(
-      this.consultaService.searchTags(data).subscribe((tags: string[]) => {
-        this._whitelist = tags.map((obj: any) => obj.tag);
-      })
-    );
+    if (Array.isArray(data)) {
+      this._form.get('tags').setValue(data.length > 0 ? data : null);
+    } else {
+      this.subs$.push(
+        this.consultaService.searchTags(data).subscribe((tags: string[]) => {
+          this._whitelist = tags.map((obj: any) => obj.tag);
+        })
+      );
+    }
   }
   onClear(): void {
     this._form.reset();
   }
   handleSave(): void {
     const formData = new FormData();
-    formData.append('file', this._form?.get('documentForm').value.document);
-    const { title, description, tags } = this._form?.get('documentForm').value;
+    formData.append('file', this._form?.value.document);
+    const { title, description, tags } = this._form?.value;
 
     formData.append(
       'data',

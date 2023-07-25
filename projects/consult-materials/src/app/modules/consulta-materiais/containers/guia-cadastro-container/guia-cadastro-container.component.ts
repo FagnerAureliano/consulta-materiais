@@ -1,6 +1,6 @@
 import { Location } from '@angular/common';
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { ConsultaMateriaisService } from 'projects/consult-materials/src/app/services/consulta-materiais.service';
 import { Subscription, throwError } from 'rxjs';
@@ -32,7 +32,10 @@ export class GuiaCadastroContainerComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this._form = this.fb.group({
-      guiaForm: this.fb.group({}),
+      content: [null, Validators.required],
+      tags: [null, Validators.required],
+      title: [null, Validators.required],
+      description: [null, Validators.required],
     });
   }
   goBack(): void {
@@ -46,7 +49,7 @@ export class GuiaCadastroContainerComponent implements OnInit, OnDestroy {
   }
   handleSave(): void {
     const { content, title, description, tags } =
-      this._form?.get('guiaForm').value;
+      this._form?.value;
 
     const observableResolved = (_) => {
       this.messageService.add({
@@ -70,11 +73,15 @@ export class GuiaCadastroContainerComponent implements OnInit, OnDestroy {
     );
   }
   handleSearchTags(data: string): void {
-    this.subs$.push(
-      this.consultaService.searchTags(data).subscribe((tags: string[]) => {
-        this._whitelist = tags.map((obj: any) => obj.tag);
-      })
-    );
+    if (Array.isArray(data)) {
+      this._form.get('tags').setValue(data.length > 0 ? data : null);
+    } else {
+      this.subs$.push(
+        this.consultaService.searchTags(data).subscribe((tags: string[]) => {
+          this._whitelist = tags.map((obj: any) => obj.tag);
+        })
+      );
+    }
   }
   onClear(): void {
     this._form.reset();

@@ -23,7 +23,7 @@
         styleClass="p-button-sm"
         icon="pi pi-check"
         (onClick)="handleSave()"
-        [disabled]="this._form?.get('documentForm')?.invalid"
+        [disabled]="this._form?.invalid"
         label="SALVAR"
       ></p-button>
     </div>
@@ -31,7 +31,7 @@
   <div class="w-full mt-2">
     <p-card>
       <app-documento-cadastro-form
-        [form]="_form.get('documentForm')"
+        [form]="_form"
         [whitelist]="_whitelist"
         (tagsEmitter)="handleSearchTags($event)"
       ></app-documento-cadastro-form>
