@@ -1,10 +1,11 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy } from '@angular/core';
 import {
   DomSanitizer,
   SafeHtml,
   SafeResourceUrl,
 } from '@angular/platform-browser';
-import { ConsultaMateriaisService } from 'projects/consult-materials/src/app/services/consulta-materiais.service';
+import { SearchMaterialsService } from 'projects/consult-materials/src/app/services/search-materiais.service';
+import { StreamMaterialsService } from 'projects/consult-materials/src/app/services/stream-materiais.service';
 import { Subscription, of, throwError } from 'rxjs';
 import { catchError, finalize, tap } from 'rxjs/operators';
 
@@ -27,7 +28,8 @@ export class MaterialDetailComponent implements OnDestroy {
   htmlElement = document.documentElement; // Obtém o elemento HTML raiz
 
   constructor(
-    private service: ConsultaMateriaisService,
+    private streamService: StreamMaterialsService,
+    private searchService: SearchMaterialsService,
     private sanitizer: DomSanitizer
   ) {}
 
@@ -37,7 +39,7 @@ export class MaterialDetailComponent implements OnDestroy {
 
   handleDownload(): void {
     this._subs$.push(
-      this.service
+      this.streamService
         .getDocumentFile(this.documentId)
         .pipe(
           catchError((err) => throwError(err)),
@@ -66,20 +68,22 @@ export class MaterialDetailComponent implements OnDestroy {
 
   showDialog(): void {
     this._subs$.push(
-      this.service
+      this.searchService
         .getDocumentByID(this.documentId)
         .pipe(
           tap((res: any) => {
             if (res.type != 'Note') {
               this.mimeType = res.properties['file:content']['mime-type'];
-              this.service.getDocumentFile(res.id).subscribe((file: any) => {
-                const blob = new Blob([file], {
-                  type: this.mimeType,
+              this.streamService
+                .getDocumentFile(res.id)
+                .subscribe((file: any) => {
+                  const blob = new Blob([file], {
+                    type: this.mimeType,
+                  });
+                  const url = window.URL.createObjectURL(blob);
+                  this.file_material =
+                    this.sanitizer.bypassSecurityTrustResourceUrl(url);
                 });
-                const url = window.URL.createObjectURL(blob);
-                this.file_material =
-                  this.sanitizer.bypassSecurityTrustResourceUrl(url);
-              });
             }
           }),
           catchError(() => of(null)),

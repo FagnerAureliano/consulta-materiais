@@ -2,7 +2,8 @@ import { Location } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
-import { ConsultaMateriaisService } from 'projects/consult-materials/src/app/services/consulta-materiais.service';
+import { SearchMaterialsService } from 'projects/consult-materials/src/app/services/search-materiais.service';
+import { StreamMaterialsService } from 'projects/consult-materials/src/app/services/stream-materiais.service';
 import { Subscription, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
@@ -21,7 +22,8 @@ export class DocumentoCadastroContainerComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private location: Location,
     private messageService: MessageService,
-    private consultaService: ConsultaMateriaisService
+    private searchService: SearchMaterialsService,
+    private streamService: StreamMaterialsService
   ) {}
 
   ngOnDestroy(): void {
@@ -45,7 +47,7 @@ export class DocumentoCadastroContainerComponent implements OnInit, OnDestroy {
       this._form.get('tags').setValue(data.length > 0 ? data : null);
     } else {
       this.subs$.push(
-        this.consultaService.searchTags(data).subscribe((tags: string[]) => {
+        this.searchService.searchTags(data).subscribe((tags: string[]) => {
           this._whitelist = tags.map((obj: any) => obj.tag);
         })
       );
@@ -75,7 +77,7 @@ export class DocumentoCadastroContainerComponent implements OnInit, OnDestroy {
       });
     };
     this.subs$.push(
-      this.consultaService
+      this.streamService
         .createDocumentFile(formData)
         .pipe(
           catchError((err) => {

@@ -1,7 +1,9 @@
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { UserService } from '@shared';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
-import { ConsultaMateriaisService } from 'projects/consult-materials/src/app/services/consulta-materiais.service';
+import { SearchMaterialsService } from 'projects/consult-materials/src/app/services/search-materiais.service';
+import { StreamMaterialsService } from 'projects/consult-materials/src/app/services/stream-materiais.service';
 import { HasContentService } from 'projects/shared/src/lib/services/has-content.service';
 import { MaterialFilterService } from 'projects/shared/src/lib/services/material-filter.service';
 import { Observable, Subscription, forkJoin, of, throwError } from 'rxjs';
@@ -39,12 +41,14 @@ export class ConsultaContainerComponent implements OnInit, OnDestroy {
   isEmpty = true;
 
   constructor(
-    private consultaService: ConsultaMateriaisService,
+    private searchService: SearchMaterialsService,
+    private streamService: StreamMaterialsService,
     private confirmationService: ConfirmationService,
     private filterContent: MaterialFilterService,
     private hasContent: HasContentService,
     private messageService: MessageService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private userService: UserService
   ) {}
 
   @HostListener('window:scroll', ['$event'])
@@ -89,13 +93,13 @@ export class ConsultaContainerComponent implements OnInit, OnDestroy {
 
     this._loading = true;
     this.subs$.push(
-      this.consultaService
+      this.searchService
         .getAll(params, this.startIndex, this.itemsPerPage)
         .pipe(
           switchMap((items: any) =>
             forkJoin(
               items.entries.map((value: { id: string }) =>
-                this.consultaService.getThumbnail(value.id).pipe(
+                this.streamService.getThumbnail(value.id).pipe(
                   catchError(() => of(null)),
                   map((thumbnail: any) => {
                     return {
@@ -144,7 +148,7 @@ export class ConsultaContainerComponent implements OnInit, OnDestroy {
       icon: 'pi pi-info-circle',
       accept: () => {
         this.subs$.push(
-          this.consultaService
+          this.streamService
             .deleteDocument(id)
             .pipe(
               catchError((err) => {

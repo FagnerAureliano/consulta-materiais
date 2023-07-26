@@ -2,7 +2,8 @@ import { Location } from '@angular/common';
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
-import { ConsultaMateriaisService } from 'projects/consult-materials/src/app/services/consulta-materiais.service';
+import { SearchMaterialsService } from 'projects/consult-materials/src/app/services/search-materiais.service';
+import { StreamMaterialsService } from 'projects/consult-materials/src/app/services/stream-materiais.service';
 import { Subscription, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
@@ -23,7 +24,8 @@ export class GuiaCadastroContainerComponent implements OnInit, OnDestroy {
     private cdref: ChangeDetectorRef,
     private location: Location,
     private messageService: MessageService,
-    private consultaService: ConsultaMateriaisService
+    private searchService: SearchMaterialsService,
+    private streamService: StreamMaterialsService
   ) {}
 
   ngOnDestroy(): void {
@@ -31,6 +33,7 @@ export class GuiaCadastroContainerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    
     this._form = this.fb.group({
       content: [null, Validators.required],
       tags: [null, Validators.required],
@@ -48,8 +51,7 @@ export class GuiaCadastroContainerComponent implements OnInit, OnDestroy {
     // }
   }
   handleSave(): void {
-    const { content, title, description, tags } =
-      this._form?.value;
+    const { content, title, description, tags } = this._form?.value;
 
     const observableResolved = (_) => {
       this.messageService.add({
@@ -59,7 +61,7 @@ export class GuiaCadastroContainerComponent implements OnInit, OnDestroy {
       });
     };
     this.subs$.push(
-      this.consultaService
+      this.streamService
         .createDocumentNote({ content, title, description, tags })
         .pipe(
           catchError((err) => {
@@ -77,7 +79,7 @@ export class GuiaCadastroContainerComponent implements OnInit, OnDestroy {
       this._form.get('tags').setValue(data.length > 0 ? data : null);
     } else {
       this.subs$.push(
-        this.consultaService.searchTags(data).subscribe((tags: string[]) => {
+        this.searchService.searchTags(data).subscribe((tags: string[]) => {
           this._whitelist = tags.map((obj: any) => obj.tag);
         })
       );
