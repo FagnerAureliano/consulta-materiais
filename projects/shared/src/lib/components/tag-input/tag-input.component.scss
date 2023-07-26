@@ -1,4 +1,3 @@
-
 /**
  *  Full list of Tagify's SCSS variables
  *
@@ -9,9 +8,9 @@
 
 ::ng-deep {
   .tag_input {
-    --tag-bg: #234b90;
+    --tag-bg: #3f51b5;
     --tag-text-color: #fff;
-    --tag-hover: #6977ca;
+    --tag-hover: #596cd4;
 
     --tag-remove-btn-color: #fff;
     --tag-remove-btn-bg--hover: #4b81df;
@@ -26,4 +25,13 @@
     --tagify-dd-bg-color: white;
     --tagify-dd-item-pad: 0.3em 0.5em; // should be same as $tag-pad (below)
   }
+  .error-borde {
+    --tags-border-color: #ff7373;
+  }
+}
+.error-message {
+  text-align: left;
+  font-size: small;
+  color: #f70404bc;
+  margin-top: 5px;
 }

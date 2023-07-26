@@ -1,6 +1,16 @@
 <input
+  [ngClass]="{
+    'error-border': tagify && tagify.state && tagify.state.hasInvalidTag
+  }"
   #tagInput
   formControlName="tags"
   type="text"
   class="w-full border-round text-left tag_input"
 />
+<div
+  *ngIf="tagify && tagify.state && tagify.state.hasInvalidTag"
+  class="error-message"
+>
+  Somente caracteres alfanuméricos, espaços, hifens e sublinhados são permitidos
+  nas tags.
+</div>
