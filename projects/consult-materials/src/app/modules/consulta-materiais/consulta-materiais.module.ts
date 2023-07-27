@@ -25,6 +25,7 @@ import { ButtonModule } from 'primeng/button';
 import { EditorModule } from 'primeng/editor';
 import { DialogModule } from 'primeng/dialog';
 import { DividerModule } from 'primeng/divider';
+import { DropdownModule } from 'primeng/dropdown';
 import { AccordionModule } from 'primeng/accordion';
 import { ScrollTopModule } from 'primeng/scrolltop';
 import { FileUploadModule } from 'primeng/fileupload';
@@ -45,6 +46,7 @@ const PRIME_COMPONENTS = [
   DialogModule,
   EditorModule,
   DividerModule,
+  DropdownModule,
   AccordionModule,
   ScrollTopModule,
   FileUploadModule,

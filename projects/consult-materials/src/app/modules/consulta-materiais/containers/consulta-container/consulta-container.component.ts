@@ -99,17 +99,7 @@ export class ConsultaContainerComponent implements OnInit, OnDestroy {
           switchMap((items: any) =>
             forkJoin(
               items.entries.map((value: { id: string }) =>
-                this.streamService.getThumbnail(value.id).pipe(
-                  catchError(() => of(null)),
-                  map((thumbnail: any) => {
-                    return {
-                      ...value,
-                      thumbnail: thumbnail
-                        ? `data:image/png;base64,${thumbnail.thumbnailBase64}`
-                        : '',
-                    };
-                  })
-                )
+                this.getThumbnailWithFallback(value)
               )
             )
           ),
@@ -126,6 +116,18 @@ export class ConsultaContainerComponent implements OnInit, OnDestroy {
           this.startIndex = this.startIndex + 1;
           this.isEmpty = mappedItems.length > 0 ? false : true;
         })
+    );
+  }
+  getThumbnailWithFallback(value: { id: string }) {
+    return this.streamService.getThumbnail(value['versionableId']).pipe(
+      catchError(() => of(null)),
+      map((thumbnail: any) => {
+        const thumbnailBase64 =
+          thumbnail && thumbnail.thumbnailBase64
+            ? `data:image/png;base64,${thumbnail.thumbnailBase64}`
+            : '';
+        return { ...value, thumbnail: thumbnailBase64 };
+      })
     );
   }
 

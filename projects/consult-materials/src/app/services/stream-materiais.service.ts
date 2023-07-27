@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Scopes } from '../models/scopes.models';
 
 @Injectable({
   providedIn: 'root',
@@ -34,6 +35,11 @@ export class StreamMaterialsService {
   getDocumentFile(id: string): Observable<any> {
     return this.http.get<any>(`${this.endpoint}/file/${id}`, {
       responseType: 'blob' as 'json',
+    });
+  }
+  getScopes(): Observable<Scopes[]> {
+    return this.http.get<Scopes[]>(`${this.endpoint}/scopes`,  {
+      headers: this.defaultHeaders,
     });
   }
 }

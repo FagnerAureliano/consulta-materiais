@@ -17,7 +17,6 @@
   [resizable]="false"
   (onHide)="onShow(false)"
   (onShow)="onShow(true)"
-
 >
   <div class="w-full l-form-header py-2 border-round text-left mb-2">
     <span class="l-form-header py-2 px-2">
@@ -42,8 +41,13 @@
     </div>
     {{ material?.title }}
   </div>
-  <div class="border-round border-1 border-200 p-3">
-    <div *ngIf="material?.type === 'File'; else nota">
+  <div class="border-round border-1 border-200 p-3"> 
+    <div *ngIf="material?.type === 'Note'; else files">
+      <div *ngIf="note_material != null; else loading">
+        <div [innerHTML]="note_material" class="text-left"></div>
+      </div>
+    </div> 
+    <ng-template #files>
       <div *ngIf="file_material != null; else loading">
         <embed
           *ngIf="file_material"
@@ -53,11 +57,6 @@
           width="100%"
           height="500px"
         />
-      </div>
-    </div>
-    <ng-template #nota>
-      <div *ngIf="note_material != null; else loading">
-        <div [innerHTML]="note_material" class="text-left"></div>
       </div>
     </ng-template>
     <ng-template #loading>

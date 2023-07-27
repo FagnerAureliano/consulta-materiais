@@ -1,4 +1,4 @@
-export enum Scopes {
+export enum ScopesEmum {
   'GERAL' = '/PORTALDEAPOIO/workspaces/apoio-workspace-geral',
   'SAUDE' = '/PORTALDEAPOIO/workspaces/apoio-workspace-geral/workspace-saude',
   'EDUCACAO' = '/PORTALDEAPOIO/workspaces/apoio-workspace-geral/workspace-educacao',

@@ -1,15 +1,5 @@
 ::ng-deep {
-    .p-inputtext {
-      border: 0.1rem solid rgba(139, 139, 139, 0.38);
-    }
-    .p-inputtext:enabled:hover {
-      border: .1rem solid rgba(18, 5, 109, 0.38);
-    }
-    .p-inputtext:enabled:focus {
-      border: .1rem solid rgba(151, 151, 151, 0.38);
-    }
-    .col-12 {
-      padding: 0;
-    }
+  .col-12 {
+    padding: 0;
   }
-  
+}

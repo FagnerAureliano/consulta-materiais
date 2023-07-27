@@ -75,7 +75,8 @@ export class MaterialDetailComponent implements OnDestroy {
             if (res.type != 'Note') {
               this.mimeType = res.properties['file:content']['mime-type'];
               this.streamService
-                .getDocumentFile(res.id)
+                .getDocumentFile(res.versionableId)
+
                 .subscribe((file: any) => {
                   const blob = new Blob([file], {
                     type: this.mimeType,

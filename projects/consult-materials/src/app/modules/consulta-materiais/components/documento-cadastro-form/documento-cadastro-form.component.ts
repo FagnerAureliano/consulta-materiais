@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { FileUpload } from 'primeng/fileupload';
+import { Scopes } from 'projects/consult-materials/src/app/models/scopes.models';
 
 @Component({
   selector: 'app-documento-cadastro-form',
@@ -15,9 +16,10 @@ import { FileUpload } from 'primeng/fileupload';
 })
 export class DocumentoCadastroFormComponent {
   @ViewChild('fileUpload') fileUpload: FileUpload;
-  @Input() form: FormGroup;
   @Output() tagsEmitter = new EventEmitter();
+  @Input() form: FormGroup;
   @Input() whitelist: string[] = [];
+  @Input() scopes: Scopes[];
 
   uploadedFiles: any[] = [];
 
@@ -30,8 +32,9 @@ export class DocumentoCadastroFormComponent {
     this.form.get('document').setValue(null);
   }
   handleSearchTags(data: string | string[]): void {
-  
-      this.tagsEmitter.emit(data);
-    
+    this.tagsEmitter.emit(data);
+  }
+  onChange() {
+    console.log(this.form.value);
   }
 }

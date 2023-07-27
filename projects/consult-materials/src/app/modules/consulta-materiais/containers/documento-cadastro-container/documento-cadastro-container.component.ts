@@ -2,6 +2,7 @@ import { Location } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
+import { Scopes } from 'projects/consult-materials/src/app/models/scopes.models';
 import { SearchMaterialsService } from 'projects/consult-materials/src/app/services/search-materiais.service';
 import { StreamMaterialsService } from 'projects/consult-materials/src/app/services/stream-materiais.service';
 import { Subscription, throwError } from 'rxjs';
@@ -16,6 +17,7 @@ export class DocumentoCadastroContainerComponent implements OnInit, OnDestroy {
   private subs$: Subscription[] = [];
   _form: FormGroup;
   _whitelist: string[];
+  _scopes: Scopes[];
   isEdit: false; // TODO:  temporário até vir pela rota se será momento edit
 
   constructor(
@@ -36,12 +38,19 @@ export class DocumentoCadastroContainerComponent implements OnInit, OnDestroy {
       tags: [null, Validators.required],
       title: [null, Validators.required],
       description: [null, Validators.required],
+      scopePath: [2, Validators.required],
     });
+
+    this.subs$.push(
+      this.streamService
+        .getScopes()
+        .subscribe((scopes) => (this._scopes = scopes))
+    );
   }
   goBack(): void {
     this.location.back();
   }
- 
+
   handleSearchTags(data: string): void {
     if (Array.isArray(data)) {
       this._form.get('tags').setValue(data.length > 0 ? data : null);

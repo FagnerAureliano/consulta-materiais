@@ -43,8 +43,28 @@
         </p-accordionTab>
       </p-accordion>
     </div>
+
     <div class="mb-3">
-      <div class="flex">
+      <div class="w-full flex mb-2">
+        <!-- <p-dropdown 
+         
+          [options]="scopes"
+          formControlName="scopePath"
+          placeholder="Selecione o local"
+          optionLabel="scope"
+          optionValue="id"
+        ></p-dropdown>  -->
+        <select
+          class="drop-selection "
+          formControlName="scopePath"
+          (change)="onChange()"
+        >
+          <option class="" *ngFor="let option of scopes" [value]="option.id">
+            {{ option.scope | wordConverter }}
+          </option>
+        </select>
+      </div>
+      <div class="flex w-full">
         <label class="mb-1 text-500">Título</label>
       </div>
       <input
