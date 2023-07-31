@@ -225,9 +225,20 @@ label {
 .p-inputtext {
   border: 0.1rem solid rgba(139, 139, 139, 0.38);
 }
-.p-inputtext:enabled:hover {
-  // border: 0.1rem solid rgba(18, 5, 109, 0.38);
+.p-inputtext {
+  font-size: 0.9rem;
 }
-.p-inputtext:enabled:focus {
-  // border: 0.1rem solid rgba(151, 151, 151, 0.38);
+.p-inputtext:enabled:hover {
+  border-color: #3f51b5;
+}
+
+.p-dropdown {
+  border: 0.1rem solid rgba(139, 139, 139, 0.38);
+}
+
+.p-dropdown:not(.p-disabled):hover {
+  border-color: #3f51b5;
+}
+.p-checkbox .p-checkbox-box {
+  border: 0.1rem solid #757575 !important;
 }

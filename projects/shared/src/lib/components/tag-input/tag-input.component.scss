@@ -15,10 +15,12 @@
     --tag-remove-btn-color: #fff;
     --tag-remove-btn-bg--hover: #4b81df;
     --tag-remove-bg: #ff6464;
-    --tags-focus-border-color: #234b9072;
+    --tags-focus-border-color: #3f51b5;
+    --tags-hover-border-color: #3f51b5;
   }
   .tag_input:hover {
     --tags-border-color: rgba(139, 139, 139, 0.737);
+    --tags-focus-border-color: #3f51b5;
   }
   :root {
     --tagify-dd-color-primary: rgba(139, 139, 139, 0.737);
@@ -31,7 +33,7 @@
 }
 .error-message {
   text-align: left;
-  font-size: small;
+  font-size: smaller;
   color: #f70404bc;
   margin-top: 5px;
 }
