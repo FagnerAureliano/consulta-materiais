@@ -44,25 +44,26 @@
       </p-accordion>
     </div>
 
-    <div class="mb-3">
-      <div class="w-full flex mb-2">
-        <!-- <p-dropdown 
-         
+    <div class="mb-2 w-full text-left">
+      <div class="flex w-full">
+        <label class="mb-1 text-500">Diretório</label>
+      </div>
+      <div class="p-fluid flex mb-2">
+        <p-dropdown
+          [filter]="true"
+          [showClear]="true"
           [options]="scopes"
+          class="w-full border-cyan-100"
+          [ngClass]="{
+            'ng-dirty ng-invalid':
+              form.get('scopePath')?.invalid &&
+              (form.get('scopePath')?.dirty || form.get('scopePath')?.touched)
+          }"
           formControlName="scopePath"
           placeholder="Selecione o local"
           optionLabel="scope"
           optionValue="id"
-        ></p-dropdown>  -->
-        <select
-          class="drop-selection "
-          formControlName="scopePath"
-          (change)="onChange()"
-        >
-          <option class="" *ngFor="let option of scopes" [value]="option.id">
-            {{ option.scope | wordConverter }}
-          </option>
-        </select>
+        ></p-dropdown>
       </div>
       <div class="flex w-full">
         <label class="mb-1 text-500">Título</label>
