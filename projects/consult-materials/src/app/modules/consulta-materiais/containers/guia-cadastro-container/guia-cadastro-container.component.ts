@@ -1,7 +1,9 @@
 import { Location } from '@angular/common';
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { MessageService } from 'primeng/api';
+import { Scopes } from 'projects/consult-materials/src/app/models/scopes.models';
 import { SearchMaterialsService } from 'projects/consult-materials/src/app/services/search-materiais.service';
 import { StreamMaterialsService } from 'projects/consult-materials/src/app/services/stream-materiais.service';
 import { Subscription, throwError } from 'rxjs';
@@ -17,38 +19,37 @@ export class GuiaCadastroContainerComponent implements OnInit, OnDestroy {
   screenWidth: number;
   isMobileScreen: boolean = false;
   _form: FormGroup;
+  _scopes: Scopes[];
   _whitelist: string[];
 
   constructor(
     private fb: FormBuilder,
-    private cdref: ChangeDetectorRef,
     private location: Location,
+    private route: ActivatedRoute,
     private messageService: MessageService,
     private searchService: SearchMaterialsService,
     private streamService: StreamMaterialsService
-  ) {}
+  ) {
+    this.subs$.push(
+      this.route.data.subscribe((res) => (this._scopes = res.data))
+    );
+  }
 
   ngOnDestroy(): void {
     this.subs$.forEach((subs) => subs.unsubscribe());
   }
 
   ngOnInit(): void {
-    
     this._form = this.fb.group({
       content: [null, Validators.required],
       tags: [null, Validators.required],
       title: [null, Validators.required],
       description: [null, Validators.required],
+      scopePath: [null, Validators.required],
     });
   }
   goBack(): void {
     this.location.back();
-  }
-  ngAfterContentChecked(): void {
-    // if (!this.isEdit) {
-    this._form.markAllAsTouched();
-    this.cdref.detectChanges();
-    // }
   }
   handleSave(): void {
     const { content, title, description, tags } = this._form?.value;

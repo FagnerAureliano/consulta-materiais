@@ -1,20 +1,50 @@
-<div class="border-1 p-3 border-200 border-round"> 
+<div class="border-1 p-3 border-200 border-round">
   <form [formGroup]="form">
     <div class="guide-header text-left">
       <p-accordion class="px-4 pb-4">
         <p-accordionTab header="Orientações">
           <div class="w-full border-1 border-200 p-4 border-round">
-            <p class="text-left" >
-              Use o editor de texto abaixo para escrever instruções claras e concisas
-              que irão guiar os usuários. Você pode formatar o texto, adicionar
-              títulos, listas e até mesmo inserir imagens para tornar seu guia mais
-              visualmente atraente. Lembre-se de que este guia rápido será uma
-              referência útil para os usuários, portanto, seja objetivo e forneça
-              informações relevantes.
+            <p class="text-left">
+              Use o editor de texto abaixo para escrever instruções claras e
+              concisas que irão guiar os usuários. Você pode formatar o texto,
+              adicionar títulos, listas e até mesmo inserir imagens para tornar
+              seu guia mais visualmente atraente. Lembre-se de que este guia
+              rápido será uma referência útil para os usuários, portanto, seja
+              objetivo e forneça informações relevantes.
             </p>
           </div>
         </p-accordionTab>
       </p-accordion>
+    </div>
+    <div class="mb-2 w-full text-left">
+      <div class="flex w-full">
+        <label class="mb-1 text-500">Diretório</label>
+      </div>
+      <div class="p-fluid flex mb-2">
+        <p-dropdown
+          [filter]="true"
+          [showClear]="true"
+          [options]="scopes"
+          class="w-full pl-0"
+          formControlName="scopePath"
+          placeholder="Selecione o local"
+          optionLabel="scope"
+          optionValue="id"
+          [ngClass]="{
+            'ng-dirty ng-invalid':
+              form.get('scopePath')?.invalid &&
+              (form.get('scopePath')?.dirty || form.get('scopePath')?.touched)
+          }"
+        ></p-dropdown>
+      </div>
+      <div class="flex w-full">
+        <label class="mb-1 text-500">Título</label>
+      </div>
+      <input
+        pInputText
+        class="p-inputtext-sm p-inputtext-outlined"
+        formControlName="title"
+      />
     </div>
     <div class="mb-3">
       <div class="flex">
@@ -22,7 +52,7 @@
       </div>
       <input
         pInputText
-        class="p-inputtext-sm p-inputtext-outlined" 
+        class="p-inputtext-sm p-inputtext-outlined"
         formControlName="title"
       />
     </div>
