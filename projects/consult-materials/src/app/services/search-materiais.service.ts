@@ -3,6 +3,7 @@ import { Inject, Injectable } from '@angular/core';
 import { UserService } from '@shared';
 import { mappedScope } from 'projects/shared/src/lib/utils/mapped-scopes';
 import { Observable } from 'rxjs';
+import { first } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -18,9 +19,9 @@ export class SearchMaterialsService {
   ) {}
 
   searchTags(searchTerm: string): Observable<string[]> {
-    return this.http.get<any>(
-      `${this.endpoint}/searches/auto-complete?term=${searchTerm}`
-    );
+    return this.http
+      .get<any>(`${this.endpoint}/searches/auto-complete?term=${searchTerm}`)
+      .pipe(first());
   }
 
   getAll(
@@ -28,20 +29,24 @@ export class SearchMaterialsService {
     startIndex: number = 0,
     itemsPerPage: number
   ): Observable<any[]> {
-    return this.http.get<any[]>(
-      `${
-        this.endpoint
-      }/searches/entry-point?term=${term}&scopePath=${mappedScope(
-        this.userService.user.roles
-      )}&pageSize=${itemsPerPage}&pageIndex=${startIndex}&sortBy=created&sortOrder=desc&continue&continue`,
-      {
-        headers: this.defaultHeaders,
-      }
-    );
+    return this.http
+      .get<any[]>(
+        `${
+          this.endpoint
+        }/searches/entry-point?term=${term}&scopePath=${mappedScope(
+          this.userService.user.roles
+        )}&pageSize=${itemsPerPage}&pageIndex=${startIndex}&sortBy=created&sortOrder=desc&continue&continue`,
+        {
+          headers: this.defaultHeaders,
+        }
+      )
+      .pipe(first());
   }
   getDocumentByID(id: string): Observable<Object> {
-    return this.http.get<Object>(`${this.endpoint}/files/${id}`, {
-      headers: this.defaultHeaders,
-    });
+    return this.http
+      .get<Object>(`${this.endpoint}/files/${id}`, {
+        headers: this.defaultHeaders,
+      })
+      .pipe(first());
   }
 }

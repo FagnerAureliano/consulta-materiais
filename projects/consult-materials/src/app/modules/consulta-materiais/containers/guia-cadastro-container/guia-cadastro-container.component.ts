@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { MessageService } from 'primeng/api';
@@ -31,7 +31,9 @@ export class GuiaCadastroContainerComponent implements OnInit, OnDestroy {
     private streamService: StreamMaterialsService
   ) {
     this.subs$.push(
-      this.route.data.subscribe((res) => (this._scopes = res.data))
+      this.route.data.subscribe((res) => {
+        this._scopes = res.data.scopes;
+      })
     );
   }
 
@@ -41,11 +43,11 @@ export class GuiaCadastroContainerComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this._form = this.fb.group({
-      content: [null, Validators.required],
-      tags: [null, Validators.required],
-      title: [null, Validators.required],
-      description: [null, Validators.required],
-      scopePath: [null, Validators.required],
+      content: [null, [Validators.required]],
+      tags: [null, [Validators.required]],
+      title: [null, [Validators.required]],
+      description: [null, [Validators.required]],
+      scopePath: [null, [Validators.required]],
     });
   }
   goBack(): void {

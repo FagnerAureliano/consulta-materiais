@@ -1,6 +1,5 @@
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { UserService } from '@shared';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { SearchMaterialsService } from 'projects/consult-materials/src/app/services/search-materiais.service';
 import { StreamMaterialsService } from 'projects/consult-materials/src/app/services/stream-materiais.service';
@@ -48,7 +47,7 @@ export class ConsultaContainerComponent implements OnInit, OnDestroy {
     private hasContent: HasContentService,
     private messageService: MessageService,
     private route: ActivatedRoute,
-    private userService: UserService
+    private router: Router
   ) {}
 
   @HostListener('window:scroll', ['$event'])
@@ -138,8 +137,15 @@ export class ConsultaContainerComponent implements OnInit, OnDestroy {
       this.loadItems(value.label);
     }
   }
-
-  deleteDocument(id: any): void {
+  updateDocument(data: any): void {
+    const { id, type } = data;
+    if (type === 'Note') {
+      this.router.navigate(['/materials/guia-cadastro/edit/', id], { queryParams: { key: JSON.stringify(data) } });
+    } else {
+      this.router.navigate(['/materials/documento-cadastro/edit/', id]);
+    }
+  }
+  deleteDocument(id: string): void {
     this._isActionBtnDisabled = true;
 
     this.confirmationService.confirm({

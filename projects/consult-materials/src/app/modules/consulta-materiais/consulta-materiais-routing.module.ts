@@ -7,6 +7,11 @@ import { CadastroResolver } from './resolver/cadastro.resolver';
 
 const routes: Routes = [
   {
+    path: '',
+    redirectTo: 'search',
+    pathMatch: 'full',
+  },
+  {
     path: 'search',
     component: ConsultaContainerComponent,
   },
@@ -14,11 +19,25 @@ const routes: Routes = [
     path: 'guia-cadastro',
     component: GuiaCadastroContainerComponent,
     resolve: { data: CadastroResolver },
+    children: [
+      {
+        path: 'edit/:id',
+        component: GuiaCadastroContainerComponent,
+        resolve: { data: CadastroResolver },
+      },
+    ],
   },
   {
     path: 'documento-cadastro',
     component: DocumentoCadastroContainerComponent,
     resolve: { data: CadastroResolver },
+    children: [
+      {
+        path: 'edit/:id',
+        component: DocumentoCadastroContainerComponent,
+        resolve: { data: CadastroResolver },
+      },
+    ],
   },
 ];
 

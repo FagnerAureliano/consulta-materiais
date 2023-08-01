@@ -16,6 +16,6 @@ export class MaterialCardsComponent {
     this.deleteEmitter.emit(this.document.id);
   }
   handleUpdate(): void {
-    this.deleteEmitter.emit(this.document.id);
+    this.updateEmitter.emit(this.document);
   }
 }
