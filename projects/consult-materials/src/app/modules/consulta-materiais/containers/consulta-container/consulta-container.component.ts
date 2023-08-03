@@ -140,7 +140,7 @@ export class ConsultaContainerComponent implements OnInit, OnDestroy {
   updateDocument(data: any): void {
     const { id, type } = data;
     if (type === 'Note') {
-      this.router.navigate(['/materials/guia-cadastro/edit/', id], { queryParams: { key: JSON.stringify(data) } });
+      this.router.navigate(['/materials/guia-cadastro/edit/', id]);
     } else {
       this.router.navigate(['/materials/documento-cadastro/edit/', id]);
     }

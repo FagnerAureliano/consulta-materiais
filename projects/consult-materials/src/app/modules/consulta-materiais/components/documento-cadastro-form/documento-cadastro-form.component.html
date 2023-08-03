@@ -63,7 +63,8 @@
           placeholder="Selecione o local"
           optionLabel="scope"
           optionValue="id"
-        ></p-dropdown>
+        >
+        </p-dropdown>
       </div>
       <div class="flex w-full">
         <label class="mb-1 text-500">Título</label>
@@ -94,11 +95,30 @@
         [showUploadButton]="false"
       >
         <ng-template pTemplate="content">
-          <ul *ngIf="uploadedFiles.length">
-            <li *ngFor="let file of uploadedFiles">
-              {{ file.name }} - {{ file.size }} bytes
-            </li>
-          </ul>
+          <div *ngIf="material" class="flex justify-content-between text-sm">
+            <div>
+              <div class="p-1">
+                <div class="font-bold">Nome do arquivo:</div>
+                {{ material?.properties["file:content"].name }}
+              </div>
+              <div class="p-1">
+                <div class="font-bold">Ultima atualização em:</div>
+                {{ material?.lastModified | date : "short" }}
+              </div>
+            </div>
+            <div>
+              <button
+                pButton
+                icon="pi pi-download"
+                class="p-button-outlined p-button-primary p-button-sm mr-1"
+              ></button>
+              <button
+                pButton
+                icon="pi pi-trash"
+                class="p-button-outlined p-button-danger p-button-sm"
+              ></button>
+            </div>
+          </div>
         </ng-template>
       </p-fileUpload>
     </div>

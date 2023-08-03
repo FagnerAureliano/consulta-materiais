@@ -25,43 +25,19 @@ export class CadastroResolver implements Resolve<any> {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<any> {
-    if (route.params && route.params.id) {
-      
-      return forkJoin({
-        scopes: this.streamService.getScopes().pipe(
-          map((res: Scopes[]) => {
-            const userRoles = this.userService.user.roles.filter(
-              (role: string) =>
-                role.includes('MATERIAL_APOIO') && !role.includes('USER')
-            );
+    return this.streamService.getScopes().pipe(
+      map((res: Scopes[]) => {
+        const userRoles = this.userService.user.roles.filter(
+          (role: string) =>
+            role.includes('MATERIAL_APOIO') && !role.includes('USER')
+        );
 
-            return res
-              .filter((objeto: Scopes) =>
-                userRoles.some((role: string) => role.includes(objeto.scope))
-              )
-              .sort();
-          })
-        ),
-        material: this.searchService.getDocumentByID('3c887ff6-dede-4e30-a650-aca999eecf0a'),
-      });
-    } else {
-      return forkJoin({
-
-        scopes: this.streamService.getScopes().pipe(
-          map((res: Scopes[]) => {
-            const userRoles = this.userService.user.roles.filter(
-              (role: string) =>
-                role.includes('MATERIAL_APOIO') && !role.includes('USER')
-            );
-
-            return res
-              .filter((objeto: Scopes) =>
-                userRoles.some((role: string) => role.includes(objeto.scope))
-              )
-              .sort();
-          })
-        ),
-      });
-    }
+        return res
+          .filter((objeto: Scopes) =>
+            userRoles.some((role: string) => role.includes(objeto.scope))
+          )
+          .sort();
+      })
+    );
   }
 }

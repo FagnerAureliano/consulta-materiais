@@ -19,7 +19,8 @@ export class DocumentoCadastroContainerComponent implements OnInit, OnDestroy {
   _form: FormGroup;
   _whitelist: string[];
   _scopes: Scopes[];
-  material: any;
+  _material: any;
+  material_id: string;
 
   constructor(
     private fb: FormBuilder,
@@ -29,11 +30,24 @@ export class DocumentoCadastroContainerComponent implements OnInit, OnDestroy {
     private streamService: StreamMaterialsService,
     private route: ActivatedRoute
   ) {
+    this.material_id = this.extractUUIDFromURL(
+      route.snapshot['_routerState'].url
+    );
+
     this.subs$.push(
       this.route.data.subscribe((res) => {
-        this._scopes = res.data.scopes;
+        this._scopes = res.data;
       })
     );
+    if (this.material_id) {
+      this.subs$.push(
+        this.searchService
+          .getDocumentByID(this.material_id)
+          .subscribe((res: any) => {
+            this._material = res;
+          })
+      );
+    }
   }
 
   ngOnDestroy(): void {
@@ -48,9 +62,6 @@ export class DocumentoCadastroContainerComponent implements OnInit, OnDestroy {
       description: [null, [Validators.required]],
       scopePath: [null, [Validators.required]],
     });
-    // if (this.material) {
-    //   this._form.get('title').setValue(this.material);
-    // }
   }
   goBack(): void {
     this.location.back();
@@ -103,5 +114,10 @@ export class DocumentoCadastroContainerComponent implements OnInit, OnDestroy {
           this.goBack();
         })
     );
+  }
+  extractUUIDFromURL(url: string): string | null {
+    const uuidRegex = /\/([\da-f]{8}-(?:[\da-f]{4}-){3}[\da-f]{12})$/i;
+    const [, uuid] = url.match(uuidRegex) || [];
+    return uuid || null;
   }
 }

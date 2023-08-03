@@ -18,7 +18,7 @@ const routes: Routes = [
   {
     path: 'guia-cadastro',
     component: GuiaCadastroContainerComponent,
-    resolve: { data: CadastroResolver },
+
     children: [
       {
         path: 'edit/:id',
@@ -35,7 +35,6 @@ const routes: Routes = [
       {
         path: 'edit/:id',
         component: DocumentoCadastroContainerComponent,
-        resolve: { data: CadastroResolver },
       },
     ],
   },
