@@ -6,7 +6,7 @@ import {
   OnChanges,
   OnInit,
   Output,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import Tagify from '@yaireo/tagify';
@@ -21,6 +21,7 @@ export class TagInputComponent implements OnInit, OnChanges {
   @Output() tagsEmitter = new EventEmitter<string[]>();
   @Output() characterInputed = new EventEmitter<string>();
   @Input() whitelist: string[] = [];
+  @Input() changedTags: any[] = [];
 
   tagify: Tagify = null;
 
@@ -28,6 +29,11 @@ export class TagInputComponent implements OnInit, OnChanges {
     if (this.whitelist) {
       this.tagify.settings.whitelist = this.whitelist;
       this.tagify.loading(false);
+    }
+    if (this.changedTags) {
+      this.changedTags.forEach((tag) => {
+        this.tagify.addTags([{ value: tag.label }]);
+      });
     }
   }
 
@@ -45,6 +51,7 @@ export class TagInputComponent implements OnInit, OnChanges {
         maxItems: 4,
         closeOnSelect: false,
       },
+
       callbacks: {
         add: () => {
           tagsControl.setValue(this.tagify.value.map((tag) => tag.value));
@@ -52,7 +59,7 @@ export class TagInputComponent implements OnInit, OnChanges {
         remove: () => {
           tagsControl.setValue(this.tagify.value.map((tag) => tag.value));
         },
-        input: (e: { detail: { value: string; }; }) => {
+        input: (e: { detail: { value: string } }) => {
           const inputValue = e.detail.value.trim();
           if (inputValue) {
             this.characterInputed.emit(inputValue);
@@ -61,6 +68,7 @@ export class TagInputComponent implements OnInit, OnChanges {
         },
       },
     });
+
     this.tagify.on('invalid', (_) => (this.tagify.state.hasInvalidTag = true));
 
     tagsControl.valueChanges.subscribe(() => {
