@@ -56,14 +56,20 @@
           class="w-full border-cyan-100"
           [ngClass]="{
             'ng-dirty ng-invalid':
-              form.get('scopePath')?.invalid &&
-              (form.get('scopePath')?.dirty || form.get('scopePath')?.touched)
+              form.get('path')?.invalid &&
+              (form.get('path')?.dirty || form.get('path')?.touched)
           }"
-          formControlName="scopePath"
+          formControlName="path"
           placeholder="Selecione o local"
           optionLabel="scope"
-          optionValue="id"
+          optionValue="path"
         >
+          <ng-template let-item pTemplate="selectedItem">
+            <span>{{ item.id }} — {{ item.scope | wordConverter }}</span>
+          </ng-template>
+          <ng-template let-item pTemplate="item">
+            <span>{{ item.id }} — {{ item.scope | wordConverter }}</span>
+          </ng-template>
         </p-dropdown>
       </div>
       <div class="flex w-full">
@@ -89,13 +95,14 @@
         [multiple]="false"
         accept="application/*,.csv, image/*, video/*"
         (onSelect)="onShowUpload()"
-        [customUpload]="true"
-        (onClear)="onClear()"
-        (onRemove)="onClear()"
+        [customUpload]="true" 
         [showUploadButton]="false"
       >
         <ng-template pTemplate="content">
-          <div *ngIf="material" class="flex justify-content-between text-sm">
+          <div
+            *ngIf="material && hasDocuments"
+            class="flex justify-content-between text-sm"
+          >
             <div>
               <div class="p-1">
                 <div class="font-bold">Nome do arquivo:</div>
@@ -110,12 +117,14 @@
               <button
                 pButton
                 icon="pi pi-download"
-                class="p-button-outlined p-button-primary p-button-sm mr-1"
+                class="p-button- p-button-primary p-button-sm mr-1"
+                (click)="onDownload()"
               ></button>
               <button
                 pButton
                 icon="pi pi-trash"
-                class="p-button-outlined p-button-danger p-button-sm"
+                (click)="onRemove()"
+                class="p-button- p-button-danger p-button-sm"
               ></button>
             </div>
           </div>
@@ -128,6 +137,7 @@
       </div>
       <lib-tag-input
         [whitelist]="whitelist"
+        [changedTags]="_changedTags"
         (characterInputed)="handleSearchTags($event)"
         (tagsEmitter)="handleSearchTags($event)"
       ></lib-tag-input>

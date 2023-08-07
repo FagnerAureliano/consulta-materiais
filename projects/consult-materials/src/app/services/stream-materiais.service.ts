@@ -1,8 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Scopes } from '../models/scopes.models';
 import { first } from 'rxjs/operators';
+import { Scopes } from '../models/scopes.models';
 
 @Injectable({
   providedIn: 'root',
@@ -18,6 +18,11 @@ export class StreamMaterialsService {
 
   createDocumentFile(document: any): Observable<any> {
     return this.http.post<any>(`${this.endpoint}/file`, document).pipe(first());
+  }
+  updateDocumentFile(id: string, document: any): Observable<any> {
+    return this.http
+      .patch<any>(`${this.endpoint}/file/${id}`, document)
+      .pipe(first());
   }
   createDocumentNote(document: any): Observable<any> {
     return this.http.post<any>(`${this.endpoint}/note`, document).pipe(first());
@@ -47,6 +52,13 @@ export class StreamMaterialsService {
   getScopes(): Observable<Scopes[]> {
     return this.http
       .get<Scopes[]>(`${this.endpoint}/scopes`, {
+        headers: this.defaultHeaders,
+      })
+      .pipe(first());
+  }
+  getUserScopes(): Observable<Scopes[]> {
+    return this.http
+      .get<Scopes[]>(`${this.endpoint}/scopes/scope-user`, {
         headers: this.defaultHeaders,
       })
       .pipe(first());
