@@ -7,7 +7,7 @@ import { Scopes } from 'projects/consult-materials/src/app/models/scopes.models'
 import { SearchMaterialsService } from 'projects/consult-materials/src/app/services/search-materiais.service';
 import { StreamMaterialsService } from 'projects/consult-materials/src/app/services/stream-materiais.service';
 import { Subscription, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, finalize, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-guia-cadastro-container',
@@ -16,11 +16,13 @@ import { catchError } from 'rxjs/operators';
 })
 export class GuiaCadastroContainerComponent implements OnInit, OnDestroy {
   private subs$: Subscription[] = [];
-  screenWidth: number;
   isMobileScreen: boolean = false;
   _form: FormGroup;
   _scopes: Scopes[];
   _whitelist: string[];
+  _material: any;
+  material_id: string;
+  hasDocument: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -30,11 +32,23 @@ export class GuiaCadastroContainerComponent implements OnInit, OnDestroy {
     private searchService: SearchMaterialsService,
     private streamService: StreamMaterialsService
   ) {
+    this.material_id = this.extractUUIDFromURL(
+      route.snapshot['_routerState'].url
+    );
     this.subs$.push(
       this.route.data.subscribe((res) => {
-        this._scopes = res.data.scopes;
+        this._scopes = res.data;
       })
     );
+    if (this.material_id) {
+      this.subs$.push(
+        this.searchService
+          .getDocumentByID(this.material_id)
+          .subscribe((res: any) => {
+            this._material = res;
+          })
+      );
+    }
   }
 
   ngOnDestroy(): void {
@@ -43,11 +57,11 @@ export class GuiaCadastroContainerComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this._form = this.fb.group({
-      content: [null, [Validators.required]],
+      content: [null],
       tags: [null, [Validators.required]],
       title: [null, [Validators.required]],
       description: [null, [Validators.required]],
-      scopePath: [null, [Validators.required]],
+      path: [null, [Validators.required]],
     });
   }
   goBack(): void {
@@ -88,7 +102,40 @@ export class GuiaCadastroContainerComponent implements OnInit, OnDestroy {
       );
     }
   }
+  handleDownload(event): void {
+    this.subs$.push(
+      this.streamService
+        .getDocumentFile(this.material_id)
+        .pipe(
+          catchError((err) => throwError(err)),
+          tap((res) => {
+            const blob = new Blob([res], {
+              type: this._material.properties['file:content']['mime-type'],
+            });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = this._material?.properties['file:content'].name;
+            document.body.appendChild(a);
+            a.click();
+            URL.revokeObjectURL(url);
+          }),
+          finalize(() => {
+            const a = document.querySelector('a');
+            if (a) {
+              document.body.removeChild(a);
+            }
+          })
+        )
+        .subscribe()
+    );
+  }
   onClear(): void {
     this._form.reset();
+  }
+  extractUUIDFromURL(url: string): string | null {
+    const uuidRegex = /\/([\da-f]{8}-(?:[\da-f]{4}-){3}[\da-f]{12})$/i;
+    const [, uuid] = url.match(uuidRegex) || [];
+    return uuid || null;
   }
 }

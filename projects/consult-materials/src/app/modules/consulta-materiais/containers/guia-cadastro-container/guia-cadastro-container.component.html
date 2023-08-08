@@ -19,7 +19,8 @@
         label="LIMPAR"
       ></p-button>
       <p-button
-        styleClass=""
+        pRipple
+        styleClass="p-button-sm"
         (onClick)="handleSave()"
         icon="pi pi-check"
         label="SALVAR"
@@ -31,9 +32,11 @@
     <p-card>
       <app-guia-cadastro-form
         [form]="_form"
-        [whitelist]="_whitelist"
         [scopes]="_scopes"
+        [material]="_material"
+        [whitelist]="_whitelist"
         (tagsEmitter)="handleSearchTags($event)"
+        (downloadDoc)="handleDownload($event)"
       ></app-guia-cadastro-form>
     </p-card>
   </div>

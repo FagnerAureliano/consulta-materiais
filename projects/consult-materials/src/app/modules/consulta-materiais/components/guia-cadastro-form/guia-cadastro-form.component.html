@@ -26,16 +26,23 @@
           [showClear]="true"
           [options]="scopes"
           class="w-full pl-0"
-          formControlName="scopePath"
+          formControlName="path"
           placeholder="Selecione o local"
           optionLabel="scope"
           optionValue="id"
           [ngClass]="{
             'ng-dirty ng-invalid':
-              form.get('scopePath')?.invalid &&
-              (form.get('scopePath')?.dirty || form.get('scopePath')?.touched)
+              form.get('path')?.invalid &&
+              (form.get('path')?.dirty || form.get('path')?.touched)
           }"
-        ></p-dropdown>
+        >
+          <ng-template let-item pTemplate="selectedItem">
+            <span>{{ item.id }} — {{ item.scope | wordConverter }}</span>
+          </ng-template>
+          <ng-template let-item pTemplate="item">
+            <span>{{ item.id }} — {{ item.scope | wordConverter }}</span>
+          </ng-template>
+        </p-dropdown>
       </div>
     </div>
     <div class="mb-3">
@@ -63,6 +70,7 @@
       </div>
       <lib-tag-input
         [whitelist]="whitelist"
+        [changedTags]="_changedTags"
         (characterInputed)="handleSearchTags($event)"
         (tagsEmitter)="handleSearchTags($event)"
       ></lib-tag-input>

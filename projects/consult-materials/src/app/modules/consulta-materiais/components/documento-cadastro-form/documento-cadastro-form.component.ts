@@ -53,7 +53,7 @@ export class DocumentoCadastroFormComponent implements OnInit {
 
     if (this.material) {
       this.hasDocuments = true;
-      this.form.get('path').setValue(this.scopes[1].path);
+      // this.form.get('path').setValue(this.scopes[1].path);
       this.form.get('title').setValue(this.material.title);
       this.form
         .get('description')
