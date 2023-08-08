@@ -68,7 +68,7 @@ export class GuiaCadastroContainerComponent implements OnInit, OnDestroy {
     this.location.back();
   }
   handleSave(): void {
-    const { content, title, description, tags } = this._form?.value;
+    const { content, title, description, tags, path } = this._form?.value;
 
     const observableResolved = (_) => {
       this.messageService.add({
@@ -77,19 +77,40 @@ export class GuiaCadastroContainerComponent implements OnInit, OnDestroy {
         detail: `${'Documento salvo com sucesso'}`,
       });
     };
-    this.subs$.push(
-      this.streamService
-        .createDocumentNote({ content, title, description, tags })
-        .pipe(
-          catchError((err) => {
-            return throwError(err);
+    if (this.material_id) {
+      this.subs$.push(
+        this.streamService
+          .createDocumentNote({ content, title, description, tags, path })
+          .pipe(
+            catchError((err) => {
+              return throwError(err);
+            })
+          )
+          .subscribe((res) => {
+            observableResolved(res);
+            this.goBack();
           })
-        )
-        .subscribe((res) => {
-          observableResolved(res);
-          this.goBack();
-        })
-    );
+      );
+    } else {
+      this.subs$.push(
+        this.streamService
+          .updateDocumentNote(this.material_id, {
+            content,
+            title,
+            description,
+            tags,
+          })
+          .pipe(
+            catchError((err) => {
+              return throwError(err);
+            })
+          )
+          .subscribe((res) => {
+            observableResolved(res);
+            this.goBack();
+          })
+      );
+    }
   }
   handleSearchTags(data: string): void {
     if (Array.isArray(data)) {

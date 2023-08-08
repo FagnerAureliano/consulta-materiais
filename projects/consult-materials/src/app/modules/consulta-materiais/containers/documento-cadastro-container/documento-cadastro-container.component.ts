@@ -99,54 +99,52 @@ export class DocumentoCadastroContainerComponent implements OnInit, OnDestroy {
         detail: `${'Documento salvo com sucesso'}`,
       });
     };
-    console.log(this._form.value);
-
-    // if (this.material_id) {
-    //   formData.append(
-    //     'data',
-    //     JSON.stringify({
-    //       title,
-    //       description,
-    //       tags,
-    //     })
-    //   );
-    //   this.subs$.push(
-    //     this.streamService
-    //       .updateDocumentFile(this.material_id, formData)
-    //       .pipe(
-    //         catchError((err) => {
-    //           return throwError(err);
-    //         })
-    //       )
-    //       .subscribe((res) => {
-    //         observableResolved(res);
-    //         this.goBack();
-    //       })
-    //   );
-    // } else {
-    //   formData.append(
-    //     'data',
-    //     JSON.stringify({
-    //       title,
-    //       description,
-    //       tags,
-    //       path,
-    //     })
-    //   );
-    //   this.subs$.push(
-    //     this.streamService
-    //       .createDocumentFile(formData)
-    //       .pipe(
-    //         catchError((err) => {
-    //           return throwError(err);
-    //         })
-    //       )
-    //       .subscribe((res) => {
-    //         observableResolved(res);
-    //         this.goBack();
-    //       })
-    //   );
-    // }
+    if (this.material_id) {
+      formData.append(
+        'data',
+        JSON.stringify({
+          title,
+          description,
+          tags,
+        })
+      );
+      this.subs$.push(
+        this.streamService
+          .updateDocumentFile(this.material_id, formData)
+          .pipe(
+            catchError((err) => {
+              return throwError(err);
+            })
+          )
+          .subscribe((res) => {
+            observableResolved(res);
+            this.goBack();
+          })
+      );
+    } else {
+      formData.append(
+        'data',
+        JSON.stringify({
+          title,
+          description,
+          tags,
+          path,
+        })
+      );
+      this.subs$.push(
+        this.streamService
+          .createDocumentFile(formData)
+          .pipe(
+            catchError((err) => {
+              return throwError(err);
+            })
+          )
+          .subscribe((res) => {
+            observableResolved(res);
+            this.goBack();
+          })
+      );
+    }
   }
   handleDownload(event): void {
     this.subs$.push(

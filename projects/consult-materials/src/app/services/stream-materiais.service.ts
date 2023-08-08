@@ -27,7 +27,11 @@ export class StreamMaterialsService {
   createDocumentNote(document: any): Observable<any> {
     return this.http.post<any>(`${this.endpoint}/note`, document).pipe(first());
   }
-
+  updateDocumentNote(id: string, document: any): Observable<any> {
+    return this.http
+      .patch<any>(`${this.endpoint}/note/${id}`, document)
+      .pipe(first());
+  }
   deleteDocument(id: string): Observable<any> {
     return this.http
       .delete<any>(`${this.endpoint}/file/${id}`, {
