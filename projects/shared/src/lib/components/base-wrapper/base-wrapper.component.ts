@@ -26,17 +26,15 @@ export class BaseWrapperComponent implements OnInit, OnDestroy {
   @Input() basePath!: string;
 
   _isUserRolepanelvisible = false;
+  // _tokenDuration: moment.Duration;
 
-  _tokenDuration: moment.Duration;
-
-  _observer: MutationObserver;
+  // _observer: MutationObserver;
 
   _popupElement: HTMLElement;
   _cancelButton: HTMLElement;
-
   _versionText: string;
-  isToggleScreenOpen: boolean;
 
+  isToggleScreenOpen: boolean;
   screenWidth: number;
   isMobileScreen: boolean
 
@@ -51,6 +49,7 @@ export class BaseWrapperComponent implements OnInit, OnDestroy {
     public userService: UserService
   ) {
     this.getScreenSize();
+
     this.subs$.push(
       this.router.events
         .pipe(
@@ -66,21 +65,30 @@ export class BaseWrapperComponent implements OnInit, OnDestroy {
           }
         })
     );
+
     this.refreshTokenTime();
   }
 
   toggleUserRolePanel(): void {
     this._isUserRolepanelvisible = !this._isUserRolepanelvisible;
   }
+
   togggleMenuMobile() {
     this.isToggleScreenOpen = !this.isToggleScreenOpen;
+
     const accordDiv = document.getElementById('accord');
+
     accordDiv.style.maxHeight = this.isToggleScreenOpen ? '10.5rem' : null;
     accordDiv.style.height = this.isToggleScreenOpen ? '10.5rem' : null;
   }
+
   ngOnInit(): void {}
+
   ngOnDestroy(): void {
-    this.subs$.forEach((sub$) => sub$.unsubscribe());
+    this.subs$.forEach((sub$) => 
+      sub$.unsubscribe()
+    );
+    
     clearInterval(this._sessionInterval);
   }
 
@@ -94,7 +102,6 @@ export class BaseWrapperComponent implements OnInit, OnDestroy {
     // if (!this.userService.user?.roles || (this.userService.user?.roles.indexOf('ROLE_crud-indicadores') < 0)) {
     //   return false;
     // }
-
     return true;
   }
 
@@ -126,19 +133,24 @@ export class BaseWrapperComponent implements OnInit, OnDestroy {
       this.keycloak.updateToken(-1).then((refreshed) => {
         if (refreshed) {
           const kc = this.keycloak.getKeycloakInstance();
+
           moment.locale('pt-br');
           const currentTime = moment().unix();
+
           const diffTime = kc.tokenParsed.exp + kc.timeSkew - currentTime;
           const interval = 1000;
+
           this.tokenDuration = moment.duration(diffTime, 's');
           if (diffTime > 0) {
             if (this._sessionInterval) {
               clearInterval(this._sessionInterval);
             }
+
             this._sessionInterval = setInterval(() => {
               if (this.keycloak.isTokenExpired()) {
                 this.handleLogout();
               }
+              
               this.tokenDuration = moment.duration(
                 this.tokenDuration.asMilliseconds() - interval,
                 'ms'
@@ -149,6 +161,7 @@ export class BaseWrapperComponent implements OnInit, OnDestroy {
       });
     }
   }
+
   @HostListener('document:click', ['$event.target'])
   handleOutsideClick(el: HTMLElement) {
     this.refreshTokenTime();
@@ -161,6 +174,7 @@ export class BaseWrapperComponent implements OnInit, OnDestroy {
       this._cancelButton.click();
     }
   }
+
   @HostListener('window:resize', ['$event'])
   getScreenSize(event?: any) {
     this.screenWidth = window.innerWidth;

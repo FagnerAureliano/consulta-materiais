@@ -17,16 +17,18 @@ export class MaterialFilterComponent implements OnInit {
   ngOnInit(): void {
     this._form = this.fb.group({
       searchText: [null],
-      all: [null],
-      pdf: [null],
-      spreadsheet: [null],
-      movie: [null],
-      guide: [null],
+      file: [null],
+      picture: [null],
+      video: [null],
+      audio: [null],
+      note: [null],
     });
   }
+
   searchFilter(): void {
     this.materialFilter.emitContent(this._form.value);
   }
+
   clear(): void {
     this._form.reset();
   }

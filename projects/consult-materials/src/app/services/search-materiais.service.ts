@@ -35,13 +35,14 @@ export class SearchMaterialsService {
           this.endpoint
         }/searches/entry-point?term=${term}&scopePath=${mappedScope(
           this.userService.user.roles
-        )}&pageSize=${itemsPerPage}&pageIndex=${startIndex}&sortBy=created&sortOrder=desc&continue&continue`,
+        )}&pageSize=${itemsPerPage}&pageIndex=${startIndex}&sortBy=created&sortOrder=desc`,
         {
           headers: this.defaultHeaders,
         }
       )
       .pipe(first());
   }
+
   getDocumentByID(id: string): Observable<Object> {
     return this.http
       .get<Object>(`${this.endpoint}/files/${id}`, {

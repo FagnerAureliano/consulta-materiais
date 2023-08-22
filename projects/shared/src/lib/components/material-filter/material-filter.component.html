@@ -2,6 +2,7 @@
   <div class="w-12 mt-2">
     <span class="p-input-icon-left w-full">
       <i class="pi pi-search"></i>
+
       <input
         pInputText
         class="p-inputtext p-inputtext-outlined py-2"
@@ -11,7 +12,9 @@
       />
     </span>
   </div>
+
   <p-divider></p-divider>
+
   <div class="pb-1">
     <div class="flex-row">
       <div
@@ -19,72 +22,92 @@
       >
         <div>
           <p-checkbox
-            formControlName="pdf"
-            value="pdf"
-            inputId="pdf"
+            formControlName="file"
+            value="File"
+            inputId="file"
             class="mr-1"
           ></p-checkbox>
-          <label for="pdf">PDF</label>
+
+          <label for="file">Arquivo</label>
         </div>
+
         <div>
           <p-checkbox
-            formControlName="spreadsheet"
-            value="spreadsheet"
-            inputId="spreadsheet"
+            formControlName="picture"
+            value="Picture"
+            inputId="picture"
             class="mr-1"
           ></p-checkbox>
-          <label for="spreadsheet">Planilhas</label>
+
+          <label for="picture">Imagem</label>
         </div>
+
         <div>
           <p-checkbox
-            formControlName="movie"
-            value="video"
+            formControlName="video"
+            value="Video"
             inputId="video"
             class="mr-1"
           ></p-checkbox>
+
           <label for="video">Vídeo</label>
         </div>
+
         <div>
-          <p-checkbox
-            formControlName="guide"
-            value="guiaRapido"
-            inputId="guiaRapido"
-            class="mr-1"
-          ></p-checkbox>
-          <label for="guiaRapido">Guia</label>
-        </div>
-      </div>
-      <div>
-        <div>
-          <p-checkbox
-            formControlName="all"
-            value="all"
-            inputId="all"
-            class="mr-1"
-          ></p-checkbox>
-          <label for="all">Todas as pastas</label>
+          <div>
+            <p-checkbox
+              formControlName="audio"
+              value="Audio"
+              inputId="audio"
+              class="mr-1"
+            ></p-checkbox>
+  
+            <label for="audio">Audio</label>
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="w-full pt-3">
-      <p-button
-        type="button"
-        icon="pi pi-refresh"
-        styleClass="p-button-text col-6 p-button-sm"
-        label="LIMPAR"
-        (onClick)="clear()"
+    <div class="flex-row">
+      <div
+        class="w-full pb-2 flex align-items-center gap-1 justify-content-between"
       >
-      </p-button>
-      <p-button
-        type="button"
-        icon="pi pi-search"
-        styleClass="p-button-text bg-bluegray-50 col-6 p-button-sm"
-        label="BUSCAR"
-        (keydown.enter)="searchFilter()"
-        (onClick)="searchFilter()"
-      >
-      </p-button>
+        <div>
+          <p-checkbox
+            formControlName="note"
+            value="Note"
+            inputId="note"
+            class="mr-1"
+          ></p-checkbox>
+
+          <label for="note">Guia Rápido</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex-row">
+      <div>
+        <div>
+          <p-button
+            type="button"
+            icon="pi pi-refresh"
+            styleClass="p-button-text col-6 p-button-sm"
+            label="LIMPAR"
+            (onClick)="clear()"
+          >
+          </p-button>
+    
+          <p-button
+            type="button"
+            icon="pi pi-search"
+            styleClass="p-button-text bg-bluegray-50 col-6 p-button-sm"
+            label="BUSCAR"
+            (keydown.enter)="searchFilter()"
+            (onClick)="searchFilter()"
+          >
+          </p-button>
+        </div>
+      </div>
     </div>
   </div>
 </form>

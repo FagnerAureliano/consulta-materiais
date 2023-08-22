@@ -61,26 +61,32 @@ export class ConsultaContainerComponent implements OnInit, OnDestroy {
       this.loadItems(this.filterParam);
     }
   }
+
   ngOnDestroy(): void {
     this.subs$.forEach((sub$) => sub$.unsubscribe());
   }
+
   ngOnInit(): void {
     if (this.route.snapshot.queryParams) {
       this.loadItems(this.route.snapshot.queryParams.q);
     }
+
     this.filterContent.inputChange$.subscribe((value) => {
       if (value) {
         this.searchObject = [];
         this.startIndex = 0;
       }
+
       this.loadItems(value.searchText);
     });
+
     this.hasContent.setActive(false);
   }
 
   loadItems(params: string): void {
     if (params) {
       this.filterParam = params;
+
       if (params !== this.filterParam) {
         this.startIndex = 0;
       }
@@ -91,6 +97,7 @@ export class ConsultaContainerComponent implements OnInit, OnDestroy {
     }
 
     this._loading = true;
+
     this.subs$.push(
       this.searchService
         .getAll(params, this.startIndex, this.itemsPerPage)
@@ -117,6 +124,7 @@ export class ConsultaContainerComponent implements OnInit, OnDestroy {
         })
     );
   }
+
   getThumbnailWithFallback(value: { id: string }) {
     return this.streamService.getThumbnail(value['versionableId']).pipe(
       catchError(() => of(null)),
@@ -134,17 +142,21 @@ export class ConsultaContainerComponent implements OnInit, OnDestroy {
     if (value) {
       this.searchObject = [];
       this.startIndex = 0;
+
       this.loadItems(value.label);
     }
   }
+
   updateDocument(data: any): void {
     const { id, type } = data;
+    
     if (type === 'Note') {
       this.router.navigate(['/materials/guia-cadastro/edit/', id]);
     } else {
       this.router.navigate(['/materials/documento-cadastro/edit/', id]);
     }
   }
+
   deleteDocument(id: string): void {
     this._isActionBtnDisabled = true;
 
