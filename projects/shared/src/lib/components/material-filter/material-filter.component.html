@@ -26,6 +26,7 @@
             value="File"
             inputId="file"
             class="mr-1"
+            (onChange)="onCheckboxChange('file')"
           ></p-checkbox>
 
           <label for="file">Arquivo</label>
@@ -37,6 +38,7 @@
             value="Picture"
             inputId="picture"
             class="mr-1"
+            (onChange)="onCheckboxChange('picture')"
           ></p-checkbox>
 
           <label for="picture">Imagem</label>
@@ -48,6 +50,7 @@
             value="Video"
             inputId="video"
             class="mr-1"
+            (onChange)="onCheckboxChange('video')"
           ></p-checkbox>
 
           <label for="video">Vídeo</label>
@@ -60,6 +63,7 @@
               value="Audio"
               inputId="audio"
               class="mr-1"
+              (onChange)="onCheckboxChange('audio')"
             ></p-checkbox>
   
             <label for="audio">Audio</label>
@@ -78,6 +82,7 @@
             value="Note"
             inputId="note"
             class="mr-1"
+            (onChange)="onCheckboxChange('note')"
           ></p-checkbox>
 
           <label for="note">Guia Rápido</label>

@@ -1,8 +1,10 @@
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
+import { searchObjectParams } from 'projects/consult-materials/src/app/models/search-object-params';
 import { SearchMaterialsService } from 'projects/consult-materials/src/app/services/search-materiais.service';
 import { StreamMaterialsService } from 'projects/consult-materials/src/app/services/stream-materiais.service';
+import { ClearService } from 'projects/shared/src/lib/services/clear.service';
 import { HasContentService } from 'projects/shared/src/lib/services/has-content.service';
 import { MaterialFilterService } from 'projects/shared/src/lib/services/material-filter.service';
 import { Observable, Subscription, forkJoin, of, throwError } from 'rxjs';
@@ -15,12 +17,16 @@ import { catchError, finalize, map, switchMap } from 'rxjs/operators';
 })
 export class ConsultaContainerComponent implements OnInit, OnDestroy {
   private subs$: Subscription[] = [];
+
   content$: Observable<boolean> = this.hasContent.getActive();
 
   searchObject: any[] = [];
-  filterParam: string;
+
+  filterParam: searchObjectParams;
+
   itemsPerPage = 6;
   startIndex = 0;
+
   _isActionBtnDisabled: boolean = false;
 
   _loading = false;
@@ -43,6 +49,7 @@ export class ConsultaContainerComponent implements OnInit, OnDestroy {
     private searchService: SearchMaterialsService,
     private streamService: StreamMaterialsService,
     private confirmationService: ConfirmationService,
+    private clearService: ClearService,
     private filterContent: MaterialFilterService,
     private hasContent: HasContentService,
     private messageService: MessageService,
@@ -67,8 +74,20 @@ export class ConsultaContainerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    if (this.route.snapshot.queryParams) {
-      this.loadItems(this.route.snapshot.queryParams.q);
+
+    this.clearService.clear$.subscribe(() => {
+      this.searchObject = [];
+    });
+
+    const queryParam = this.route.snapshot.queryParams.q;
+
+    if (queryParam) {
+      const searchObject: searchObjectParams = {
+        searchText: queryParam,
+        primaryType: null
+      };
+
+      this.loadItems(searchObject);
     }
 
     this.filterContent.inputChange$.subscribe((value) => {
@@ -77,13 +96,13 @@ export class ConsultaContainerComponent implements OnInit, OnDestroy {
         this.startIndex = 0;
       }
 
-      this.loadItems(value.searchText);
+      this.loadItems(value);
     });
 
     this.hasContent.setActive(false);
   }
 
-  loadItems(params: string): void {
+  loadItems(params: searchObjectParams): void {
     if (params) {
       this.filterParam = params;
 

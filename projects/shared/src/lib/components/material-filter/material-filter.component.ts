@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MaterialFilterService } from '../../services/material-filter.service';
+import { searchObjectParams } from 'projects/consult-materials/src/app/models/search-object-params';
+import { ClearService } from '../../services/clear.service';
 
 @Component({
   selector: 'mat-material-filter',
@@ -11,7 +13,8 @@ export class MaterialFilterComponent implements OnInit {
   _form: FormGroup;
   constructor(
     private fb: FormBuilder,
-    private materialFilter: MaterialFilterService
+    private materialFilter: MaterialFilterService,
+    private clearService: ClearService
   ) {}
 
   ngOnInit(): void {
@@ -26,10 +29,43 @@ export class MaterialFilterComponent implements OnInit {
   }
 
   searchFilter(): void {
-    this.materialFilter.emitContent(this._form.value);
+    const searchObject = this.createFormObject();
+
+    this.materialFilter.emitContent(searchObject);
+  }
+
+  onCheckboxChange(controlName: string) {
+    //Através do nome do Control que mudou de estado, garante que apenas um checkbox possa ter o valor determinado por vez. Ignora o input searchtext
+    Object.keys(this._form.controls)
+      .filter(key => key !== controlName && key !== 'searchText')
+      .forEach(key => this._form.get(key).setValue(null, { emitEvent: false }));
+  }
+
+  createFormObject(): searchObjectParams {
+    //Obtém o valor do input searchText
+    const searchText = this._form.get('searchText').value || '';
+    
+    let primaryType = null;
+
+    //Determina o primaryType baseado no checkbox selecionado
+    for (const key of ['file', 'picture', 'video', 'audio', 'note']) {
+      if (this._form.get(key).value) {
+        // Atribui o valor do checkbox selecionado
+        primaryType = this._form.get(key).value[0]; 
+        break;
+      }
+    }
+  
+    //Monta o objeto a ser retornado
+    return {
+      searchText,
+      primaryType
+    };
   }
 
   clear(): void {
     this._form.reset();
+
+    this.clearService.triggerClear();
   }
 }

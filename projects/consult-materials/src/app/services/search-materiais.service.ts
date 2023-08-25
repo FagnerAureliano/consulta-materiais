@@ -4,6 +4,7 @@ import { UserService } from '@shared';
 import { mappedScope } from 'projects/shared/src/lib/utils/mapped-scopes';
 import { Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
+import { searchObjectParams } from '../models/search-object-params';
 
 @Injectable({
   providedIn: 'root',
@@ -25,7 +26,7 @@ export class SearchMaterialsService {
   }
 
   getAll(
-    term: string,
+    term: searchObjectParams,
     startIndex: number = 0,
     itemsPerPage: number
   ): Observable<any[]> {
@@ -33,9 +34,9 @@ export class SearchMaterialsService {
       .get<any[]>(
         `${
           this.endpoint
-        }/searches/entry-point?term=${term}&scopePath=${mappedScope(
+        }/searches/entry-point?term=${term.searchText}&scopePath=${mappedScope(
           this.userService.user.roles
-        )}&pageSize=${itemsPerPage}&pageIndex=${startIndex}&sortBy=created&sortOrder=desc`,
+        )}&primaryType=${term.primaryType ? term.primaryType : ""}&pageSize=${itemsPerPage}&pageIndex=${startIndex}&sortBy=created&sortOrder=desc`,
         {
           headers: this.defaultHeaders,
         }
