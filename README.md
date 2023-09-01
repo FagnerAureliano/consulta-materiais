@@ -26,7 +26,7 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 
 To build a Docker image for different environments (dev, hom, prod) and versions, you can use the `--build-arg` option to specify the `ENV_CONFIG` value. Replace `[VERSION]` with the version number you are releasing.
 
-## Prerequisites
+### Prerequisites
 
 Make sure you have Docker installed and running on your machine. You can download it from [Docker Official Site](https://www.docker.com/products/docker-desktop).
 
@@ -51,7 +51,7 @@ docker build --build-arg ENV_CONFIG=prod -t material-apoio-fe:prod-[VERSION] .
 
 Each command will build the Docker image and tag it according to the environment and version (e.g., material-apoio-fe:dev-1.0 for the development environment version 1.0).
 
-### Running the Container
+## Running the Container
 
 After building the image, you can run a container using the command below, replacing [TAG] and [VERSION] with the appropriate values:
 
@@ -61,7 +61,7 @@ docker run -d -p 4300:80 --name material-apoio-fe-container material-apoio-fe:[T
 
 Visit `http://localhost:4300/consult-materials/#/materials/search` to access the application.
 
-### Stopping and Removing the Container
+## Stopping and Removing the Container
 
 To stop and remove the running container, execute the following commands:
 
@@ -70,27 +70,27 @@ docker stop material-apoio-fe-container
 docker rm material-apoio-fe-container
 ```
 
-### Push the image to registry (Harbor)
+## Push the image to registry (Harbor)
 
-Log in to the Docker Registry (Harbor in our case):
+### Log in to the Docker Registry (Harbor in our case):
 
 ```bash
 docker login https://registry.ccarj.intraer/ -u [YOUR-USERNAME] -p ['YOUR-PASSWORD']
 ```
 
-List existing Docker images on your local machine:
+### List existing Docker images on your local machine:
 
 ```bash
 docker images
 ```
 
-Tag the local image for the Harbor registry:
+### Tag the local image for the Harbor registry:
 
 ```bash
 docker tag material-apoio-fe:[TAG]-[VERSION] registry.ccarj.intraer/portaldeapoio/material-apoio:[TAG]-[VERSION]
 ```
 
-Push the tagged image to the Harbor registry:
+### Push the tagged image to the Harbor registry:
 
 ```bash
 docker push registry.ccarj.intraer/portaldeapoio/material-apoio:[TAG]-[VERSION] 
