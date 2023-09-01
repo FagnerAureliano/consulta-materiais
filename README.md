@@ -22,13 +22,13 @@ Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.
 
 Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
 
-## Prerequisites
-
-Make sure you have Docker installed and running on your machine. You can download it from [Docker Official Site](https://www.docker.com/products/docker-desktop).
-
 ## Build Docker Image for Different Environments and Versions
 
 To build a Docker image for different environments (dev, hom, prod) and versions, you can use the `--build-arg` option to specify the `ENV_CONFIG` value. Replace `[VERSION]` with the version number you are releasing.
+
+## Prerequisites
+
+Make sure you have Docker installed and running on your machine. You can download it from [Docker Official Site](https://www.docker.com/products/docker-desktop).
 
 <!-- ## Build Docker Image for Different Environments
 
@@ -41,7 +41,7 @@ docker build --build-arg ENV_CONFIG=dev -t material-apoio:dev .
 
 ### Development Environment
 ```bash
-$ docker build --build-arg ENV_CONFIG=dev -t material-apoio:dev-[VERSION] .
+docker build --build-arg ENV_CONFIG=dev -t material-apoio:dev-[VERSION] .
 ```
 
 <!-- ### Homologation Environment
