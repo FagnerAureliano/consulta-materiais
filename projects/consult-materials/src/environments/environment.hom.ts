@@ -1,11 +1,11 @@
 export const environment = {
-  production: true,
-  homolog: false,
+  production: false,
+  homolog: true,
   development: false,
 
   version: '1.0.0',
 
-  KEYCLOAK_URL: 'https://auth.ccarj.intraer/auth/',
+  KEYCLOAK_URL: 'https://auth.homolog.ccarj.intraer/auth/',
   KEYCLOAK_REALM: 'FAB',
   KEYCLOAK_CLIENT_ID: 'material-apoio-api',
 

@@ -4,9 +4,9 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
-    "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "build:dev": "ng build consult-materials",
+    "build:hom":"ng build consult-materials --configuration=homolog",
+    "build:prod":"ng build consult-materials --configuration production"
   },
   "private": true,
   "dependencies": {

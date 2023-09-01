@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MaterialFilterService } from '../../services/material-filter.service';
-import { searchObjectParams } from 'projects/consult-materials/src/app/models/search-object-params';
+import { searchObjectParams } from 'projects/shared/src/lib/models/search-object-params';
 import { ClearService } from '../../services/clear.service';
 
 @Component({
