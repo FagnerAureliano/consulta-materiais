@@ -30,54 +30,30 @@ To build a Docker image for different environments (dev, hom, prod) and versions
 
 Make sure you have Docker installed and running on your machine. You can download it from [Docker Official Site](https://www.docker.com/products/docker-desktop).
 
-<!-- ## Build Docker Image for Different Environments
-
-To build a Docker image for different environments (dev, hom, prod), you can use the `--build-arg` option to specify the `ENV_CONFIG` value. Below are the commands for each environment: -->
-
-<!-- ### Development Environment
-```bash
-docker build --build-arg ENV_CONFIG=dev -t material-apoio:dev .
-``` -->
 
 ### Development Environment
+
 ```bash
 docker build --build-arg ENV_CONFIG=dev -t material-apoio:dev-[VERSION] .
 ```
 
-<!-- ### Homologation Environment
-```bash
-docker build --build-arg ENV_CONFIG=hom -t material-apoio:hom .
-``` -->
-
 ### Homologation Environment
+
 ```bash
 docker build --build-arg ENV_CONFIG=hom -t material-apoio:hom-[VERSION] .
 ```
 
-<!-- ### Production Environment
-```bash
-docker build --build-arg ENV_CONFIG=prod -t material-apoio:prod .
-``` -->
-
 ### Production Environment
+
 ```bash
 docker build --build-arg ENV_CONFIG=prod -t material-apoio:prod-[VERSION] .
 ```
-
-
-<!-- Each command will build the Docker image and tag it according to the environment (e.g., `material-apoio:dev` for the development environment). -->
 
 Each command will build the Docker image and tag it according to the environment and version (e.g., material-apoio:dev-1.0 for the development environment version 1.0).
 
 ### Running the Container
 
-<!-- After building the image, you can run a container using the command below, replacing `[TAG]` with the appropriate tag (`dev`, `hom`, `prod`): -->
-
 After building the image, you can run a container using the command below, replacing [TAG] and [VERSION] with the appropriate values:
-
-<!-- ```bash
-docker run -d -p 4300:80 --name material-apoio-container material-apoio:[TAG]
-``` -->
 
 ```bash
 docker run -d -p 4300:80 --name material-apoio-container material-apoio:[TAG]-[VERSION]
@@ -93,8 +69,6 @@ To stop and remove the running container, execute the following commands:
 docker stop material-apoio-container
 docker rm material-apoio-container
 ```
-
-
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
