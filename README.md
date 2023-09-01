@@ -40,10 +40,9 @@ docker build --build-arg ENV_CONFIG=dev -t material-apoio:dev .
 \`\`\` -->
 
 ### Development Environment
-\`\`\`bash
-docker build --build-arg ENV_CONFIG=dev -t material-apoio:dev-[VERSION] .
-\`\`\`
-
+```bash
+$ docker build --build-arg ENV_CONFIG=dev -t material-apoio:dev-[VERSION] .
+```
 
 <!-- ### Homologation Environment
 \`\`\`bash
