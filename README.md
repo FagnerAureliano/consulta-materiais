@@ -72,25 +72,41 @@ docker rm material-apoio-fe-container
 
 ## Push the image to registry (Harbor)
 
-### Log in to the Docker Registry (Harbor in our case):
+This guide provides a step-by-step walkthrough for logging into a Harbor registry and pushing a Docker image. The commands are specific to the Harbor instance at registry.ccarj.intraer.
+
+### Prerequisites
+
+Access credentials (username and password) for https://registry.ccarj.intraer/
+
+### Step 1: Log in to the Harbor Registry
+
+To log in, use the docker login command. Replace [YOUR-USERNAME] and ['YOUR-PASSWORD'] with your Harbor username and password. Note that the password is wrapped in single quotes to handle special characters.
+
+Note: The https:// protocol is optional during login.
 
 ```bash
 docker login https://registry.ccarj.intraer/ -u [YOUR-USERNAME] -p ['YOUR-PASSWORD']
 ```
 
-### List existing Docker images on your local machine:
+### Step 2: List Local Docker Images
+
+Before tagging and pushing an image, check the list of Docker images that are available on your local machine.
 
 ```bash
 docker images
 ```
 
-### Tag the local image for the Harbor registry:
+### Step 3: Tag the Local Image for Harbor
+
+The docker tag command is used to assign a new tag to an existing local image. Replace [TAG]-[VERSION] with the tag and version you want to use. This command creates a new tagged image that can be pushed to the Harbor registry.
 
 ```bash
 docker tag material-apoio-fe:[TAG]-[VERSION] registry.ccarj.intraer/portaldeapoio/material-apoio:[TAG]-[VERSION]
 ```
 
-### Push the tagged image to the Harbor registry:
+### Step 4: Push the Tagged Image to Harbor
+
+Once the image is tagged, you can push it to the Harbor registry using docker push. Again, replace [TAG]-[VERSION] with your specific tag and version.
 
 ```bash
 docker push registry.ccarj.intraer/portaldeapoio/material-apoio:[TAG]-[VERSION] 
