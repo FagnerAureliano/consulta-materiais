@@ -101,7 +101,7 @@ docker images
 The docker tag command is used to assign a new tag to an existing local image. Replace [TAG]-[VERSION] with the tag and version you want to use. This command creates a new tagged image that can be pushed to the Harbor registry.
 
 ```bash
-docker tag material-apoio-fe:[TAG]-[VERSION] registry.ccarj.intraer/portaldeapoio/material-apoio:[TAG]-[VERSION]
+docker tag material-apoio-fe:[TAG]-[VERSION] registry.ccarj.intraer/portaldeapoio/material-apoio-fe:[TAG]-[VERSION]
 ```
 
 ### Step 4: Push the Tagged Image to Harbor
@@ -109,7 +109,7 @@ docker tag material-apoio-fe:[TAG]-[VERSION] registry.ccarj.intraer/portaldeapoi
 Once the image is tagged, you can push it to the Harbor registry using docker push. Again, replace [TAG]-[VERSION] with your specific tag and version.
 
 ```bash
-docker push registry.ccarj.intraer/portaldeapoio/material-apoio:[TAG]-[VERSION] 
+docker push registry.ccarj.intraer/portaldeapoio/material-apoio-fe:[TAG]-[VERSION] 
 ```
 
 ## Further help
