@@ -35,9 +35,9 @@ To build a Docker image for different environments (dev, hom, prod) and versions
 To build a Docker image for different environments (dev, hom, prod), you can use the `--build-arg` option to specify the `ENV_CONFIG` value. Below are the commands for each environment: -->
 
 <!-- ### Development Environment
-\`\`\`bash
+```bash
 docker build --build-arg ENV_CONFIG=dev -t material-apoio:dev .
-\`\`\` -->
+``` -->
 
 ### Development Environment
 ```bash
@@ -45,24 +45,24 @@ $ docker build --build-arg ENV_CONFIG=dev -t material-apoio:dev-[VERSION] .
 ```
 
 <!-- ### Homologation Environment
-\`\`\`bash
+```bash
 docker build --build-arg ENV_CONFIG=hom -t material-apoio:hom .
-\`\`\` -->
+``` -->
 
 ### Homologation Environment
-\`\`\`bash
+```bash
 docker build --build-arg ENV_CONFIG=hom -t material-apoio:hom-[VERSION] .
-\`\`\`
+```
 
 <!-- ### Production Environment
-\`\`\`bash
+```bash
 docker build --build-arg ENV_CONFIG=prod -t material-apoio:prod .
-\`\`\` -->
+``` -->
 
 ### Production Environment
-\`\`\`bash
+```bash
 docker build --build-arg ENV_CONFIG=prod -t material-apoio:prod-[VERSION] .
-\`\`\`
+```
 
 
 <!-- Each command will build the Docker image and tag it according to the environment (e.g., `material-apoio:dev` for the development environment). -->
@@ -75,13 +75,13 @@ Each command will build the Docker image and tag it according to the environment
 
 After building the image, you can run a container using the command below, replacing [TAG] and [VERSION] with the appropriate values:
 
-<!-- \`\`\`bash
+<!-- ```bash
 docker run -d -p 4300:80 --name material-apoio-container material-apoio:[TAG]
-\`\`\` -->
+``` -->
 
-\`\`\`bash
+```bash
 docker run -d -p 4300:80 --name material-apoio-container material-apoio:[TAG]-[VERSION]
-\`\`\`
+```
 
 Visit `http://localhost:4300/consult-materials/#/materials/search` to access the application.
 
@@ -89,10 +89,10 @@ Visit `http://localhost:4300/consult-materials/#/materials/search` to access the
 
 To stop and remove the running container, execute the following commands:
 
-\`\`\`bash
+```bash
 docker stop material-apoio-container
 docker rm material-apoio-container
-\`\`\`
+```
 
 
 ## Further help
