@@ -34,29 +34,29 @@ Make sure you have Docker installed and running on your machine. You can downloa
 ### Development Environment
 
 ```bash
-docker build --build-arg ENV_CONFIG=dev -t material-apoio-fe:dev-[VERSION] .
+docker build --build-arg ENV_CONFIG=dev -t material-apoio-fe:dev-v[VERSION] .
 ```
 
 ### Homologation Environment
 
 ```bash
-docker build --build-arg ENV_CONFIG=hom -t material-apoio-fe:hom-[VERSION] .
+docker build --build-arg ENV_CONFIG=hom -t material-apoio-fe:hom-v[VERSION] .
 ```
 
 ### Production Environment
 
 ```bash
-docker build --build-arg ENV_CONFIG=prod -t material-apoio-fe:prod-[VERSION] .
+docker build --build-arg ENV_CONFIG=prod -t material-apoio-fe:prod-v[VERSION] .
 ```
 
-Each command will build the Docker image and tag it according to the environment and version (e.g., material-apoio-fe:dev-1.0 for the development environment version 1.0).
+Each command will build the Docker image and tag it according to the environment and version (e.g., material-apoio-fe:dev-v1.0.0 for the development environment version 1.0.0).
 
 ## Running the Container
 
 After building the image, you can run a container using the command below, replacing [TAG] and [VERSION] with the appropriate values:
 
 ```bash
-docker run -d -p 4300:80 --name material-apoio-fe-container material-apoio-fe:[TAG]-[VERSION]
+docker run -d -p 4300:80 --name material-apoio-fe-container material-apoio-fe:[TAG]-v[VERSION]
 ```
 
 Visit `http://localhost:4300/consult-materials/#/materials/search` to access the application.
@@ -98,18 +98,18 @@ docker images
 
 ### Step 3: Tag the Local Image for Harbor
 
-The docker tag command is used to assign a new tag to an existing local image. Replace [TAG]-[VERSION] with the tag and version you want to use. This command creates a new tagged image that can be pushed to the Harbor registry.
+The docker tag command is used to assign a new tag to an existing local image. Replace [TAG]-v[VERSION] with the tag and version you want to use. This command creates a new tagged image that can be pushed to the Harbor registry.
 
 ```bash
-docker tag material-apoio-fe:[TAG]-[VERSION] registry.ccarj.intraer/portaldeapoio/material-apoio-fe:[TAG]-[VERSION]
+docker tag material-apoio-fe:[TAG]-v[VERSION] registry.ccarj.intraer/portaldeapoio/material-apoio-fe:[TAG]-v[VERSION]
 ```
 
 ### Step 4: Push the Tagged Image to Harbor
 
-Once the image is tagged, you can push it to the Harbor registry using docker push. Again, replace [TAG]-[VERSION] with your specific tag and version.
+Once the image is tagged, you can push it to the Harbor registry using docker push. Again, replace [TAG]-v[VERSION] with your specific tag and version.
 
 ```bash
-docker push registry.ccarj.intraer/portaldeapoio/material-apoio-fe:[TAG]-[VERSION] 
+docker push registry.ccarj.intraer/portaldeapoio/material-apoio-fe:[TAG]-v[VERSION] 
 ```
 
 ## Further help
