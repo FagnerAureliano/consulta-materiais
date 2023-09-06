@@ -32,10 +32,6 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 Make sure you have Docker installed and running on your machine. You can download it from [Docker Official Site](https://www.docker.com/products/docker-desktop).
 
-To build a Docker image for different environments (dev, hom, prod) and versions (v0.0.1, v2.0.0, etc.), you must use the `--build-arg` option to specify the `ENV_CONFIG` value. Replace `[ENV]` with the environment tag desired and `[VERSION]` with the version number you are releasing.
-
-e.g., docker build --build-arg ENV_CONFIG=[ENV] -t registry.ccarj.intraer/portaldeapoio/material-apoio-fe:[ENV]-v[VERSION] .
-
 ### Registry Identification Tag
 
 Prefixing the image name with "registry.ccarj.intraer" specifies the registry where the image is stored. It ensures that Docker interacts with the correct registry to pull or push the image, facilitating secure and organized storage of your Docker images.
@@ -43,6 +39,12 @@ Prefixing the image name with "registry.ccarj.intraer" specifies the registry wh
 ### Namespace Segregation
 
 Including "portaldeapoio/material-apoio-fe" in the tag helps in namespace segregation. It categorizes the image under a specific project or application ("portaldeapoio") and further classifies it under a specific service or component ("material-apoio-fe"). This level of segregation is beneficial for larger projects with multiple microservices or components.
+
+### Build
+
+To build a Docker image for different environments (dev, hom, prod) and versions (v0.0.1, v2.0.0, etc.), you must use the `--build-arg` option to specify the `ENV_CONFIG` value. Replace `[ENV]` with the environment tag desired and `[VERSION]` with the version number you are releasing.
+
+e.g., docker build --build-arg ENV_CONFIG=[ENV] -t registry.ccarj.intraer/portaldeapoio/material-apoio-fe:[ENV]-v[VERSION] .
 
 ### Development Environment
 
