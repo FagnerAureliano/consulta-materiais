@@ -1,21 +1,23 @@
+#Stage one
 FROM node:14 AS build-stage
-
-WORKDIR /usr/src/app
-
-COPY package*.json ./
-
-RUN npm install
-
-COPY . .
 
 ARG ENV_CONFIG
 
+WORKDIR /app
+
+COPY package*.json ./
+
+COPY . .
+
+RUN npm install
+
 RUN npm run build:${ENV_CONFIG}
 
-FROM nginx:alpine
+#Stage two
+FROM nginx as production-stage
 
-COPY --from=build-stage /usr/src/app/dist/ /usr/share/nginx/html
+RUN mkdir /app
 
-EXPOSE 80
+COPY --from=build-stage /app/dist /app
 
-CMD ["nginx", "-g", "daemon off;"]
+COPY nginx.conf /etc/nginx/nginx.conf
