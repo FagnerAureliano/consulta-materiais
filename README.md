@@ -26,7 +26,7 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
 
-## Build Docker Image for Different Environments and Versions and Tag the Local Image for Harbor
+## Build Docker Image for Different Environments and Versions and Tag the Local Image for Push to registry (Harbor)
 
 ### Prerequisites
 
@@ -66,25 +66,6 @@ docker build --build-arg ENV_CONFIG=prod -t registry.ccarj.intraer/portaldeapoio
 
 Each command will build the Docker image and tag it according to the environment and version (e.g., registry.ccarj.intraer/portaldeapoio/material-apoio-fe:dev-v0.0.1 for the development environment version 0.0.1).
 
-## Running the Container
-
-After building the image, you can run a container using the command below, replacing [TAG] and [VERSION] with the appropriate values:
-
-```bash
-docker run -d -p 4300:8080 --name material-apoio-fe-container registry.ccarj.intraer/portaldeapoio/material-apoio-fe:[TAG]-v[VERSION]
-```
-
-Visit `http://localhost:4300/consult-materials/#/materials/search` to access the application.
-
-## Stopping and Removing the Container
-
-To stop and remove the running container, execute the following commands:
-
-```bash
-docker stop material-apoio-fe-container
-docker rm material-apoio-fe-container
-```
-
 ## Push the image to registry (Harbor)
 
 This guide provides a step-by-step walkthrough for logging into a Harbor registry and pushing a Docker image. The commands are specific to the Harbor instance at registry.ccarj.intraer.
@@ -117,4 +98,23 @@ Once the image is already tagged, you can push it to the Harbor registry using d
 
 ```bash
 docker push registry.ccarj.intraer/portaldeapoio/material-apoio-fe:[TAG]-v[VERSION] 
+```
+
+## Running the Container
+
+After building the image, if you want, you can run a container using the command below, replacing [TAG] and [VERSION] with the appropriate values:
+
+```bash
+docker run -d -p 4300:8080 --name material-apoio-fe-container registry.ccarj.intraer/portaldeapoio/material-apoio-fe:[TAG]-v[VERSION]
+```
+
+Visit `http://localhost:4300/consult-materials/#/materials/search` to access the application.
+
+## Stopping and Removing the Container
+
+To stop and remove the running container, execute the following commands:
+
+```bash
+docker stop material-apoio-fe-container
+docker rm material-apoio-fe-container
 ```
