@@ -34,7 +34,15 @@ Make sure you have Docker installed and running on your machine. You can downloa
 
 To build a Docker image for different environments (dev, hom, prod) and versions (v0.0.1, v2.0.0, etc.), you must use the `--build-arg` option to specify the `ENV_CONFIG` value. Replace `[ENV]` with the environment tag desired and `[VERSION]` with the version number you are releasing.
 
-docker build --build-arg ENV_CONFIG=[ENV] -t registry.ccarj.intraer/portaldeapoio/material-apoio-fe:[ENV]-v[VERSION] .
+e.g., docker build --build-arg ENV_CONFIG=[ENV] -t registry.ccarj.intraer/portaldeapoio/material-apoio-fe:[ENV]-v[VERSION] .
+
+### Registry Identification Tag
+
+Prefixing the image name with "registry.ccarj.intraer" specifies the registry where the image is stored. It ensures that Docker interacts with the correct registry to pull or push the image, facilitating secure and organized storage of your Docker images.
+
+### Namespace Segregation
+
+Including "portaldeapoio/material-apoio-fe" in the tag helps in namespace segregation. It categorizes the image under a specific project or application ("portaldeapoio") and further classifies it under a specific service or component ("material-apoio-fe"). This level of segregation is beneficial for larger projects with multiple microservices or components.
 
 ### Development Environment
 
@@ -42,28 +50,17 @@ docker build --build-arg ENV_CONFIG=[ENV] -t registry.ccarj.intraer/portaldeapoi
 docker build --build-arg ENV_CONFIG=dev -t registry.ccarj.intraer/portaldeapoio/material-apoio-fe:dev-v0.0.1 .
 ```
 
-<!-- ```bash
-docker build --build-arg ENV_CONFIG=dev -t material-apoio-fe:dev-v[VERSION] .
-``` -->
-
 ### Homologation Environment
 
 ```bash
 docker build --build-arg ENV_CONFIG=hom -t registry.ccarj.intraer/portaldeapoio/material-apoio-fe:hom-v2.0.0 .
 ```
-<!-- ```bash
-docker build --build-arg ENV_CONFIG=hom -t material-apoio-fe:hom-v[VERSION] .
-``` -->
 
 ### Production Environment
 
 ```bash
 docker build --build-arg ENV_CONFIG=prod -t registry.ccarj.intraer/portaldeapoio/material-apoio-fe:prod-v5.0.1 .
 ```
-
-<!-- ```bash
-docker build --build-arg ENV_CONFIG=prod -t material-apoio-fe:prod-v[VERSION] .
-``` -->
 
 Each command will build the Docker image and tag it according to the environment and version (e.g., registry.ccarj.intraer/portaldeapoio/material-apoio-fe:dev-v0.0.1 for the development environment version 0.0.1).
 
@@ -106,23 +103,15 @@ docker login https://registry.ccarj.intraer/ -u [YOUR-USERNAME] -p ['YOUR-PASSWO
 
 ### Step 2: List Local Docker Images
 
-Before tagging and pushing an image, check the list of Docker images that are available on your local machine.
+Before pushing an image, check the list of Docker images that are available on your local machine.
 
 ```bash
 docker images
 ```
 
-<!-- ### Step 3: Tag the Local Image for Harbor
+### Step 3: Push the Tagged Image to Harbor
 
-The docker tag command is used to assign a new tag to an existing local image. Replace [TAG]-v[VERSION] with the tag and version you want to use. This command creates a new tagged image that can be pushed to the Harbor registry.
-
-```bash
-docker tag material-apoio-fe:[TAG]-v[VERSION] registry.ccarj.intraer/portaldeapoio/material-apoio-fe:[TAG]-v[VERSION]
-``` -->
-
-### Step 4: Push the Tagged Image to Harbor
-
-Once the image is tagged, you can push it to the Harbor registry using docker push. Again, replace [TAG]-v[VERSION] with your specific tag and version.
+Once the image is already tagged, you can push it to the Harbor registry using docker push. Again, replace [TAG]-v[VERSION] with your specific tag and version.
 
 ```bash
 docker push registry.ccarj.intraer/portaldeapoio/material-apoio-fe:[TAG]-v[VERSION] 
