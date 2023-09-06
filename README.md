@@ -22,34 +22,50 @@ Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.
 
 Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
 
-## Build Docker Image for Different Environments and Versions
+## Further help
 
-To build a Docker image for different environments (dev, hom, prod) and versions, you can use the `--build-arg` option to specify the `ENV_CONFIG` value. Replace `[VERSION]` with the version number you are releasing.
+To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+
+## Build Docker Image for Different Environments and Versions and Tag the Local Image for Harbor
 
 ### Prerequisites
 
 Make sure you have Docker installed and running on your machine. You can download it from [Docker Official Site](https://www.docker.com/products/docker-desktop).
 
+To build a Docker image for different environments (dev, hom, prod) and versions (v0.0.1, v2.0.0, etc.), you must use the `--build-arg` option to specify the `ENV_CONFIG` value. Replace `[ENV]` with the environment tag desired and `[VERSION]` with the version number you are releasing.
+
+docker build --build-arg ENV_CONFIG=[ENV] -t registry.ccarj.intraer/portaldeapoio/material-apoio-fe:[ENV]-v[VERSION] .
 
 ### Development Environment
 
 ```bash
-docker build --build-arg ENV_CONFIG=dev -t material-apoio-fe:dev-v[VERSION] .
+docker build --build-arg ENV_CONFIG=dev -t registry.ccarj.intraer/portaldeapoio/material-apoio-fe:dev-v0.0.1 .
 ```
+
+<!-- ```bash
+docker build --build-arg ENV_CONFIG=dev -t material-apoio-fe:dev-v[VERSION] .
+``` -->
 
 ### Homologation Environment
 
 ```bash
-docker build --build-arg ENV_CONFIG=hom -t material-apoio-fe:hom-v[VERSION] .
+docker build --build-arg ENV_CONFIG=hom -t registry.ccarj.intraer/portaldeapoio/material-apoio-fe:hom-v2.0.0 .
 ```
+<!-- ```bash
+docker build --build-arg ENV_CONFIG=hom -t material-apoio-fe:hom-v[VERSION] .
+``` -->
 
 ### Production Environment
 
 ```bash
-docker build --build-arg ENV_CONFIG=prod -t material-apoio-fe:prod-v[VERSION] .
+docker build --build-arg ENV_CONFIG=prod -t registry.ccarj.intraer/portaldeapoio/material-apoio-fe:prod-v5.0.1 .
 ```
 
-Each command will build the Docker image and tag it according to the environment and version (e.g., material-apoio-fe:dev-v1.0.0 for the development environment version 1.0.0).
+<!-- ```bash
+docker build --build-arg ENV_CONFIG=prod -t material-apoio-fe:prod-v[VERSION] .
+``` -->
+
+Each command will build the Docker image and tag it according to the environment and version (e.g., registry.ccarj.intraer/portaldeapoio/material-apoio-fe:dev-v0.0.1 for the development environment version 0.0.1).
 
 ## Running the Container
 
@@ -96,13 +112,13 @@ Before tagging and pushing an image, check the list of Docker images that are av
 docker images
 ```
 
-### Step 3: Tag the Local Image for Harbor
+<!-- ### Step 3: Tag the Local Image for Harbor
 
 The docker tag command is used to assign a new tag to an existing local image. Replace [TAG]-v[VERSION] with the tag and version you want to use. This command creates a new tagged image that can be pushed to the Harbor registry.
 
 ```bash
 docker tag material-apoio-fe:[TAG]-v[VERSION] registry.ccarj.intraer/portaldeapoio/material-apoio-fe:[TAG]-v[VERSION]
-```
+``` -->
 
 ### Step 4: Push the Tagged Image to Harbor
 
@@ -111,7 +127,3 @@ Once the image is tagged, you can push it to the Harbor registry using docker pu
 ```bash
 docker push registry.ccarj.intraer/portaldeapoio/material-apoio-fe:[TAG]-v[VERSION] 
 ```
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.

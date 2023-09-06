@@ -1,6 +1,7 @@
-#Stage one
+#Stage one, Node.js Build Stage.
 FROM node:14 AS build-stage
 
+#Define argument for build environment
 ARG ENV_CONFIG
 
 WORKDIR /app
@@ -13,7 +14,7 @@ RUN npm install
 
 RUN npm run build:${ENV_CONFIG}
 
-#Stage two
+#Stage two, Nginx Stage.
 FROM nginx as production-stage
 
 RUN mkdir /app
