@@ -46,6 +46,10 @@ To build a Docker image for different environments (dev, hom, prod) and versions
 
 e.g., docker build --build-arg ENV_CONFIG=[ENV] -t registry.ccarj.intraer/portaldeapoio/material-apoio-fe:[ENV]-v[VERSION] .
 
+### Important Notice
+
+In order to successfully build the Docker image for our application, it is imperative that the following commands are run in the root directory of the project repository.
+
 ### Development Environment
 
 ```bash
