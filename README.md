@@ -69,7 +69,7 @@ Each command will build the Docker image and tag it according to the environment
 After building the image, you can run a container using the command below, replacing [TAG] and [VERSION] with the appropriate values:
 
 ```bash
-docker run -d -p 4300:8080 --name material-apoio-fe-container material-apoio-fe:[TAG]-v[VERSION]
+docker run -d -p 4300:8080 --name material-apoio-fe-container registry.ccarj.intraer/portaldeapoio/material-apoio-fe:[TAG]-v[VERSION]
 ```
 
 Visit `http://localhost:4300/consult-materials/#/materials/search` to access the application.
