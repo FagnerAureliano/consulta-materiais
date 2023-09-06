@@ -72,7 +72,7 @@ Each command will build the Docker image and tag it according to the environment
 
 ## Push the image to registry (Harbor)
 
-This guide provides a step-by-step walkthrough for logging into a Harbor registry and pushing a Docker image. The commands are specific to the Harbor instance at registry.ccarj.intraer.
+Now a walkthrough for logging into a Harbor registry and pushing a Docker image. The commands are specific to the Harbor instance in Registry.ccarj.intraer.
 
 ### Prerequisites
 
