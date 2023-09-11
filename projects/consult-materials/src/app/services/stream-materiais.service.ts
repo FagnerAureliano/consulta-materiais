@@ -19,19 +19,23 @@ export class StreamMaterialsService {
   createDocumentFile(document: any): Observable<any> {
     return this.http.post<any>(`${this.endpoint}/file`, document).pipe(first());
   }
+  
   updateDocumentFile(id: string, document: any): Observable<any> {
     return this.http
       .patch<any>(`${this.endpoint}/file/${id}`, document)
       .pipe(first());
   }
+
   createDocumentNote(document: any): Observable<any> {
     return this.http.post<any>(`${this.endpoint}/note`, document).pipe(first());
   }
+
   updateDocumentNote(id: string, document: any): Observable<any> {
     return this.http
       .patch<any>(`${this.endpoint}/note/${id}`, document)
       .pipe(first());
   }
+
   deleteDocument(id: string): Observable<any> {
     return this.http
       .delete<any>(`${this.endpoint}/file/${id}`, {
@@ -39,6 +43,7 @@ export class StreamMaterialsService {
       })
       .pipe(first());
   }
+
   getThumbnail(id: string): Observable<any> {
     return this.http
       .get<any>(`${this.endpoint}/file/thumbnail/${id}`, {
@@ -46,6 +51,7 @@ export class StreamMaterialsService {
       })
       .pipe(first());
   }
+
   getDocumentFile(id: string): Observable<any> {
     return this.http
       .get<any>(`${this.endpoint}/file/${id}`, {
@@ -53,6 +59,7 @@ export class StreamMaterialsService {
       })
       .pipe(first());
   }
+
   getScopes(): Observable<Scopes[]> {
     return this.http
       .get<Scopes[]>(`${this.endpoint}/scopes`, {
@@ -60,6 +67,7 @@ export class StreamMaterialsService {
       })
       .pipe(first());
   }
+  
   getUserScopes(): Observable<Scopes[]> {
     return this.http
       .get<Scopes[]>(`${this.endpoint}/scopes/scope-user`, {

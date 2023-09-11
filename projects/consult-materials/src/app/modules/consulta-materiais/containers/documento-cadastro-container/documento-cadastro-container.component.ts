@@ -66,9 +66,10 @@ export class DocumentoCadastroContainerComponent implements OnInit, OnDestroy {
       tags: [null, [Validators.required]],
       title: [null, [Validators.required]],
       description: [null, [Validators.required]],
-      path: [null, [Validators.required]],
+      nuxeoPathId: [null, [Validators.required]],
     });
   }
+
   goBack(): void {
     this.location.back();
   }
@@ -84,14 +85,16 @@ export class DocumentoCadastroContainerComponent implements OnInit, OnDestroy {
       );
     }
   }
+
   onClear(): void {
     this._form.reset();
   }
+
   handleSave(): void {
     const formData = new FormData();
-    formData.append('file', this._form?.value.document);
-    const { id, title, description, tags, path } = this._form?.value;
 
+    formData.append('file', this._form?.value.document);
+    const { id, title, description, tags, nuxeoPathId } = this._form?.value;
     const observableResolved = (_) => {
       this.messageService.add({
         severity: 'success',
@@ -128,9 +131,10 @@ export class DocumentoCadastroContainerComponent implements OnInit, OnDestroy {
           title,
           description,
           tags,
-          path,
+          nuxeoPathId,
         })
       );
+      
       this.subs$.push(
         this.streamService
           .createDocumentFile(formData)
@@ -146,6 +150,7 @@ export class DocumentoCadastroContainerComponent implements OnInit, OnDestroy {
       );
     }
   }
+
   handleDownload(event): void {
     this.subs$.push(
       this.streamService

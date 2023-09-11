@@ -11,6 +11,6 @@ export const environment = {
 
   SEARCH_FRONT_URL: 'http://localhost:4300/consult-materials/#/',
   STREAM_API_ENDPOINT: 'https://portaldeapoio.dev.rancher.ccarj.intraer/stream-service/api/v1',
-  SEARCH_API_ENDPOINT: 'http://localhost:8083/api/v1',
+  SEARCH_API_ENDPOINT: 'https://portaldeapoio.dev.rancher.ccarj.intraer/search-service/api/v1',
   USER_API_ENDPOINT: 'https://portaldeapoio.dev.rancher.ccarj.intraer/user-service/api/v1',
 };

@@ -38,6 +38,7 @@ export class DocumentoCadastroFormComponent implements OnInit {
       this.form.patchValue({ document: file });
     }
   }
+
   ngOnInit(): void {
     if (this.material) {
       this.onFillForm();
@@ -48,9 +49,8 @@ export class DocumentoCadastroFormComponent implements OnInit {
       }, 300);
     }
   }
-  onFillForm(): void {
-    console.log(this.scopes[1]);
 
+  onFillForm(): void {
     if (this.material) {
       this.hasDocuments = true;
       // this.form.get('path').setValue(this.scopes[1].path);
@@ -64,17 +64,21 @@ export class DocumentoCadastroFormComponent implements OnInit {
       this._changedTags = this.material.properties['nxtag:tags'];
     }
   }
+
   onClear(): void {
     this.form.get('document').setValue(null);
   }
+
   handleSearchTags(data: string | string[]): void {
     this.tagsEmitter.emit(data);
   }
+
   onRemove() {
     this.form.controls['document'].setValidators(Validators.required);
     this.form.controls['document'].updateValueAndValidity();
     this.hasDocuments = false;
   }
+
   onDownload(): void {
     this.downloadDoc.emit();
   }

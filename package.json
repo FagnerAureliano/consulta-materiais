@@ -5,8 +5,8 @@
     "ng": "ng",
     "start": "ng serve",
     "build:dev": "ng build consult-materials",
-    "build:hom":"ng build consult-materials --configuration=homolog",
-    "build:prod":"ng build consult-materials --configuration production"
+    "build:hom": "ng build consult-materials --configuration=homolog",
+    "build:prod": "ng build consult-materials --configuration production"
   },
   "private": true,
   "dependencies": {
