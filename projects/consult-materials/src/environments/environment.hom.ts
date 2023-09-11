@@ -10,7 +10,7 @@ export const environment = {
   KEYCLOAK_CLIENT_ID: 'material-apoio-api',
 
   SEARCH_FRONT_URL: 'http://localhost:4300/consult-materials/#/',
-  STREAM_API_ENDPOINT: 'http://localhost:8080/api/v1',
+  STREAM_API_ENDPOINT: 'https://portaldeapoio.dev.rancher.ccarj.intraer/stream-service/api/v1',
   SEARCH_API_ENDPOINT: 'http://localhost:8083/api/v1',
-  USER_API_ENDPOINT: 'https://user-service:8080/user-service/api/v1',
+  USER_API_ENDPOINT: 'https://portaldeapoio.dev.rancher.ccarj.intraer/user-service/api/v1',
 };
