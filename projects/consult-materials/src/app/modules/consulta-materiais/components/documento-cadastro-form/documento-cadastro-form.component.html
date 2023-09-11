@@ -56,13 +56,13 @@
           class="w-full border-cyan-100"
           [ngClass]="{
             'ng-dirty ng-invalid':
-              form.get('path')?.invalid &&
-              (form.get('path')?.dirty || form.get('path')?.touched)
+              form.get('nuxeoPathId')?.invalid &&
+              (form.get('nuxeoPathId')?.dirty || form.get('nuxeoPathId')?.touched)
           }"
-          formControlName="path"
+          formControlName="nuxeoPathId"
           placeholder="Selecione o local"
           optionLabel="scope"
-          optionValue="path"
+          optionValue="id"
         >
           <ng-template let-item pTemplate="selectedItem">
             <span>{{ item.id }} — {{ item.scope | wordConverter }}</span>
