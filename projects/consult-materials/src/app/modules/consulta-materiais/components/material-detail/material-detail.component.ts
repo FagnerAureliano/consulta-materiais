@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import {
   DomSanitizer,
   SafeHtml,
@@ -14,7 +14,7 @@ import { catchError, finalize, tap } from 'rxjs/operators';
   templateUrl: './material-detail.component.html',
   styleUrls: ['./material-detail.component.scss'],
 })
-export class MaterialDetailComponent implements OnDestroy {
+export class MaterialDetailComponent implements OnInit, OnDestroy {
   private _subs$: Subscription[] = [];
   @Input() documentId: any;
 
@@ -32,6 +32,9 @@ export class MaterialDetailComponent implements OnDestroy {
     private searchService: SearchMaterialsService,
     private sanitizer: DomSanitizer
   ) {}
+
+  ngOnInit(): void {
+  }
 
   ngOnDestroy(): void {
     this._subs$.forEach((subs) => subs.unsubscribe());
@@ -75,7 +78,7 @@ export class MaterialDetailComponent implements OnDestroy {
             if (res.type != 'Note') {
               this.mimeType = res.properties['file:content']['mime-type'];
               this.streamService
-                .getDocumentFile(res.versionableId)
+                .getDocumentFile(res.id)
 
                 .subscribe((file: any) => {
                   const blob = new Blob([file], {
@@ -100,6 +103,7 @@ export class MaterialDetailComponent implements OnDestroy {
         })
     );
   }
+
   onShow(isOpen: boolean): void {
     isOpen
       ? (this.htmlElement.style.overflow = 'hidden')

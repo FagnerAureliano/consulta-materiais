@@ -3,6 +3,7 @@
     class="mt-2 flex-column justify-content-between w-full align-items-end header-content"
   >
     <h1 class="align-self-center div_buttons">Cadastro de Documentos</h1>
+
     <div class="justify-content-end flex div_buttons">
       <p-button
         pRipple
@@ -11,6 +12,7 @@
         (onClick)="goBack()"
         label="VOLTAR"
       ></p-button>
+
       <p-button
         pRipple
         icon="pi pi-refresh"
@@ -18,6 +20,7 @@
         (onClick)="onClear()"
         label="LIMPAR"
       ></p-button>
+
       <p-button
         pRipple
         styleClass="p-button-sm"
@@ -28,6 +31,7 @@
       ></p-button>
     </div>
   </div>
+  
   <div class="w-full mt-2">
     <p-card>
       <app-documento-cadastro-form

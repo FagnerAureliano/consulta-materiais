@@ -37,6 +37,9 @@ export class StreamMaterialsService {
   }
 
   deleteDocument(id: string): Observable<any> {
+
+    console.log(id);
+
     return this.http
       .delete<any>(`${this.endpoint}/file/${id}`, {
         headers: this.defaultHeaders,

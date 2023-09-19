@@ -42,7 +42,11 @@ export class DocumentoCadastroContainerComponent implements OnInit, OnDestroy {
         this._scopes = res.data;
       })
     );
+
     if (this.material_id) {
+
+      console.log(this.material_id);
+
       this.subs$.push(
         this.searchService
           .getDocumentByID(this.material_id)
@@ -52,6 +56,7 @@ export class DocumentoCadastroContainerComponent implements OnInit, OnDestroy {
       );
     }
   }
+
   ngAfterContentChecked(): void {
     this.cdref.detectChanges();
   }
@@ -94,7 +99,9 @@ export class DocumentoCadastroContainerComponent implements OnInit, OnDestroy {
     const formData = new FormData();
 
     formData.append('file', this._form?.value.document);
+
     const { id, title, description, tags, nuxeoPathId } = this._form?.value;
+
     const observableResolved = (_) => {
       this.messageService.add({
         severity: 'success',
@@ -102,6 +109,7 @@ export class DocumentoCadastroContainerComponent implements OnInit, OnDestroy {
         detail: `${'Documento salvo com sucesso'}`,
       });
     };
+
     if (this.material_id) {
       formData.append(
         'data',
@@ -109,8 +117,10 @@ export class DocumentoCadastroContainerComponent implements OnInit, OnDestroy {
           title,
           description,
           tags,
+          nuxeoPathId
         })
       );
+
       this.subs$.push(
         this.streamService
           .updateDocumentFile(this.material_id, formData)
@@ -134,7 +144,7 @@ export class DocumentoCadastroContainerComponent implements OnInit, OnDestroy {
           nuxeoPathId,
         })
       );
-      
+
       this.subs$.push(
         this.streamService
           .createDocumentFile(formData)

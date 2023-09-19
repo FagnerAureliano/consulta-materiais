@@ -35,11 +35,13 @@ export class GuiaCadastroContainerComponent implements OnInit, OnDestroy {
     this.material_id = this.extractUUIDFromURL(
       route.snapshot['_routerState'].url
     );
+    
     this.subs$.push(
       this.route.data.subscribe((res) => {
         this._scopes = res.data;
       })
     );
+
     if (this.material_id) {
       this.subs$.push(
         this.searchService
@@ -61,14 +63,16 @@ export class GuiaCadastroContainerComponent implements OnInit, OnDestroy {
       tags: [null, [Validators.required]],
       title: [null, [Validators.required]],
       description: [null, [Validators.required]],
-      path: [null, [Validators.required]],
+      nuxeoPathId: [null, [Validators.required]],
     });
   }
+
   goBack(): void {
     this.location.back();
   }
+
   handleSave(): void {
-    const { content, title, description, tags, path } = this._form?.value;
+    const { content, title, description, tags, nuxeoPathId } = this._form?.value;
 
     const observableResolved = (_) => {
       this.messageService.add({
@@ -77,10 +81,11 @@ export class GuiaCadastroContainerComponent implements OnInit, OnDestroy {
         detail: `${'Documento salvo com sucesso'}`,
       });
     };
-    if (this.material_id) {
+
+    if (!this.material_id) {
       this.subs$.push(
         this.streamService
-          .createDocumentNote({ content, title, description, tags, path })
+          .createDocumentNote({ content, title, description, tags, nuxeoPathId })
           .pipe(
             catchError((err) => {
               return throwError(err);
@@ -99,6 +104,7 @@ export class GuiaCadastroContainerComponent implements OnInit, OnDestroy {
             title,
             description,
             tags,
+            nuxeoPathId
           })
           .pipe(
             catchError((err) => {
@@ -112,6 +118,7 @@ export class GuiaCadastroContainerComponent implements OnInit, OnDestroy {
       );
     }
   }
+
   handleSearchTags(data: string): void {
     if (Array.isArray(data)) {
       this._form.get('tags').setValue(data.length > 0 ? data : null);
@@ -123,6 +130,7 @@ export class GuiaCadastroContainerComponent implements OnInit, OnDestroy {
       );
     }
   }
+
   handleDownload(event): void {
     this.subs$.push(
       this.streamService
@@ -151,9 +159,11 @@ export class GuiaCadastroContainerComponent implements OnInit, OnDestroy {
         .subscribe()
     );
   }
+
   onClear(): void {
     this._form.reset();
   }
+
   extractUUIDFromURL(url: string): string | null {
     const uuidRegex = /\/([\da-f]{8}-(?:[\da-f]{4}-){3}[\da-f]{12})$/i;
     const [, uuid] = url.match(uuidRegex) || [];

@@ -74,7 +74,6 @@ export class ConsultaContainerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-
     this.clearService.clear$.subscribe(() => {
       this.searchObject = [];
     });
@@ -119,7 +118,7 @@ export class ConsultaContainerComponent implements OnInit, OnDestroy {
 
     this.subs$.push(
       this.searchService
-        .getAll(params, this.startIndex, this.itemsPerPage)
+        .getEntrypointSearch(params, this.startIndex, this.itemsPerPage)
         .pipe(
           switchMap((items: any) =>
             forkJoin(
@@ -140,12 +139,14 @@ export class ConsultaContainerComponent implements OnInit, OnDestroy {
           this.searchObject = [...this.searchObject, ...mappedItems];
           this.startIndex = this.startIndex + 1;
           this.isEmpty = mappedItems.length > 0 ? false : true;
+
+          console.log(this.searchObject.forEach(o => console.log(o)));
         })
     );
   }
 
   getThumbnailWithFallback(value: { id: string }) {
-    return this.streamService.getThumbnail(value['versionableId']).pipe(
+    return this.streamService.getThumbnail(value['id']).pipe(
       catchError(() => of(null)),
       map((thumbnail: any) => {
         const thumbnailBase64 =
@@ -204,7 +205,9 @@ export class ConsultaContainerComponent implements OnInit, OnDestroy {
               });
 
               this.searchObject = this.searchObject.filter(
-                (objeto) => objeto.id !== id
+                (objeto) => {
+                  objeto.id !== id
+                }
               );
             })
         );

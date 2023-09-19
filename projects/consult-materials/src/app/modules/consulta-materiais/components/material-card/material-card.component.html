@@ -15,15 +15,20 @@
     </div>
   </div>
   <div class="w-full pt-2"></div>
+
   <div class="pb-2 text-justify">
     <div class="text-gray-800" style="font-size: 1.1rem;">
       {{ document?.properties["dc:title"] | truncateText : 30 }}
     </div>
   </div>
+
   <div>
     <img
       class="w-full border-1 border-gray-200 border-round image-responsive"
-      src="{{ document?.thumbnail }}"
+      [src]="document?.thumbnail ? document.thumbnail : './assets/images/gladio-alado-3d.png'"
+      [style.opacity]="document?.thumbnail ? '1' : '0.2'"
+      [style.width]="document?.thumbnail ? '100%' : '35vh!important'"
+      [style.height]="document?.thumbnail ? 'auto' : 'auto'"
     />
     <div class="flex pt-1 text-justify">
       <div *ngFor="let file of document.properties['nxtag:tags']" li-index>
@@ -34,16 +39,20 @@
         ></p-tag>
       </div>
     </div>
+
     <div class="w-12 h-5rem">
       <p class="text-gray-800 pb-3 text-justify">
         {{ document?.properties["dc:description"] | truncateText : 150 }}
       </p>
     </div>
+
     <div class="text-sm text-gray-600 text-left">
       <i class="pi pi-calendar-minus"></i>
       Atualizado: {{ document.properties["dc:modified"] | date : "short" }}
     </div>
+
     <div class="w-full border-top-1 border-gray-200 my-2"></div>
+
     <div class="w-full mb-2 text-right">
       <div class="flex justify-content-end">
         <button
@@ -56,6 +65,7 @@
           [disabled]="isActionBtnDisabled"
           class="p-button-text p-button- p-button-danger p-button-sm l-button mr-1"
         ></button>
+
         <button
           pButton
           pRipple
@@ -67,6 +77,7 @@
           [disabled]="isActionBtnDisabled"
           class="p-button-text p-button- p-button-primary p-button-sm p-mr-1 l-button mr-1"
         ></button>
+
         <app-material-detail [documentId]="document.id"> </app-material-detail>
       </div>
     </div>

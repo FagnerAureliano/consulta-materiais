@@ -6,6 +6,7 @@
   (click)="showDialog()"
 >
 </p-button>
+
 <p-dialog
   styleClass="custom-dialog"
   [closeOnEscape]="true"
@@ -23,6 +24,7 @@
       {{ material?.type === "File" ? "Documento" : "Guia Rápido" }}
     </span>
   </div>
+
   <div class="py-2 pl-1 text-left flex align-items-center text-gray-700">
     <div>
       <i class="pi pi-folder pr-1"></i>
@@ -46,6 +48,7 @@
         <div [innerHTML]="note_material" class="text-left"></div>
       </div>
     </div>
+
     <ng-template #files>
       <div *ngIf="file_material != null; else loading">
         <embed
@@ -58,6 +61,7 @@
         />
       </div>
     </ng-template>
+
     <ng-template #loading>
       <div
         class="w-full flex align-items-center justify-content-center h-30rem bg-gray-50"
@@ -70,6 +74,7 @@
         ></p-progressSpinner>
       </div>
     </ng-template>
+
     <div class="w-full border-top-1 border-gray-200 my-2 text-left pt-2 flex">
       <div *ngFor="let file of material?.properties['nxtag:tags']" li-index>
         <p-tag
@@ -78,15 +83,18 @@
         ></p-tag>
       </div>
     </div>
+
     <div
       class="text-right align-items-end text-gray-700 text-sm flex justify-content-between pt-3"
     >
       <div class="text-right text-gray-700 text-sm">
         <i class="pi pi-calendar-minus"></i>
+
         <span class="text-sm text-gray-700">
           {{ material?.properties["dc:modified"] | date : "short" }}
         </span>
       </div>
+      
       <div>
         <p-button
           label="Download"
@@ -119,6 +127,7 @@
       label="EXCLUIR"
       (click)="visible = false"
     ></button>
+
     <button
       type="button"
       class="p-button-sm p-button-text"

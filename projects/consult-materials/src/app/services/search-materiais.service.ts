@@ -25,7 +25,7 @@ export class SearchMaterialsService {
       .pipe(first());
   }
 
-  getAll(
+  getEntrypointSearch(
     term: searchObjectParams,
     startIndex: number = 0,
     itemsPerPage: number

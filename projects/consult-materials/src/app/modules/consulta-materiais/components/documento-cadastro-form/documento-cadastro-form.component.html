@@ -48,6 +48,7 @@
       <div class="flex w-full">
         <label class="mb-1 text-500">Diretório</label>
       </div>
+
       <div class="p-fluid flex mb-2">
         <p-dropdown
           [filter]="true"
@@ -67,23 +68,28 @@
           <ng-template let-item pTemplate="selectedItem">
             <span>{{ item.id }} — {{ item.scope | wordConverter }}</span>
           </ng-template>
+
           <ng-template let-item pTemplate="item">
             <span>{{ item.id }} — {{ item.scope | wordConverter }}</span>
           </ng-template>
         </p-dropdown>
       </div>
+
       <div class="flex w-full">
         <label class="mb-1 text-500">Título</label>
       </div>
+
       <input
         pInputText
         class="p-inputtext-sm p-inputtext-outlined"
         formControlName="title"
       />
     </div>
+
     <div class="flex">
       <label class="mb-1 text-500">Selecione o arquivo</label>
     </div>
+
     <div class="mb-2">
       <p-fileUpload
         #fileUpload
@@ -108,11 +114,13 @@
                 <div class="font-bold">Nome do arquivo:</div>
                 {{ material?.properties["file:content"].name }}
               </div>
+
               <div class="p-1">
                 <div class="font-bold">Ultima atualização em:</div>
                 {{ material?.lastModified | date : "short" }}
               </div>
             </div>
+
             <div>
               <button
                 pButton
@@ -120,6 +128,7 @@
                 class="p-button- p-button-primary p-button-sm mr-1"
                 (click)="onDownload()"
               ></button>
+
               <button
                 pButton
                 icon="pi pi-trash"
@@ -135,6 +144,7 @@
       <div class="flex">
         <label class="mb-1 text-500">Insira as tags</label>
       </div>
+
       <lib-tag-input
         [whitelist]="whitelist"
         [changedTags]="_changedTags"
@@ -142,9 +152,11 @@
         (tagsEmitter)="handleSearchTags($event)"
       ></lib-tag-input>
     </div>
+
     <div class="flex">
       <label class="mb-1 text-500">Descrição do documento</label>
     </div>
+    
     <textarea
       class="w-full pl-3"
       formControlName="description"
