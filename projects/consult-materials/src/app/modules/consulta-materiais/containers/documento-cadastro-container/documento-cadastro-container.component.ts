@@ -44,9 +44,6 @@ export class DocumentoCadastroContainerComponent implements OnInit, OnDestroy {
     );
 
     if (this.material_id) {
-
-      console.log(this.material_id);
-
       this.subs$.push(
         this.searchService
           .getDocumentByID(this.material_id)

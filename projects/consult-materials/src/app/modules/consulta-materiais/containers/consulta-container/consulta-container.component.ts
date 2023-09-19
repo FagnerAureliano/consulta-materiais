@@ -139,8 +139,6 @@ export class ConsultaContainerComponent implements OnInit, OnDestroy {
           this.searchObject = [...this.searchObject, ...mappedItems];
           this.startIndex = this.startIndex + 1;
           this.isEmpty = mappedItems.length > 0 ? false : true;
-
-          console.log(this.searchObject.forEach(o => console.log(o)));
         })
     );
   }
