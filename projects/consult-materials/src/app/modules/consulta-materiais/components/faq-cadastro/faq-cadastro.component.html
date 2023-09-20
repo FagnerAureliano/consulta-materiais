@@ -1,0 +1,13 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div>
+        <label for="content">Content</label>
+        <input id="content" formControlName="content" />
+    </div>
+    
+    <div>
+        <label for="nuxeoPathId">Nuxeo Path ID</label>
+        <input id="nuxeoPathId" formControlName="nuxeoPathId" type="number" />
+    </div>
+
+    <button type="submit">Submit</button>
+</form>

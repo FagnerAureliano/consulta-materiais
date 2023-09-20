@@ -11,7 +11,6 @@ import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
 import moment from 'moment';
-import { LoadingBarService } from '../../services/loading-bar.service';
 import { UserService } from '../../services/user.service';
 
 @Component({
