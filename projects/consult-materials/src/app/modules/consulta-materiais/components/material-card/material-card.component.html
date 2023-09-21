@@ -11,6 +11,7 @@
       ></p-tag>
     </div>
   </div>
+<<<<<<< Updated upstream
   <div class="w-full border-bottom-1 border-gray-200 my-1"></div>
   <div class="card-header flex">
     <!-- <i class="bg-blue-300 pi pi-tag align-self-center"></i> -->
@@ -33,6 +34,39 @@
       class="w-full border-1 border-gray-300 border-round image-responsive"
       src="{{ search.urlMedia.thumbnail }}"
     />
+=======
+  <div class="w-full pt-2"></div>
+
+  <div class="pb-2 text-justify">
+    <div class="text-gray-800" style="font-size: 1.1rem">
+      {{ document?.properties["dc:title"] | truncateText : 30 }}
+    </div>
+  </div>
+
+  <div class="overflow-hidden align-self-center align-items-center">
+    <img
+      class="border-1 border-gray-200 border-round image-responsive"
+      [src]="
+        document?.thumbnail
+          ? document.thumbnail
+          : './assets/images/guia-de-usuario.png'
+      "
+      [style.opacity]="document?.thumbnail ? '1' : '0.2'"
+    />
+    <!-- [style.opacity]="document?.thumbnail ? '1' : '0.2'"
+      [style.width]="document?.thumbnail ? '100%' : '35vh!important'"
+      [style.height]="document?.thumbnail ? 'auto' : 'auto'" -->
+    <div class="flex pt-1 text-justify">
+      <div *ngFor="let file of document.properties['nxtag:tags']" li-index>
+        <p-tag
+          class="uppercase border-white border-right-1 cursor-pointer font-bold"
+          value="#{{ file.label }}"
+          (click)="emitTag.emit(file)"
+        ></p-tag>
+      </div>
+    </div>
+
+>>>>>>> Stashed changes
     <div class="w-12 h-5rem">
       <p
         class="text-gray-900 pb-3 text-justify"
