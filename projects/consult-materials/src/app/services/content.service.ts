@@ -20,6 +20,9 @@ export class ContentService {
   getQuestions() {
     return this.http.get(`${this.faqEndpoint}/questions`);
   }
+  getQuestionsByID(id: string) {
+    return this.http.get(`${this.faqEndpoint}/questions/${id}`);
+  }
 
   getQuestionsByScope(scope: string) {
     return this.http.get(`${this.faqEndpoint}/questions/scope/${scope}`);

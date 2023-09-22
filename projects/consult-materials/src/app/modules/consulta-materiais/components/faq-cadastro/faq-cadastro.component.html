@@ -1,43 +1,50 @@
-<div class="flex w-full" style="margin-bottom: 1rem;">
-    <p-header>
-        <h3>Cadastro de FAQ</h3>
-    </p-header>
+<div class="flex w-full" style="margin-bottom: 1rem">
+  <p-header>
+    <h3>Cadastro de FAQ</h3>
+  </p-header>
 </div>
 
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
-
-    <div class="mb-2 w-full text-left" style="margin-bottom: 1rem!important;">
-        <div class="flex w-full">
-            <label class="mb-1 text-500">Conteúdo da Pergunta</label>
-        </div>
-
-        <div class="p-fluid flex mb-2">
-            <textarea
-                class="w-full pl-3"
-                formControlName="content"
-                rows="5"
-                cols="30"
-                pInputTextarea
-            ></textarea>
-        </div>
+  <div class="mb-2 w-full text-left" style="margin-bottom: 1rem !important">
+    <div class="flex w-full">
+      <label class="mb-1 text-500">Pergunta</label>
     </div>
 
-    <div class="mb-2 w-full text-left" style="margin-bottom: 1rem!important;">
-        <div class="flex w-full">
-            <label class="mb-1 text-500">Resposta</label>
-        </div>
+    <div class="p-fluid flex mb-2">
+      <textarea
+        class="w-full pl-1"
+        formControlName="content"
+        rows="5"
+        cols="30"
+        pInputTextarea
+      ></textarea>
+    </div>
+  </div>
 
-        <div class="p-fluid flex mb-2">
-            <textarea
-                class="w-full pl-3"
-                formControlName="response"
-                rows="5"
-                cols="30"
-                pInputTextarea
-            ></textarea>
-        </div>
+  <div class="mb-2 w-full text-left" style="margin-bottom: 1rem !important">
+    <div class="flex w-full">
+      <label class="mb-1 text-500">Resposta</label>
     </div>
 
+    <div class="p-fluid flex">
+      <textarea
+        class="w-full pl-1"
+        formControlName="response"
+        rows="5"
+        cols="30"
+        pInputTextarea
+      ></textarea>
+    </div>
+  </div>
+  <div class="p-fluid p-formgrid p-grid flex" style="margin-top: 3rem">
+    <div class=" col-6 ">
+      <p-button  styleClass="p-button-text" label="LIMPAR"></p-button>
+    </div>
+    <div class="col-6  ">
+      <p-button type="submit" label="SALVAR"></p-button>
+    </div>
+  </div>
+  <!-- 
     <div class="mb-2 w-full text-left" style="margin-bottom: 1rem!important;">
         <div class="flex w-full">
             <label class="mb-1 text-500">Projeto relacionado (escopo)</label>
@@ -167,5 +174,5 @@
         <div class="p-field p-col-12 p-md-6">
             <p-button type="submit" label="salvar"></p-button>
         </div>
-    </div>
+    </div> -->
 </form>

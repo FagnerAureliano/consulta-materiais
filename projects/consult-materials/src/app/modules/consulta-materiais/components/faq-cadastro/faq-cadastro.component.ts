@@ -1,5 +1,17 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { FileUpload } from 'primeng/fileupload';
 import { Tag } from 'projects/consult-materials/src/app/models/search.models';
 import { ContentService } from 'projects/consult-materials/src/app/services/content.service';
@@ -10,7 +22,7 @@ import { catchError } from 'rxjs/operators';
 @Component({
   selector: 'app-faq-cadastro',
   templateUrl: './faq-cadastro.component.html',
-  styleUrls: ['./faq-cadastro.component.scss']
+  styleUrls: ['./faq-cadastro.component.scss'],
 })
 export class FaqCadastroComponent implements OnInit {
   private subs$: Subscription[] = [];
@@ -19,6 +31,7 @@ export class FaqCadastroComponent implements OnInit {
 
   @Input() faqData: any;
   @Input() scopes: any;
+  @Output() cadastroEmitter = new EventEmitter();
 
   form: FormGroup;
 
@@ -30,16 +43,16 @@ export class FaqCadastroComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private contentService: ContentService,
-    private searchService: SearchMaterialsService,
-  ) { 
+    private searchService: SearchMaterialsService
+  ) {
     this.form = this.fb.group({
       content: ['', [Validators.required]],
       response: ['', [Validators.required]],
-      nuxeoPathId: ['', [Validators.required]],
+      nuxeoPathId: [1],
       files: [''],
       title: [''],
       description: [''],
-      tags:[''],
+      tags: [''],
     });
   }
 
@@ -62,28 +75,31 @@ export class FaqCadastroComponent implements OnInit {
 
   onSubmit(): void {
     if (this.form.valid) {
-        const questionData = {
-          content: this.form.get('content')?.value,
-          response: this.form.get('response')?.value,
-          nuxeoPathId: this.form.get('nuxeoPathId')?.value,
-        };
+      const questionData = {
+        content: this.form.get('content')?.value,
+        response: this.form.get('response')?.value,
+        nuxeoPathId: this.form.get('nuxeoPathId')?.value,
+      };
 
-        const attachmentData = {
-          title: this.form.get('title')?.value,
-          description: this.form.get('description')?.value,
-          tags: this.form.get('tags')?.value
-        };
+      const attachmentData = {
+        title: this.form.get('title')?.value,
+        description: this.form.get('description')?.value,
+        tags: this.form.get('tags')?.value,
+      };
 
-        const files: File[] = this.form.get('files')?.value || [];
+      const files: File[] = this.form.get('files')?.value || [];
 
-        this.contentService.saveQuestion(questionData, files, attachmentData).subscribe(
+      this.contentService
+        .saveQuestion(questionData, files, attachmentData)
+        .subscribe(
           (response) => {
             console.log('Question saved successfully', response);
+            this.cadastroEmitter.emit(response);
           },
           (error) => {
             console.error('Error saving question', error);
           }
-      );
+        );
     }
   }
 
@@ -93,9 +109,7 @@ export class FaqCadastroComponent implements OnInit {
     this.hasDocuments = false;
   }
 
-  onDownload(): void {
-    
-  }
+  onDownload(): void {}
 
   handleSearchTags(data: string | string[]): void {
     if (Array.isArray(data)) {

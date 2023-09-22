@@ -26,7 +26,7 @@ export class TagInputComponent implements OnInit, OnChanges {
   tagify: Tagify = null;
 
   ngOnChanges(): void {
-    if (this.whitelist.length > 0) {
+    if (this.whitelist && this.whitelist.length > 0) {
       this.tagify.settings.whitelist = this.whitelist;
       this.tagify.loading(false);
     }

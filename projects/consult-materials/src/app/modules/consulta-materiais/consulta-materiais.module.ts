@@ -37,6 +37,7 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { VirtualScrollerModule } from 'primeng/virtualscroller';
 import { TabViewModule } from 'primeng/tabview';
+import { FaqDetailComponent } from './components/faq-detail/faq-detail.component';
 
 registerLocaleData(localePt);
 
@@ -73,6 +74,7 @@ const PRIME_COMPONENTS = [
     ContentContainerComponent,
     FaqComponent,
     FaqCadastroComponent,
+    FaqDetailComponent,
   ],
   imports: [
     //Core
