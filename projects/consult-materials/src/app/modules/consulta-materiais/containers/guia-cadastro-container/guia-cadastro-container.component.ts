@@ -1,5 +1,11 @@
 import { Location } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  AfterViewChecked,
+  ChangeDetectorRef,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { MessageService } from 'primeng/api';
@@ -14,11 +20,14 @@ import { catchError, finalize, tap } from 'rxjs/operators';
   templateUrl: './guia-cadastro-container.component.html',
   styleUrls: ['./guia-cadastro-container.component.scss'],
 })
-export class GuiaCadastroContainerComponent implements OnInit, OnDestroy {
+export class GuiaCadastroContainerComponent
+  implements OnInit, OnDestroy, AfterViewChecked
+{
   private subs$: Subscription[] = [];
   isMobileScreen: boolean = false;
   _form: FormGroup;
   _scopes: Scopes[];
+  _allScopes: Scopes[];
   _whitelist: string[];
   _material: any;
   material_id: string;
@@ -28,6 +37,7 @@ export class GuiaCadastroContainerComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private location: Location,
     private route: ActivatedRoute,
+    private cdr: ChangeDetectorRef,
     private messageService: MessageService,
     private searchService: SearchMaterialsService,
     private streamService: StreamMaterialsService
@@ -35,22 +45,26 @@ export class GuiaCadastroContainerComponent implements OnInit, OnDestroy {
     this.material_id = this.extractUUIDFromURL(
       route.snapshot['_routerState'].url
     );
-    
+
     this.subs$.push(
       this.route.data.subscribe((res) => {
-        this._scopes = res.data;
+        this._scopes = res.data.userScopes;
+        this._allScopes = res.data.allScopes;
       })
     );
-
     if (this.material_id) {
       this.subs$.push(
         this.searchService
           .getDocumentByID(this.material_id)
           .subscribe((res: any) => {
             this._material = res;
+            this._scopes =  this._material ? this._allScopes : this._scopes
           })
       );
     }
+  }
+  ngAfterViewChecked() {
+    this.cdr.detectChanges();
   }
 
   ngOnDestroy(): void {
@@ -72,7 +86,8 @@ export class GuiaCadastroContainerComponent implements OnInit, OnDestroy {
   }
 
   handleSave(): void {
-    const { content, title, description, tags, nuxeoPathId } = this._form?.value;
+    const { content, title, description, tags, nuxeoPathId } =
+      this._form?.value;
 
     const observableResolved = (_) => {
       this.messageService.add({
@@ -85,7 +100,13 @@ export class GuiaCadastroContainerComponent implements OnInit, OnDestroy {
     if (!this.material_id) {
       this.subs$.push(
         this.streamService
-          .createDocumentNote({ content, title, description, tags, nuxeoPathId })
+          .createDocumentNote({
+            content,
+            title,
+            description,
+            tags,
+            nuxeoPathId,
+          })
           .pipe(
             catchError((err) => {
               return throwError(err);
@@ -104,7 +125,7 @@ export class GuiaCadastroContainerComponent implements OnInit, OnDestroy {
             title,
             description,
             tags,
-            nuxeoPathId
+            nuxeoPathId,
           })
           .pipe(
             catchError((err) => {

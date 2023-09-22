@@ -4,7 +4,7 @@ import { UserService } from '@shared';
 import { mappedScope } from 'projects/shared/src/lib/utils/mapped-scopes';
 import { Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
-import { searchObjectParams } from '../models/search-object-params';
+import { SearchObjectParams } from '../models/search-object-params';
 
 @Injectable({
   providedIn: 'root',
@@ -26,7 +26,7 @@ export class SearchMaterialsService {
   }
 
   getEntrypointSearch(
-    term: searchObjectParams,
+    term: SearchObjectParams,
     startIndex: number = 0,
     itemsPerPage: number
   ): Observable<any[]> {

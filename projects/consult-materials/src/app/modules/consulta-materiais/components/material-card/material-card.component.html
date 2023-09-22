@@ -17,19 +17,24 @@
   <div class="w-full pt-2"></div>
 
   <div class="pb-2 text-justify">
-    <div class="text-gray-800" style="font-size: 1.1rem;">
+    <div class="text-gray-800" style="font-size: 1.1rem">
       {{ document?.properties["dc:title"] | truncateText : 30 }}
     </div>
   </div>
 
-  <div>
+  <div class="overflow-hidden align-self-center align-items-center">
     <img
-      class="w-full border-1 border-gray-200 border-round image-responsive"
-      [src]="document?.thumbnail ? document.thumbnail : './assets/images/gladio-alado-3d.png'"
+      class="border-1 border-gray-200 border-round image-responsive"
+      [src]="
+        document?.thumbnail
+          ? document.thumbnail
+          : './assets/images/guia-usuario.png'
+      "
       [style.opacity]="document?.thumbnail ? '1' : '0.2'"
-      [style.width]="document?.thumbnail ? '100%' : '35vh!important'"
-      [style.height]="document?.thumbnail ? 'auto' : 'auto'"
     />
+    <!-- [style.opacity]="document?.thumbnail ? '1' : '0.2'"
+      [style.width]="document?.thumbnail ? '100%' : '35vh!important'"
+      [style.height]="document?.thumbnail ? 'auto' : 'auto'" -->
     <div class="flex pt-1 text-justify">
       <div *ngFor="let file of document.properties['nxtag:tags']" li-index>
         <p-tag
@@ -39,7 +44,6 @@
         ></p-tag>
       </div>
     </div>
-
     <div class="w-12 h-5rem">
       <p class="text-gray-800 pb-3 text-justify">
         {{ document?.properties["dc:description"] | truncateText : 150 }}
