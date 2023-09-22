@@ -23,7 +23,7 @@ export class ContentResolver implements Resolve<any> {
     const scope = route.paramMap.get('scope');
 
     return forkJoin({
-      questions: this.contentService.getQuestions(),
+      questions: this.contentService.getQuestionsByScope(scope),
       scopes: this.streamService.getUserScopes().pipe(first())
     });
   }

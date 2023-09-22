@@ -21,6 +21,10 @@ export class ContentService {
     return this.http.get(`${this.faqEndpoint}/questions`);
   }
 
+  getQuestionsByScope(scope: string) {
+    return this.http.get(`${this.faqEndpoint}/questions/scope/${scope}`);
+  }
+
   saveQuestion(questionData: any, files?: File[], attachmentData?: any) {
     const formData = new FormData();
 
@@ -39,7 +43,7 @@ export class ContentService {
     }
 
     formData.append('questionData', JSON.stringify(questionData));
-    
+
     return this.http.post(`${this.faqEndpoint}/questions`, formData);
   }
 }
