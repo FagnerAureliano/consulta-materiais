@@ -1,0 +1,11 @@
+<div class="m-8">
+    <p-tabView [activeIndex]="activeIndex" (onChange)="handleChange($event)">
+        <p-tabPanel header="FAQ">
+            <router-outlet></router-outlet>
+        </p-tabPanel>
+
+        <!-- <p-tabPanel header="OUTRO CONTEÚDO" [disabled]="true">
+            <router-outlet></router-outlet>
+        </p-tabPanel> -->
+    </p-tabView>
+</div>

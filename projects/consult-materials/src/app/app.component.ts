@@ -8,6 +8,5 @@ import { environment } from '../environments/environment';
 })
 export class AppComponent {
   title = 'consulta-materiais';
-  _basePath = environment.SEARCH_FRONT_URL + 'materials/search';
-
+  _basePath = environment.SEARCH_FRONT_URL + 'materials';
 }

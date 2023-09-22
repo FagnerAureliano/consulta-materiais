@@ -1,0 +1,171 @@
+<div class="flex w-full" style="margin-bottom: 1rem;">
+    <p-header>
+        <h3>Cadastro de FAQ</h3>
+    </p-header>
+</div>
+
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+    <div class="mb-2 w-full text-left" style="margin-bottom: 1rem!important;">
+        <div class="flex w-full">
+            <label class="mb-1 text-500">Conteúdo da Pergunta</label>
+        </div>
+
+        <div class="p-fluid flex mb-2">
+            <textarea
+                class="w-full pl-3"
+                formControlName="content"
+                rows="5"
+                cols="30"
+                pInputTextarea
+            ></textarea>
+        </div>
+    </div>
+
+    <div class="mb-2 w-full text-left" style="margin-bottom: 1rem!important;">
+        <div class="flex w-full">
+            <label class="mb-1 text-500">Resposta</label>
+        </div>
+
+        <div class="p-fluid flex mb-2">
+            <textarea
+                class="w-full pl-3"
+                formControlName="response"
+                rows="5"
+                cols="30"
+                pInputTextarea
+            ></textarea>
+        </div>
+    </div>
+
+    <div class="mb-2 w-full text-left" style="margin-bottom: 1rem!important;">
+        <div class="flex w-full">
+            <label class="mb-1 text-500">Projeto relacionado (escopo)</label>
+        </div>
+
+        <div class="p-fluid flex mb-2">
+            <p-dropdown
+            [filter]="true"
+            [showClear]="true"
+            [options]="scopes"
+            class="w-full border-cyan-100"
+            placeholder="Selecione o scopo"
+            optionLabel="scope"
+            optionValue="id"
+            id="nuxeoPathId" 
+            formControlName="nuxeoPathId" 
+            >
+                <ng-template let-item pTemplate="selectedItem">
+                    <span>{{ item.id }} — {{ item.scope | wordConverter }}</span>
+                </ng-template>
+
+                <ng-template let-item pTemplate="item">
+                    <span>{{ item.id }} — {{ item.scope | wordConverter }}</span>
+                </ng-template>
+            </p-dropdown>
+        </div>
+    </div>
+
+    <div class="mb-2 w-full text-left">
+        <div class="flex w-full">
+            <label class="mb-1 text-500">Anexar Arquivos</label>
+        </div>
+
+        <div class="p-fluid flex mb-2">
+            <p-fileUpload
+                #fileUpload
+                id="float-fileUpload"
+                chooseLabel="Anexar"
+                cancelLabel="Cancelar"
+                class="col-12 text-left"
+                name="demo[]"
+                [multiple]="false"
+                accept="application/*,.csv, image/*, video/*"
+                (onSelect)="onShowUpload()"
+                [customUpload]="true" 
+                [showUploadButton]="false"
+            >
+                <ng-template pTemplate="content">
+                    <div
+                        *ngIf="faqData && hasDocuments"
+                        class="flex justify-content-between text-sm"
+                    >
+                        <div>
+                            <div class="p-1">
+                                <div class="font-bold">Nome do arquivo:</div>
+                                {{ faqData?.properties["file:content"].name }}
+                            </div>
+    
+                            <div class="p-1">
+                                <div class="font-bold">Ultima atualização em:</div>
+                                {{ faqData?.lastModified | date : "short" }}
+                            </div>
+                        </div>
+
+                        <div>
+                            <button
+                                pButton
+                                icon="pi pi-download"
+                                class="p-button- p-button-primary p-button-sm mr-1"
+                                (click)="onDownload()"
+                            ></button>
+        
+                            <button
+                                pButton
+                                icon="pi pi-trash"
+                                (click)="onRemove()"
+                                class="p-button- p-button-danger p-button-sm"
+                            ></button>
+                        </div>
+                    </div>
+                </ng-template>
+            </p-fileUpload>
+        </div>
+
+        <div class="mb-2 w-full text-left">
+            <div class="flex w-full">
+                <label class="mb-1 text-500">Título do Anexo</label>
+            </div>
+        
+            <input
+                pInputText
+                class="p-inputtext-sm p-inputtext-outlined"
+                formControlName="title"
+            />    
+        </div>
+
+        <div class="mb-2 w-full text-left">
+            <div class="flex w-full">
+                <label class="mb-1 text-500">Descrição do anexo</label>
+            </div>
+                
+            <textarea
+                class="w-full pl-3"
+                formControlName="description"
+                rows="5"
+                cols="30"
+                pInputTextarea
+            ></textarea>
+        </div>
+
+
+        <div class="mb-2 w-full text-left">
+            <div class="flex w-full">
+                <label class="mb-1 text-500">Insira as Tags do Anexo</label>
+            </div>
+        
+            <lib-tag-input
+            [whitelist]="whitelist"
+            [changedTags]="_changedTags"
+            (characterInputed)="handleSearchTags($event)"
+            (tagsEmitter)="handleSearchTags($event)"
+            ></lib-tag-input>
+        </div>
+    </div>
+
+    <div class="p-fluid p-formgrid p-grid" style="margin-top: 3rem;">
+        <div class="p-field p-col-12 p-md-6">
+            <p-button type="submit" label="salvar"></p-button>
+        </div>
+    </div>
+</form>

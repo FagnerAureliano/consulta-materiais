@@ -4,6 +4,10 @@ import { ConsultaContainerComponent } from './containers/consulta-container/cons
 import { DocumentoCadastroContainerComponent } from './containers/documento-cadastro-container/documento-cadastro-container.component';
 import { GuiaCadastroContainerComponent } from './containers/guia-cadastro-container/guia-cadastro-container.component';
 import { CadastroResolver } from './resolver/cadastro.resolver';
+import { ContentContainerComponent } from './containers/content-container/content-container.component';
+import { ContentResolver } from './resolver/content.resolver';
+import { FaqComponent } from './components/faq/faq.component';
+import { FaqCadastroComponent } from './components/faq-cadastro/faq-cadastro.component';
 
 const routes: Routes = [
   {
@@ -36,6 +40,27 @@ const routes: Routes = [
         component: DocumentoCadastroContainerComponent,
       },
     ],
+  },
+
+  {
+    path: 'content/:scope',
+    component: ContentContainerComponent,
+    resolve: {data: ContentResolver},
+    children: [
+      {
+        path: '',
+        redirectTo: 'faq',
+        pathMatch: 'full'
+      },
+      {
+        path: 'faq',
+        component: FaqComponent,
+      },
+      {
+        path: 'other',
+        component: FaqComponent
+      }
+    ]
   },
 ];
 

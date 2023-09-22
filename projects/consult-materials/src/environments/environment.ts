@@ -13,4 +13,5 @@ export const environment = {
   STREAM_API_ENDPOINT: 'http://localhost:8080/stream-service/api/v1',
   SEARCH_API_ENDPOINT: 'http://localhost:8083/api/v1',
   USER_API_ENDPOINT: 'http://localhost:8082/user-service/api/v1',
+  FAQ_API_ENDPOINT: 'http://localhost:8084/faq-service'
 };

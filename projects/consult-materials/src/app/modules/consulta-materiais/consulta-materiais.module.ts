@@ -15,6 +15,9 @@ import { ConsultaContainerComponent } from './containers/consulta-container/cons
 import { GuiaCadastroContainerComponent } from './containers/guia-cadastro-container/guia-cadastro-container.component';
 import { DocumentoCadastroFormComponent } from './components/documento-cadastro-form/documento-cadastro-form.component';
 import { DocumentoCadastroContainerComponent } from './containers/documento-cadastro-container/documento-cadastro-container.component';
+import { ContentContainerComponent } from './containers/content-container/content-container.component';
+import { FaqComponent } from './components/faq/faq.component';
+import { FaqCadastroComponent } from './components/faq-cadastro/faq-cadastro.component';
 
 import { TagModule } from 'primeng/tag';
 import { CardModule } from 'primeng/card';
@@ -33,6 +36,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { VirtualScrollerModule } from 'primeng/virtualscroller';
+import { TabViewModule } from 'primeng/tabview';
 
 registerLocaleData(localePt);
 
@@ -54,6 +58,7 @@ const PRIME_COMPONENTS = [
   InputTextareaModule,
   ProgressSpinnerModule,
   VirtualScrollerModule,
+  TabViewModule,
 ];
 
 @NgModule({
@@ -65,6 +70,9 @@ const PRIME_COMPONENTS = [
     GuiaCadastroContainerComponent,
     DocumentoCadastroFormComponent,
     DocumentoCadastroContainerComponent,
+    ContentContainerComponent,
+    FaqComponent,
+    FaqCadastroComponent,
   ],
   imports: [
     //Core

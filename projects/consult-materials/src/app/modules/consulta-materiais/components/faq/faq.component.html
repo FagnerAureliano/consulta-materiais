@@ -1,0 +1,41 @@
+<div style="display: flex; flex-direction: column;">
+
+  <div style="display: flex; flex-direction: row; justify-content: end;">
+    <button pButton type="button" label="CADASTAR NOVA FAQ" (click)="showFaqDialog()"></button>
+  </div>
+  
+  <div style="margin-left: 30%; margin-right: 30%;">
+    <table style="width: 100%; border-collapse: collapse;">
+      <tbody>
+        <tr *ngFor="let question of questions">
+          <div style="display: flex; flex-direction: row; justify-content: center; align-items: center; gap: 10px; padding: 1rem;">
+            <td style="text-align: left; width: 50%;">{{ question.content }}</td>
+
+            <td style="display: flex; flex-direction: row; gap: 15px; justify-content: center; width: 50%;">
+              <button pButton type="button" class="p-button-raised p-button-rounded p-button-info" icon="pi pi-eye" (click)="showDetails(question)"></button>
+              <button pButton type="button" class="p-button-raised p-button-rounded" icon="pi pi-pencil" (click)="editQuestion(question)"></button>
+            </td>
+          </div>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<p-dialog 
+  [(visible)]="displayDialog" 
+  [modal]="true" 
+  [closeOnEscape]="true"
+  [dismissableMask]="true"
+  [blockScroll]="true"
+  [modal]="true"
+  [draggable]="false"
+  [resizable]="false"
+  (onHide)="onShow(false)"
+  (onShow)="onShow(true)"
+>
+  <app-faq-cadastro 
+    [faqData]="faqToEdit" 
+    [scopes]="scopes"
+  ></app-faq-cadastro>
+</p-dialog>

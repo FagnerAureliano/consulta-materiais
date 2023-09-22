@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MaterialFilterService } from '../../services/material-filter.service';
 import { searchObjectParams } from 'projects/shared/src/lib/models/search-object-params';
 import { ClearService } from '../../services/clear.service';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HasContentService } from '../../services/has-content.service';
 
 @Component({
@@ -14,6 +15,9 @@ export class MaterialFilterComponent implements OnInit {
   _form: FormGroup;
   constructor(
     private fb: FormBuilder,
+    private filterService: MaterialFilterService,
+    private router: Router,
+    private route: ActivatedRoute,
     private materialFilter: MaterialFilterService,
     private clearService: ClearService,
     private hasContent: HasContentService,
@@ -33,7 +37,18 @@ export class MaterialFilterComponent implements OnInit {
   searchFilter(): void {
     const searchObject = this.createFormObject();
 
-    this.materialFilter.emitContent(searchObject);
+    this.filterService.emitContent(searchObject);
+
+    const fullUrl = this.router.url;
+
+    const segments = fullUrl.split('/');
+
+    if (!segments.includes('search')) {
+
+      console.log("condition met");
+
+      this.router.navigate(['search'], { relativeTo: this.route });
+    }
   }
 
   onCheckboxChange(controlName: string) {

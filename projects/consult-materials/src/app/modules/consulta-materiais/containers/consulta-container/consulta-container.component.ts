@@ -30,6 +30,7 @@ export class ConsultaContainerComponent implements OnInit, OnDestroy {
   _isActionBtnDisabled: boolean = false;
 
   _loading = false;
+  
   items: MenuItem[] = [
     {
       label: 'Documentos',
@@ -50,7 +51,7 @@ export class ConsultaContainerComponent implements OnInit, OnDestroy {
     private streamService: StreamMaterialsService,
     private confirmationService: ConfirmationService,
     private clearService: ClearService,
-    private filterContent: MaterialFilterService,
+    private filterService: MaterialFilterService,
     private hasContent: HasContentService,
     private messageService: MessageService,
     private route: ActivatedRoute,
@@ -89,7 +90,7 @@ export class ConsultaContainerComponent implements OnInit, OnDestroy {
       this.loadItems(searchObject);
     }
 
-    this.filterContent.inputChange$.subscribe((value) => {
+    this.filterService.inputChange$.subscribe((value) => {
       if (value) {
         this.searchObject = [];
         this.startIndex = 0;

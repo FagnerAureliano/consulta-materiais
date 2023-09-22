@@ -13,7 +13,12 @@ export class MaterialCardsComponent implements OnInit{
   @Output() deleteEmitter: EventEmitter<any> = new EventEmitter();
   @Output() updateEmitter: EventEmitter<any> = new EventEmitter();
 
+  constructor() {
+    console.log('MaterialCardsComponent');
+  }
+
   ngOnInit(): void {
+    console.log(this.document);
   }
 
   handleDelete(): void {

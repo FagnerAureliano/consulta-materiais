@@ -11,6 +11,7 @@ export class StreamMaterialsService {
   private defaultHeaders = new HttpHeaders({
     'Content-Type': 'application/json',
   });
+  
   constructor(
     private http: HttpClient,
     @Inject('STREAM_API_ENDPOINT') private endpoint: string
