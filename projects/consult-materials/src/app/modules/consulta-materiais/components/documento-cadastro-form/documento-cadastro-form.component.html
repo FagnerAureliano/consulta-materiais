@@ -64,13 +64,14 @@
           placeholder="Selecione o local"
           optionLabel="scope"
           optionValue="id"
+          [disabled]="!!material"
         >
           <ng-template let-item pTemplate="selectedItem">
-            <span>{{ item.id }} — {{ item.scope | wordConverter }}</span>
+            <span>{{ item.id }} - {{ item.scope | wordConverter }}</span>
           </ng-template>
 
           <ng-template let-item pTemplate="item">
-            <span>{{ item.id }} — {{ item.scope | wordConverter }}</span>
+            <span>{{ item.id }} - {{ item.scope | wordConverter }}</span>
           </ng-template>
         </p-dropdown>
       </div>

@@ -53,7 +53,12 @@ export class DocumentoCadastroFormComponent implements OnInit {
   onFillForm(): void {
     if (this.material) {
       this.hasDocuments = true;
-      // this.form.get('path').setValue(this.scopes[1].path);
+      
+      const materialScope = this.scopes.find(
+        (res) => res.scope === this.material.properties['dc:source']
+      );      
+
+      this.form.get('nuxeoPathId').setValue(materialScope.id);
       this.form.get('title').setValue(this.material.title);
       this.form
         .get('description')

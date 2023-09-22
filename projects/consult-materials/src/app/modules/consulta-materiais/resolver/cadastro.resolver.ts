@@ -4,7 +4,7 @@ import {
   Resolve,
   RouterStateSnapshot,
 } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, forkJoin } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { StreamMaterialsService } from '../../../services/stream-materiais.service';
 
@@ -18,6 +18,9 @@ export class CadastroResolver implements Resolve<any> {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<any> {
-    return this.streamService.getUserScopes().pipe(first());
+    return forkJoin({
+      userScopes: this.streamService.getUserScopes().pipe(first()),
+      allScopes: this.streamService.getAllScopes().pipe(first()),
+    });
   }
 }

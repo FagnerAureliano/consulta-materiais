@@ -2,7 +2,9 @@
   <div
     class="mt-2 flex-column justify-content-between w-full align-items-end header-content"
   >
-    <h1 class="align-self-center div_buttons">Cadastro de Documentos</h1>
+    <h1 class="align-self-center div_buttons">
+      {{ _material ? "Edição de Documentos" : "Cadastro Documentos" }}
+    </h1>
 
     <div class="justify-content-end flex div_buttons">
       <p-button
@@ -31,7 +33,6 @@
       ></p-button>
     </div>
   </div>
-  
   <div class="w-full mt-2">
     <p-card>
       <app-documento-cadastro-form

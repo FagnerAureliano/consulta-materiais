@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MaterialFilterService } from '../../services/material-filter.service';
 import { searchObjectParams } from 'projects/shared/src/lib/models/search-object-params';
 import { ClearService } from '../../services/clear.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { HasContentService } from '../../services/has-content.service';
 
 @Component({
   selector: 'mat-material-filter',
@@ -15,14 +16,16 @@ export class MaterialFilterComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private filterService: MaterialFilterService,
-    private clearService: ClearService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private materialFilter: MaterialFilterService,
+    private clearService: ClearService,
+    private hasContent: HasContentService,
   ) {}
 
   ngOnInit(): void {
     this._form = this.fb.group({
-      searchText: [null],
+      searchText: [null, Validators.required],
       file: [null],
       picture: [null],
       video: [null],
@@ -79,7 +82,7 @@ export class MaterialFilterComponent implements OnInit {
 
   clear(): void {
     this._form.reset();
-
+    this.hasContent.setActive(false);
     this.clearService.triggerClear();
   }
 }

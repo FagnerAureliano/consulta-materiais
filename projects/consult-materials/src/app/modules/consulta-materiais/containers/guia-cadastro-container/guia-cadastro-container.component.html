@@ -2,7 +2,9 @@
   <div
     class="mt-2 flex-column justify-content-between align-items-end w-full header-content"
   >
-    <h1 class="align-self-center div_buttons">Cadastro Guia Rápido</h1>
+    <h1 class="align-self-center div_buttons">
+      {{ _material ? "Edição de Guia Rápido" : "Cadastro Guia Rápido" }}
+    </h1>
     <div class="justify-content-end flex div_buttons">
       <p-button
         pRipple

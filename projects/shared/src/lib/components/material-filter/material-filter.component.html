@@ -29,7 +29,7 @@
             (onChange)="onCheckboxChange('file')"
           ></p-checkbox>
 
-          <label for="file">Arquivo</label>
+          <label for="file">Arquivo(PDF, Planilha..)</label>
         </div>
 
         <div>
@@ -56,7 +56,7 @@
           <label for="video">Vídeo</label>
         </div>
 
-        <div>
+        <!-- <div>
           <div>
             <p-checkbox
               formControlName="audio"
@@ -68,7 +68,7 @@
   
             <label for="audio">Audio</label>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
 
@@ -107,6 +107,7 @@
             icon="pi pi-search"
             styleClass="p-button-text bg-bluegray-50 col-6 p-button-sm"
             label="BUSCAR"
+            [disabled]="_form.invalid"
             (keydown.enter)="searchFilter()"
             (onClick)="searchFilter()"
           >

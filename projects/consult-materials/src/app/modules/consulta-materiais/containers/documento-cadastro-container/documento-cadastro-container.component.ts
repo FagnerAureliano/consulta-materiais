@@ -20,6 +20,7 @@ export class DocumentoCadastroContainerComponent implements OnInit, OnDestroy {
   _form: FormGroup;
   _whitelist: string[];
   _scopes: Scopes[];
+  _allScopes: Scopes[];
   _material: Material;
   material_id: string;
   hasDocument: boolean = false;
@@ -31,7 +32,7 @@ export class DocumentoCadastroContainerComponent implements OnInit, OnDestroy {
     private cdref: ChangeDetectorRef,
     private messageService: MessageService,
     private searchService: SearchMaterialsService,
-    private streamService: StreamMaterialsService,
+    private streamService: StreamMaterialsService
   ) {
     this.material_id = this.extractUUIDFromURL(
       route.snapshot['_routerState'].url
@@ -39,7 +40,8 @@ export class DocumentoCadastroContainerComponent implements OnInit, OnDestroy {
 
     this.subs$.push(
       this.route.data.subscribe((res) => {
-        this._scopes = res.data;
+        this._scopes = res.data.userScopes;
+        this._allScopes = res.data.allScopes;
       })
     );
 
@@ -49,6 +51,7 @@ export class DocumentoCadastroContainerComponent implements OnInit, OnDestroy {
           .getDocumentByID(this.material_id)
           .subscribe((res: any) => {
             this._material = res;
+            this._scopes =  this._material ? this._allScopes : this._scopes
           })
       );
     }
@@ -114,7 +117,7 @@ export class DocumentoCadastroContainerComponent implements OnInit, OnDestroy {
           title,
           description,
           tags,
-          nuxeoPathId
+          nuxeoPathId,
         })
       );
 

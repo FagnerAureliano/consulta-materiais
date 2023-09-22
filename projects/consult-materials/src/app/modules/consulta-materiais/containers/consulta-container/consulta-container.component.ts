@@ -1,7 +1,7 @@
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
-import { searchObjectParams } from 'projects/consult-materials/src/app/models/search-object-params';
+import { SearchObjectParams } from 'projects/consult-materials/src/app/models/search-object-params';
 import { SearchMaterialsService } from 'projects/consult-materials/src/app/services/search-materiais.service';
 import { StreamMaterialsService } from 'projects/consult-materials/src/app/services/stream-materiais.service';
 import { ClearService } from 'projects/shared/src/lib/services/clear.service';
@@ -22,7 +22,7 @@ export class ConsultaContainerComponent implements OnInit, OnDestroy {
 
   searchObject: any[] = [];
 
-  filterParam: searchObjectParams;
+  filterParam: SearchObjectParams;
 
   itemsPerPage = 6;
   startIndex = 0;
@@ -82,9 +82,9 @@ export class ConsultaContainerComponent implements OnInit, OnDestroy {
     const queryParam = this.route.snapshot.queryParams.q;
 
     if (queryParam) {
-      const searchObject: searchObjectParams = {
+      const searchObject: SearchObjectParams = {
         searchText: queryParam,
-        primaryType: null
+        primaryType: null,
       };
 
       this.loadItems(searchObject);
@@ -102,7 +102,7 @@ export class ConsultaContainerComponent implements OnInit, OnDestroy {
     this.hasContent.setActive(false);
   }
 
-  loadItems(params: searchObjectParams): void {
+  loadItems(params: SearchObjectParams): void {
     if (params) {
       this.filterParam = params;
 
@@ -168,7 +168,7 @@ export class ConsultaContainerComponent implements OnInit, OnDestroy {
 
   updateDocument(data: any): void {
     const { id, type } = data;
-    
+
     if (type === 'Note') {
       this.router.navigate(['/materials/guia-cadastro/edit/', id]);
     } else {
@@ -203,11 +203,9 @@ export class ConsultaContainerComponent implements OnInit, OnDestroy {
                 detail: 'Documento deletado com sucesso',
               });
 
-              this.searchObject = this.searchObject.filter(
-                (objeto) => {
-                  objeto.id !== id
-                }
-              );
+              this.searchObject = this.searchObject.filter((objeto) => {
+                objeto.id !== id;
+              });
             })
         );
       },
