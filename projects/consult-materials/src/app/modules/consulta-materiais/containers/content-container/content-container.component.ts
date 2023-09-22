@@ -13,6 +13,7 @@ export class ContentContainerComponent implements OnInit {
   activeIndex: number = 0;
 
   public questions: any;
+  public scopes: any;
   
 
   constructor(
@@ -23,10 +24,12 @@ export class ContentContainerComponent implements OnInit {
   ) {
     const resolvedData = this.route.snapshot.data['data'];
     this.questions = resolvedData.questions;
+    this.scopes = resolvedData.scopes;
    }
 
   ngOnInit(): void {
-    this.sharedDataService.setData(this.questions);
+    this.sharedDataService.setQuestions(this.questions);
+    this.sharedDataService.setScopes(this.scopes);
 
     const activeChildRoute = this.route.snapshot.firstChild;
 

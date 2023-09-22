@@ -6,9 +6,7 @@ import { Inject, Injectable } from '@angular/core';
 })
 export class ContentService {
 
-  private defaultHeaders = new HttpHeaders({
-    'Content-Type': 'application/json',
-  });
+  private defaultHeaders = new HttpHeaders();
 
   constructor(
     private http: HttpClient,
@@ -21,5 +19,27 @@ export class ContentService {
 
   getQuestions() {
     return this.http.get(`${this.faqEndpoint}/questions`);
+  }
+
+  saveQuestion(questionData: any, files?: File[], attachmentData?: any) {
+    const formData = new FormData();
+
+    if (files) {
+      files.forEach((file, index) => {
+        formData.append(`files`, file, file.name);
+      });
+    }else {
+      formData.append(`files`, null);
+    }
+
+    if (attachmentData) {
+      formData.append('attachmentData', JSON.stringify(attachmentData));
+    }else {
+      formData.append('attachmentData', null);
+    }
+
+    formData.append('questionData', JSON.stringify(questionData));
+    
+    return this.http.post(`${this.faqEndpoint}/questions`, formData);
   }
 }

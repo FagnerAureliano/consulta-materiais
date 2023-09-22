@@ -1,15 +1,21 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SharedDataService {
+  private questionsSubject = new BehaviorSubject<any>(null);
+  private scopesSubject = new BehaviorSubject<any>(null);
 
-  private dataSubject = new BehaviorSubject<any>(null);
-  data$ = this.dataSubject.asObservable();
+  questions$: Observable<any> = this.questionsSubject.asObservable();
+  scopes$: Observable<any> = this.scopesSubject.asObservable();
 
-  setData(data: any) {
-    this.dataSubject.next(data);
+  setQuestions(data: any) {
+    this.questionsSubject.next(data);
+  }
+
+  setScopes(scopes: any): void {
+    this.scopesSubject.next(scopes);
   }
 }
