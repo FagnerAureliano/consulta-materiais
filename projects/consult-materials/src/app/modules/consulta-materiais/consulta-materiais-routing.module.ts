@@ -7,7 +7,6 @@ import { CadastroResolver } from './resolver/cadastro.resolver';
 import { ContentContainerComponent } from './containers/content-container/content-container.component';
 import { ContentResolver } from './resolver/content.resolver';
 import { FaqComponent } from './components/faq/faq.component';
-import { FaqCadastroComponent } from './components/faq-cadastro/faq-cadastro.component';
 
 const routes: Routes = [
   {
@@ -41,7 +40,6 @@ const routes: Routes = [
       },
     ],
   },
-
   {
     path: 'content/:scope',
     component: ContentContainerComponent,
