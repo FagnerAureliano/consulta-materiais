@@ -21,22 +21,15 @@
 
         <p-divider></p-divider>
 
-        <shrd-sidenav-item 
-          (click)="toggleNav()" 
-          href="#" 
-          [disabled]="true"
-        >
+        <shrd-sidenav-item (click)="toggleNav()" href="#" [disabled]="true">
           Acesso e Perfis
         </shrd-sidenav-item>
 
-        <shrd-sidenav-item 
-          (click)="navigateToContent('educacao')"
-          href="#"
-        >
+        <shrd-sidenav-item (click)="navigateToContent('educacao')" href="#">
           EDUCAÇÃO
         </shrd-sidenav-item>
 
-        <shrd-sidenav-item 
+        <shrd-sidenav-item
           (click)="navigateToContent('saude')"
           href="#"
           [disabled]="true"
@@ -44,16 +37,16 @@
           SAÚDE
         </shrd-sidenav-item>
 
-        <shrd-sidenav-item 
-          (click)="toggleNav()" 
+        <shrd-sidenav-item
+          (click)="navigateToContent('orcamento')"
           href="#"
           [disabled]="true"
         >
           ORÇAMENTO
         </shrd-sidenav-item>
 
-        <shrd-sidenav-item 
-          (click)="toggleNav()" 
+        <shrd-sidenav-item
+          (click)="navigateToContent('logistica')"
           href="#"
           [disabled]="true"
         >

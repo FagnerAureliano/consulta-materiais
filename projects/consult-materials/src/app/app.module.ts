@@ -10,6 +10,7 @@ import { authProviderBuilder } from '@auth';
 import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { AssistanceModule } from './modules/assistance/assistance.module';
 
 const authProvider = authProviderBuilder({
   url: environment.KEYCLOAK_URL,
@@ -23,6 +24,7 @@ const authProvider = authProviderBuilder({
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    AssistanceModule,
     BaseWrapperModule,
     KeycloakAngularModule,
     BrowserAnimationsModule,
@@ -30,11 +32,11 @@ const authProvider = authProviderBuilder({
   providers: [
     authProvider,
     { provide: 'production', useValue: environment.production },
+    { provide: 'FAQ_API_ENDPOINT', useValue: environment.FAQ_API_ENDPOINT }, 
     { provide: 'SEARCH_FRONT_URL', useValue: environment.SEARCH_FRONT_URL },
     { provide: 'USER_API_ENDPOINT', useValue: environment.USER_API_ENDPOINT },
     { provide: 'SEARCH_API_ENDPOINT', useValue: environment.SEARCH_API_ENDPOINT },
     { provide: 'STREAM_API_ENDPOINT', useValue: environment.STREAM_API_ENDPOINT },
-    { provide: 'FAQ_API_ENDPOINT', useValue: environment.FAQ_API_ENDPOINT }, 
   ],
   bootstrap: [AppComponent],
 })

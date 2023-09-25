@@ -5,17 +5,18 @@ import {
   OnInit,
   SimpleChanges,
 } from '@angular/core';
+import { Scopes } from 'projects/consult-materials/src/app/models/scopes.models';
 import { ContentService } from 'projects/consult-materials/src/app/services/content.service';
 import { SharedDataService } from 'projects/consult-materials/src/app/services/shared-data.service';
 
 @Component({
-  selector: 'app-faq',
-  templateUrl: './faq.component.html',
-  styleUrls: ['./faq.component.scss'],
+  selector: 'app-faq-container',
+  templateUrl: './faq-container.component.html',
+  styleUrls: ['./faq-container.component.scss'],
 })
-export class FaqComponent implements OnInit, OnChanges {
+export class FaqContainerComponent implements OnInit, OnChanges {
   questions: any;
-  scopes: any;
+  scopes: Scopes[];
 
   displayDialog: boolean = false;
   displayDialogDetail: boolean = false;

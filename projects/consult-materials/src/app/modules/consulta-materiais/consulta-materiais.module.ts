@@ -6,18 +6,17 @@ import localePt from '@angular/common/locales/pt';
 
 import { ConsultaMateriaisRoutingModule } from './consulta-materiais-routing.module';
 import { MaterialCardsComponent } from './components/material-card/material-card.component';
-import { WordsManipulateModule } from 'projects/shared/src/lib/pipes/words-manipulate.module';
-import { TagInputModule } from 'projects/shared/src/lib/components/tag-input/tag-input.module';
 import { MaterialDetailComponent } from './components/material-detail/material-detail.component';
-import { LoadingBarModule } from 'projects/shared/src/lib/components/loading-bar/loading-bar.module';
 import { GuiaCadastroFormComponent } from './components/guia-cadastro-form/guia-cadastro-form.component';
 import { ConsultaContainerComponent } from './containers/consulta-container/consulta-container.component';
+import { ContentContainerComponent } from '../assistance/containers/content-container/content-container.component';
 import { GuiaCadastroContainerComponent } from './containers/guia-cadastro-container/guia-cadastro-container.component';
 import { DocumentoCadastroFormComponent } from './components/documento-cadastro-form/documento-cadastro-form.component';
 import { DocumentoCadastroContainerComponent } from './containers/documento-cadastro-container/documento-cadastro-container.component';
-import { ContentContainerComponent } from './containers/content-container/content-container.component';
-import { FaqComponent } from './components/faq/faq.component';
-import { FaqCadastroComponent } from './components/faq-cadastro/faq-cadastro.component';
+
+import { WordsManipulateModule } from 'projects/shared/src/lib/pipes/words-manipulate.module';
+import { TagInputModule } from 'projects/shared/src/lib/components/tag-input/tag-input.module';
+import { LoadingBarModule } from 'projects/shared/src/lib/components/loading-bar/loading-bar.module';
 
 import { TagModule } from 'primeng/tag';
 import { CardModule } from 'primeng/card';
@@ -27,6 +26,7 @@ import { ChipsModule } from 'primeng/chips';
 import { ButtonModule } from 'primeng/button';
 import { EditorModule } from 'primeng/editor';
 import { DialogModule } from 'primeng/dialog';
+import { TabViewModule } from 'primeng/tabview';
 import { DividerModule } from 'primeng/divider';
 import { DropdownModule } from 'primeng/dropdown';
 import { AccordionModule } from 'primeng/accordion';
@@ -36,8 +36,6 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { VirtualScrollerModule } from 'primeng/virtualscroller';
-import { TabViewModule } from 'primeng/tabview';
-import { FaqDetailComponent } from './components/faq-detail/faq-detail.component';
 
 registerLocaleData(localePt);
 
@@ -50,6 +48,7 @@ const PRIME_COMPONENTS = [
   ButtonModule,
   DialogModule,
   EditorModule,
+  TabViewModule,
   DividerModule,
   DropdownModule,
   AccordionModule,
@@ -59,7 +58,6 @@ const PRIME_COMPONENTS = [
   InputTextareaModule,
   ProgressSpinnerModule,
   VirtualScrollerModule,
-  TabViewModule,
 ];
 
 @NgModule({
@@ -72,9 +70,6 @@ const PRIME_COMPONENTS = [
     DocumentoCadastroFormComponent,
     DocumentoCadastroContainerComponent,
     ContentContainerComponent,
-    FaqComponent,
-    FaqCadastroComponent,
-    FaqDetailComponent,
   ],
   imports: [
     //Core

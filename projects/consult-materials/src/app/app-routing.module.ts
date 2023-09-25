@@ -24,6 +24,13 @@ const routes: Routes = [
           ),
       },
       {
+        path: 'assistance',
+        loadChildren: () =>
+          import('./modules/assistance/assistance.module').then(
+            (m) => m.AssistanceModule
+          ),
+      },
+      {
         path: '**',
         children: [],
         resolve: {
@@ -33,8 +40,7 @@ const routes: Routes = [
           externalUrl: `${environment.SEARCH_FRONT_URL}/materials/`,
         },
       },
-    ]
-    ,
+    ],
   },
 ];
 @NgModule({

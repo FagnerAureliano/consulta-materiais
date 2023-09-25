@@ -21,6 +21,7 @@ export class ContentResolver implements Resolve<any> {
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
     const scope = route.paramMap.get('scope');
+    // const scope = 'educacao'
 
     return forkJoin({
       questions: this.contentService.getQuestionsByScope(scope),

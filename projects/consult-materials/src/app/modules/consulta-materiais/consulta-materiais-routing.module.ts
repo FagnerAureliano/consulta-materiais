@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { ConsultaContainerComponent } from './containers/consulta-container/consulta-container.component';
-import { DocumentoCadastroContainerComponent } from './containers/documento-cadastro-container/documento-cadastro-container.component';
-import { GuiaCadastroContainerComponent } from './containers/guia-cadastro-container/guia-cadastro-container.component';
+import { ContentResolver } from '../assistance/resolver/content.resolver';
 import { CadastroResolver } from './resolver/cadastro.resolver';
-import { ContentContainerComponent } from './containers/content-container/content-container.component';
-import { ContentResolver } from './resolver/content.resolver';
-import { FaqComponent } from './components/faq/faq.component';
+import { RouterModule, Routes } from '@angular/router';
+// import { FaqContainerComponent } from './containers/faq-container/faq-container.component';
+import { ContentContainerComponent } from '../assistance/containers/content-container/content-container.component';
+import { ConsultaContainerComponent } from './containers/consulta-container/consulta-container.component';
+import { GuiaCadastroContainerComponent } from './containers/guia-cadastro-container/guia-cadastro-container.component';
+import { DocumentoCadastroContainerComponent } from './containers/documento-cadastro-container/documento-cadastro-container.component';
 
 const routes: Routes = [
   {
@@ -40,26 +40,26 @@ const routes: Routes = [
       },
     ],
   },
-  {
-    path: 'content/:scope',
-    component: ContentContainerComponent,
-    resolve: {data: ContentResolver},
-    children: [
-      {
-        path: '',
-        redirectTo: 'faq',
-        pathMatch: 'full'
-      },
-      {
-        path: 'faq',
-        component: FaqComponent,
-      },
-      {
-        path: 'other',
-        component: FaqComponent
-      }
-    ]
-  },
+  // {
+  //   path: 'content/:scope',
+  //   component: ContentContainerComponent,
+  //   resolve: { data: ContentResolver },
+  //   children: [
+  //     {
+  //       path: '',
+  //       redirectTo: 'faq',
+  //       pathMatch: 'full',
+  //     },
+  //     {
+  //       path: 'faq',
+  //       component: FaqContainerComponent,
+  //     },
+  //     {
+  //       path: 'other',
+  //       component: FaqContainerComponent,
+  //     },
+  //   ],
+  // },
 ];
 
 @NgModule({
