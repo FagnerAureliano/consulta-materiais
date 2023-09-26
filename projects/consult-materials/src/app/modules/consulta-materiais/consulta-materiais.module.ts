@@ -69,7 +69,6 @@ const PRIME_COMPONENTS = [
     GuiaCadastroContainerComponent,
     DocumentoCadastroFormComponent,
     DocumentoCadastroContainerComponent,
-    ContentContainerComponent,
   ],
   imports: [
     //Core

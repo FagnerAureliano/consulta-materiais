@@ -1,11 +1,12 @@
-<div class="faq-item" (click)="toggleAnswer()">
-  <div class="question" class="flex justify-content-between align-items-center">
-    <div class="pl-2 text-xl">
-      {{ question }}
-    </div>
-    <div class="pr-2">
-      <i   [class]="showAnswer ? 'pi pi-chevron-down' : 'pi pi-chevron-up'"style="font-size: 1rem"></i>
-    </div>
-  </div>
-  <div class="answer" [ngClass]="{ expanded: showAnswer }">R: {{ answer }}</div>
+<div class="guide-header text-left">
+  <p-accordion class="p-4">
+    <p-accordionTab class="capitalize" [header]="question.content">
+      <div class="w-full border-1 border-200 p-4 border-round">
+        <span class="l-form-header py-2 px-1">Resposta:</span>
+        <p>
+          {{ question.response }}
+        </p>
+      </div>
+    </p-accordionTab>
+  </p-accordion>
 </div>

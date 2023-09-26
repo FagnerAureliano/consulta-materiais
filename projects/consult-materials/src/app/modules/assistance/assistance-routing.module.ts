@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ContentContainerComponent } from './containers/content-container/content-container.component';
 import { ContentResolver } from './resolver/content.resolver';
 import { FaqContainerComponent } from './containers/faq-container/faq-container.component';
+import { FaqCadastroComponent } from './containers/faq-cadastro/faq-cadastro.component';
 
 const routes: Routes = [
   {
@@ -15,9 +16,12 @@ const routes: Routes = [
     component: ContentContainerComponent,
   },
   {
+    path: 'content/faq/cadastro',
+    component: FaqCadastroComponent, 
+  },
+  {
     path: 'content/:scope',
-    component: ContentContainerComponent,
-    resolve: { data: ContentResolver },
+    component: ContentContainerComponent, 
     children: [
       {
         path: '',
@@ -27,10 +31,12 @@ const routes: Routes = [
       {
         path: 'faq',
         component: FaqContainerComponent,
+        resolve: { data: ContentResolver },
       },
       {
-        path: 'other',
-        component: FaqContainerComponent,
+        path: 'manuais',
+        component: FaqCadastroComponent,
+        resolve: { data: ContentResolver },
       },
     ],
   },

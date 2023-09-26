@@ -1,0 +1,75 @@
+<p-card class="w-full">
+  <form [formGroup]="form" class="border-1 p-3 border-200 border-round">
+    <div class="p-fluid flex mb-2">
+      <p-dropdown
+        [filter]="true"
+        [showClear]="true"
+        [options]="scopes"
+        class="w-full border-cyan-100"
+        [ngClass]="{
+          'ng-dirty ng-invalid':
+            form.get('nuxeoPathId')?.invalid &&
+            (form.get('nuxeoPathId')?.dirty || form.get('nuxeoPathId')?.touched)
+        }"
+        formControlName="nuxeoPathId"
+        placeholder="Selecione o local"
+        optionLabel="scope"
+        optionValue="id"
+      >
+        <!-- [disabled]="!!material" -->
+        <ng-template let-item pTemplate="selectedItem">
+          <span>{{ item.id }} - {{ item.scope | wordConverter }}</span>
+        </ng-template>
+
+        <ng-template let-item pTemplate="item">
+          <span>{{ item.id }} - {{ item.scope | wordConverter }}</span>
+        </ng-template>
+      </p-dropdown>
+    </div>
+
+    <div class="mb-2 w-full text-left" style="margin-bottom: 1rem !important">
+      <div class="flex w-full">
+        <label class="mb-1 text-500">Pergunta</label>
+      </div>
+
+      <div class="p-fluid flex mb-2">
+        <textarea
+          class="w-full pl-1"
+          formControlName="content"
+          rows="5"
+          cols="30"
+          pInputTextarea
+        ></textarea>
+      </div>
+    </div>
+
+    <div class="mb-2 w-full text-left" style="margin-bottom: 1rem !important">
+      <div class="flex w-full">
+        <label class="mb-1 text-500">Resposta</label>
+      </div>
+
+      <div class="p-fluid flex">
+        <textarea
+          class="w-full pl-1"
+          formControlName="response"
+          rows="5"
+          cols="30"
+          pInputTextarea
+        ></textarea>
+      </div>
+    </div>
+    <div class="mb-3">
+      <div class="flex">
+        <label class="mb-1 text-500">Insira as tags</label>
+      </div>
+
+      <lib-tag-input
+        [whitelist]="whitelist"
+        [changedTags]="_changedTags"
+        (characterInputed)="handleSearchTags($event)"
+        (tagsEmitter)="handleSearchTags($event)"
+      ></lib-tag-input>
+    </div>
+
+  </form>
+</p-card>

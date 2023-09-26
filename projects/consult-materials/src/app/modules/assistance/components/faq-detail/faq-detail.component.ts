@@ -12,15 +12,12 @@ import {
   styleUrls: ['./faq-detail.component.scss'],
 })
 export class FaqDetailComponent implements OnInit {
-  @Input() question: string;
-  @Input() answer: string;
+  @Input() question: any;
 
-  showAnswer = false;
-
-  toggleAnswer() {
-    this.showAnswer = !this.showAnswer;
-  }
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    console.log(this.question);
+    
+  }
 }

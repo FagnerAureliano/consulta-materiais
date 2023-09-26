@@ -1,39 +1,41 @@
-<div style="display: flex; flex-direction: column;">
+<p-card class="flex flex-column">
+  <div
+    class="flex text-left flex pl-1 text-gray-700 w-full p-2 border-round l-form-header mb-2"
+  >
+    <div class="pl-2">
+      <i class="pi pi-folder pr-1"></i>
+      <i class="pi pi-angle-right"></i>
+    </div>
 
-  <div style="display: flex; flex-direction: row; justify-content: end;">
-    <button pButton type="button" label="CADASTAR NOVA FAQ" (click)="showFaqDialog()"></button>
+    <div class="capitalize pr-1 cursor-pointer font-light">
+      <!-- (click)="emitTag.emit(file)" -->
+      <!-- {{ document?.properties["dc:source"] | wordConverter }} -->
+      Saúde
+    </div>
   </div>
-  
-  <div *ngIf="table" style="margin-left: 30%; margin-right: 30%;">
-    <table style="width: 100%; border-collapse: collapse;" >
-      <tbody>
-        <tr *ngFor="let question of questions">
-          <app-faq-detail   [question]="question.content" [answer]="question.response"></app-faq-detail>
-        </tr>
-      </tbody>
-    </table>
+  <div class="border-1 p-3 border-200 border-round">
+    <div class="mt-2 flex w-full justify-content-between">
+      <span class="p-input-icon-left w-4">
+        <i class="pi pi-search"></i>
+        <input
+          pInputText
+          class="p-inputtext-sm p-inputtext-outlined"
+          placeholder="Buscar pergunta"
+        />
+      </span>
+      <p-button 
+        type="button"
+        styleClass="p-button-sm p-button-outlined"
+        icon="pi pi-plus"
+        label="CADASTAR NOVA FAQ"
+        (click)="showFaqDialog()"
+      ></p-button>
+    </div>
+
+    <div *ngIf="table">
+      <div *ngFor="let question of questions">
+        <app-faq-detail [question]="question"></app-faq-detail>
+      </div>
+    </div>
   </div>
-</div>
-
-<p-dialog 
-  [(visible)]="displayDialog" 
-  [modal]="true" 
-  [closeOnEscape]="true"
-  [dismissableMask]="true"
-  [blockScroll]="true"
-  [modal]="true"
-  [draggable]="false"
-  [resizable]="false"
-  (onHide)="onShow(false)"
-  (onShow)="onShow(true)"
->
-  <app-faq-cadastro 
-    (cadastroEmitter)="update($event)"
-    [faqData]="faqToEdit" 
-    [scopes]="scopes"
-  ></app-faq-cadastro>
-</p-dialog>
-
-<div class="faq-list">
- 
-</div> 
+</p-card>

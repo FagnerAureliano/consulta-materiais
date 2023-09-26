@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AssistanceRoutingModule } from './assistance-routing.module';
-import { FaqCadastroComponent } from './components/faq-cadastro/faq-cadastro.component';
+import { FaqCadastroComponent } from './containers/faq-cadastro/faq-cadastro.component';
 import { FaqDetailComponent } from './components/faq-detail/faq-detail.component';
 import { FaqContainerComponent } from './containers/faq-container/faq-container.component';
 
@@ -19,6 +19,7 @@ import { ChipsModule } from 'primeng/chips';
 import { ButtonModule } from 'primeng/button';
 import { EditorModule } from 'primeng/editor';
 import { DialogModule } from 'primeng/dialog';
+import { TabMenuModule } from 'primeng/tabmenu';
 import { TabViewModule } from 'primeng/tabview';
 import { DividerModule } from 'primeng/divider';
 import { DropdownModule } from 'primeng/dropdown';
@@ -29,6 +30,8 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { VirtualScrollerModule } from 'primeng/virtualscroller';
+import { ContentContainerComponent } from './containers/content-container/content-container.component';
+import { FaqCadastroFormComponent } from './components/faq-cadastro-form/faq-cadastro-form.component';
 
 const PRIME_COMPONENTS = [
   TagModule,
@@ -41,6 +44,7 @@ const PRIME_COMPONENTS = [
   EditorModule,
   TabViewModule,
   DividerModule,
+  TabMenuModule,
   DropdownModule,
   AccordionModule,
   ScrollTopModule,
@@ -56,6 +60,8 @@ const PRIME_COMPONENTS = [
     FaqDetailComponent,
     FaqCadastroComponent,
     FaqContainerComponent,
+    ContentContainerComponent,
+    FaqCadastroFormComponent
   ],
   imports: [
     FormsModule,

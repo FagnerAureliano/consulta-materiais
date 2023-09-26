@@ -2,16 +2,15 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ContentService {
-
   private defaultHeaders = new HttpHeaders();
 
   constructor(
     private http: HttpClient,
     @Inject('FAQ_API_ENDPOINT') private faqEndpoint: string
-  ) { }
+  ) {}
 
   getContentByScope(scope: string) {
     return this.http.get(`your-api-url/content/${scope}`);
@@ -28,25 +27,25 @@ export class ContentService {
     return this.http.get(`${this.faqEndpoint}/questions/scope/${scope}`);
   }
 
-  saveQuestion(questionData: any, files?: File[], attachmentData?: any) {
-    const formData = new FormData();
+  saveQuestion(questionData: any) {
+    return this.http.post(`${this.faqEndpoint}/questions`, questionData);
 
-    if (files) {
-      files.forEach((file, index) => {
-        formData.append(`files`, file, file.name);
-      });
-    }else {
-      formData.append(`files`, null);
-    }
+    // const formData = new FormData();
 
-    if (attachmentData) {
-      formData.append('attachmentData', JSON.stringify(attachmentData));
-    }else {
-      formData.append('attachmentData', null);
-    }
+    // if (files) {
+    //   files.forEach((file, index) => {
+    //     formData.append(`files`, file, file.name);
+    //   });
+    // }else {
+    //   formData.append(`files`, null);
+    // }
 
-    formData.append('questionData', JSON.stringify(questionData));
+    // if (attachmentData) {
+    //   formData.append('attachmentData', JSON.stringify(attachmentData));
+    // }else {
+    //   formData.append('attachmentData', null);
+    // }
 
-    return this.http.post(`${this.faqEndpoint}/questions`, formData);
+    // formData.append('questionData', JSON.stringify(questionData));
   }
 }
