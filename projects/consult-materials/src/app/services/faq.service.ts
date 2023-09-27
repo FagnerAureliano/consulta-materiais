@@ -4,12 +4,12 @@ import { Inject, Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root',
 })
-export class ContentService {
+export class FAQService {
   private defaultHeaders = new HttpHeaders();
 
   constructor(
     private http: HttpClient,
-    @Inject('FAQ_API_ENDPOINT') private faqEndpoint: string
+    @Inject('FAQ_API_ENDPOINT') private endpoint: string
   ) {}
 
   getContentByScope(scope: string) {
@@ -17,18 +17,18 @@ export class ContentService {
   }
 
   getQuestions() {
-    return this.http.get(`${this.faqEndpoint}/questions`);
+    return this.http.get(`${this.endpoint}/questions`);
   }
   getQuestionsByID(id: string) {
-    return this.http.get(`${this.faqEndpoint}/questions/${id}`);
+    return this.http.get(`${this.endpoint}/questions/select-question/${id}`);
   }
 
   getQuestionsByScope(scope: string) {
-    return this.http.get(`${this.faqEndpoint}/questions/scope/${scope}`);
+    return this.http.get(`${this.endpoint}/questions/scope/${scope}`);
   }
 
   saveQuestion(questionData: any) {
-    return this.http.post(`${this.faqEndpoint}/questions`, questionData);
+    return this.http.post(`${this.endpoint}/questions`, questionData);
 
     // const formData = new FormData();
 

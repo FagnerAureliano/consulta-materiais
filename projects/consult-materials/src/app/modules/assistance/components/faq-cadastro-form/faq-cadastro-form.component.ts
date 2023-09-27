@@ -2,7 +2,6 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Tag } from 'primeng/tag';
 import { Scopes } from 'projects/consult-materials/src/app/models/scopes.models';
-import { Material } from 'projects/consult-materials/src/app/models/search.models';
 
 @Component({
   selector: 'app-faq-cadastro-form',
@@ -11,10 +10,13 @@ import { Material } from 'projects/consult-materials/src/app/models/search.model
 })
 export class FaqCadastroFormComponent implements OnInit {
   @Output() tagsEmitter = new EventEmitter();
+  
   @Input() form: FormGroup;
   @Input() whitelist: string[] = [];
   @Input() scopes: Scopes[];
-  @Input() material: Material;
+  @Input() question: any;
+  @Input() actualScope: string
+
   _changedTags: Tag[];
 
   constructor() {}

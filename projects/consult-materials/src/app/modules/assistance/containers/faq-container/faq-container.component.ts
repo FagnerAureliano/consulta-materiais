@@ -1,14 +1,6 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Scopes } from 'projects/consult-materials/src/app/models/scopes.models';
-import { ContentService } from 'projects/consult-materials/src/app/services/content.service';
-import { SharedDataService } from 'projects/consult-materials/src/app/services/shared-data.service';
+import { SharedDataService } from 'projects/shared/src/lib/services/shared-data.service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -16,85 +8,43 @@ import { Subscription } from 'rxjs';
   templateUrl: './faq-container.component.html',
   styleUrls: ['./faq-container.component.scss'],
 })
-export class FaqContainerComponent implements OnInit, OnChanges {
+export class FaqContainerComponent implements OnInit, OnDestroy {
   private subs$: Subscription[] = [];
 
   questions: any;
-  scopes: Scopes[];
-
-  displayDialog: boolean = false;
-  displayDialogDetail: boolean = false;
-
-  faqToEdit: any;
-  table = true;
-
-  htmlElement = document.documentElement;
+  visibleTable = false;
+  actualScope: string;
 
   constructor(
-    private cdref: ChangeDetectorRef,
     private sharedDataService: SharedDataService,
-    private faqService: ContentService,
     private router: Router,
     private route: ActivatedRoute
   ) {
     this.subs$.push(
-      this.route.data.subscribe((res) => { 
-        this.questions = res.data.questions;  
-        sharedDataService.setScopes(res.data.scopes);
+      this.route.data.subscribe((res) => {
+        this.questions = res.data.questions;
+        this.visibleTable = this.questions.length > 0 ? true : false;
+      })
+    );
+    this.subs$.push(
+      this.sharedDataService.actualScope$.subscribe((res) => {
+        this.actualScope = res;
       })
     );
   }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    // this.table = false;
-    // this.sharedDataService.questions$.subscribe((data) => {
-    //   this.questions = data;
-    //   this.table = true;
-    //   this.displayDialog = false;
-    // });
+  ngOnDestroy(): void {
+    this.subs$.forEach((sub) => {
+      sub.unsubscribe();
+    });
   }
 
-  update(data) {
-    // this.table = false;
-    // this.faqService.getQuestions().subscribe((data) => {
-    //   this.questions = data;
-    //   this.table = true;
-    //   this.displayDialog = false;
-    // });
-  }
-  ngOnInit(): void {
-    // this.sharedDataService.questions$.subscribe((data) => {
-    //   this.questions = data;
-    // });
+  ngOnInit(): void {}
 
-    // this.sharedDataService.scopes$.subscribe((data) => {
-    //   this.scopes = data;
-    // }); 
+  handleCreateFAQ(): void {
+    this.router.navigate(['assistance/content/faq/create']);
+  }
+  handleRemoveQuestion(question) {
+    console.log(question);
     
-  }
-
-  showFaqDialog(faqData?: any): void {
-    this.router.navigate(['assistance/content/faq/cadastro']);
-    // this.faqToEdit = faqData;
-
-    // this.displayDialog = true;
-  }
-
-  showDetails(question: any) {
-    this.faqToEdit = question;
-    this.displayDialogDetail = true;
-  }
-
-  editQuestion(question: any) {
-    console.log('editQuestion');
-  }
-
-  // ngAfterContentChecked() {
-  //   this.cdref.detectChanges();
-  // }
-  onShow(isOpen: boolean): void {
-    isOpen
-      ? (this.htmlElement.style.overflow = 'hidden')
-      : (this.htmlElement.style.overflow = '');
   }
 }

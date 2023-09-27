@@ -4,47 +4,46 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnDestroy,
   OnInit,
   Output,
-  ViewChild,
 } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
-import { FileUpload } from 'primeng/fileupload';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Scopes } from 'projects/consult-materials/src/app/models/scopes.models';
 import { Tag } from 'projects/consult-materials/src/app/models/search.models';
-import { ContentService } from 'projects/consult-materials/src/app/services/content.service';
+import { FAQService } from 'projects/consult-materials/src/app/services/faq.service';
 import { SearchMaterialsService } from 'projects/consult-materials/src/app/services/search-materiais.service';
-import { SharedDataService } from 'projects/consult-materials/src/app/services/shared-data.service';
-import { Subscription } from 'rxjs';
+import { SharedDataService } from 'projects/shared/src/lib/services/shared-data.service';
 
 @Component({
   selector: 'app-faq-cadastro',
   templateUrl: './faq-cadastro.component.html',
   styleUrls: ['./faq-cadastro.component.scss'],
 })
-export class FaqCadastroComponent implements OnInit {
+export class FaqCadastroComponent implements OnInit, OnDestroy {
   private subs$: Subscription[] = [];
-
-  @ViewChild('fileUpload') fileUpload: FileUpload;
 
   @Output() cadastroEmitter = new EventEmitter();
   @Input() _scopes: Scopes[];
-  
+
   faqData: any;
   _allScopes: Scopes[];
   _whitelist: string[];
+  _actualScope: string;
 
   form: FormGroup;
 
   hasDocuments: boolean = false;
+  question: any;
 
   _changedTags: Tag[];
   whitelist: string[] = [];
 
   constructor(
     private fb: FormBuilder,
-    private contentService: ContentService,
+    private faqService: FAQService,
     private router: Router,
     private cdref: ChangeDetectorRef,
     private location: Location,
@@ -52,11 +51,31 @@ export class FaqCadastroComponent implements OnInit {
     private route: ActivatedRoute,
     private searchService: SearchMaterialsService
   ) {
-    this.sharedDataService.scopes$.subscribe((data) => {
-      this._scopes = data;
-    }); 
+    this.subs$.push(
+      this.route.data.subscribe((res) => {
+        this._scopes = res.data.scopes;
+        this._allScopes = res.data.allScopes;
+      })
+    );
+    this.subs$.push(
+      this.sharedDataService.actualScope$.subscribe((res) => {
+        this._actualScope = res;
+      })
+    );
+    const idQuestion = this.route.snapshot.paramMap.get('id');
+    if (idQuestion) {
+      this.subs$.push(
+        this.faqService.getQuestionsByID(idQuestion).subscribe((res) => {
+          this.faqData = res;
+        })
+      );
+    }
   }
-
+  ngOnDestroy(): void {
+    this.subs$.forEach((sub) => {
+      sub.unsubscribe();
+    });
+  }
   ngAfterContentChecked(): void {
     this.cdref.detectChanges();
   }
@@ -70,12 +89,30 @@ export class FaqCadastroComponent implements OnInit {
     });
 
     if (this.faqData) {
-      this.form.setValue(this.faqData);
+      this.onFillForm();
+    } else {
+      //TEMPORARY
+      setTimeout(() => {
+        this.onFillForm();
+      }, 300);
     }
   }
+  onFillForm(): void {
+    if (this.faqData) {
+      this.hasDocuments = true;
 
-  onShowUpload() {
-    this.form.patchValue({ files: Array.from(this.fileUpload._files) });
+      const faqScope = this._allScopes.find(
+        (res) => res.id === this.faqData.nuxeoPathId
+      );
+
+      this.form.get('nuxeoPathId').setValue(faqScope.id);
+      this.form.get('content').setValue(this.faqData.content);
+      this.form.get('response').setValue(this.faqData.response);
+
+      // Devido ao'Tag Input' ser do Shared, utilizando uma lib externa,
+      // é necessário enviar a lista da tag para o mesmo e ser tratada por lá.
+      // this._changedTags = this.faqData.
+    }
   }
 
   onFileChange(event: any) {
@@ -103,7 +140,7 @@ export class FaqCadastroComponent implements OnInit {
 
     // //   // const files: File[] = this.form.get('files')?.value || [];
 
-    //   this.contentService
+    //   this.faqService
     //     .saveQuestion(this.form.value)
     //     .subscribe(
     //       (response) => {

@@ -36,7 +36,9 @@
   <div class="text-left">
     <app-faq-cadastro-form
       [form]="form"
+      [question]="question"
       [scopes]="_scopes"
+      [actualScope]="_actualScope"
       [whitelist]="_whitelist"
       (tagsEmitter)="handleSearchTags($event)"
     >

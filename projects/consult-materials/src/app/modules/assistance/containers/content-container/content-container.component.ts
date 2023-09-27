@@ -1,122 +1,71 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MenuItem } from 'primeng/api';
-import { TabMenu } from 'primeng/tabmenu';
-import { SharedDataService } from 'projects/consult-materials/src/app/services/shared-data.service';
 import { HasContentService } from 'projects/shared/src/lib/services/has-content.service';
+import { SharedDataService } from 'projects/shared/src/lib/services/shared-data.service';
 import { Subscription } from 'rxjs';
-import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-content-container',
   templateUrl: './content-container.component.html',
   styleUrls: ['./content-container.component.scss'],
 })
-export class ContentContainerComponent implements OnInit {
+export class ContentContainerComponent implements OnInit, OnDestroy {
   private subs$: Subscription[] = [];
   activeIndex: number = 0;
 
-  _breadcrumbItems: MenuItem[];
   _tabMenuItems: MenuItem[];
-  _home: MenuItem;
-  _activatedRoute = false;
   _activeTabMenuItem: MenuItem;
   atualScope: any;
-  public questions: any;
-  public scopes: any;
-
-  @ViewChild('tabMenuItem') private _tabMenu: TabMenu;
 
   constructor(
-    private hasContent: HasContentService,
-    private sharedDataService: SharedDataService,
     private router: Router,
-    private activatedRoute: ActivatedRoute
-  ) {
-    sharedDataService.actualScope$.subscribe((scope) => {
-      console.log(scope);
+    private hasContent: HasContentService,
+    private activatedRoute: ActivatedRoute,
+    private sharedDataService: SharedDataService
+  ) {}
+  
+  ngOnDestroy(): void {
+    this.subs$.forEach((sub) => {
+      sub.unsubscribe();
     });
   }
-
   ngOnInit(): void {
-    this.router.events
-      .pipe(filter((event) => event instanceof NavigationEnd))
-      .subscribe(() => {
-        // O código a seguir será executado sempre que a rota mudar
-        console.log('Rota mudou');
-      });
-
     this.activatedRoute.params.subscribe((params) => {
-      // O código a seguir será executado sempre que os parâmetros de rota mudarem
-      console.log('Parâmetros de rota mudaram:', params);
+      this.atualScope = params.scope;
+      this.sharedDataService.setActualScopes(this.atualScope);
     });
-
-    // this.sharedDataService.setQuestions(this.questions);
-
-    // const activeChildRoute = this.route.snapshot.firstChild;
-
-    // if (activeChildRoute?.url.length) {
-    //   const activePath = activeChildRoute.url[0].path;
-
-    //   this.activeIndex = activePath === 'faq' ? 0 : 1;
-    // }
 
     this.hasContent.setActive(true);
 
     this._tabMenuItems = [
       {
         label: 'Perguntas Frequentes',
-        routerLink: [`/assistance/content/null/faq`],
+        command: () => this.navigateTo('faq'),
       },
       {
         label: 'Manuais',
-        routerLink: [`/assistance/content/null/manuais`],
-        // disabled: true,
+        command: () => this.navigateTo('manuais'),
+        disabled: true,
       },
       {
         label: 'Video Aulas',
-        routerLink: [``],
         disabled: true,
       },
       {
         label: 'Guias Rápido',
-        routerLink: [``],
         disabled: true,
       },
     ];
-
-    this._activeTabMenuItem = this._tabMenuItems.filter((tabMenuItem) =>
-      tabMenuItem.routerLink?.includes(this.router.url)
-    )[0];
-
-    this.subs$.push(
-      this.router.events.subscribe((e) => {
-        if (e instanceof NavigationEnd) {
-          for (const tabMenuItem of this._tabMenuItems) {
-            tabMenuItem.disabled = false;
-          }
-        }
-      })
+    this._activeTabMenuItem = this._tabMenuItems.find((tabMenu) =>
+      this.router.url.includes(tabMenu.command.toString().split("'")[1])
     );
   }
-
-  handleChange(event) {
-    // const index = event.index;
-    // let path: string;
-    // if (index === 0) {
-    //   path = 'faq';
-    // } else if (index === 1) {
-    //   path = 'other'
-    // }
-    // this.router.navigate([path], {relativeTo: this.route});
-  }
-  handleMenuClick() {
-    if (this._activeTabMenuItem !== this._tabMenu.activeItem) {
-      this._activeTabMenuItem = this._tabMenu.activeItem;
-
-      for (const tabMenuItem of this._tabMenuItems) {
-        tabMenuItem.disabled = false;
-      }
-    }
+  navigateTo(scope: string) {
+    this.router.navigate([
+      `/assistance/content/${
+        this.atualScope ? this.atualScope : null
+      }/${scope}`,
+    ]);
   }
 }

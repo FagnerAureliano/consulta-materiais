@@ -13,7 +13,7 @@ import { SharedDataService } from '../../../../../../shared/src/lib/services/sha
 @Injectable({
   providedIn: 'root',
 })
-export class ContentResolver implements Resolve<any> {
+export class FaqCreateResolver implements Resolve<any> {
   constructor(
     private faqService: FAQService,
     private streamService: StreamMaterialsService,
@@ -28,10 +28,21 @@ export class ContentResolver implements Resolve<any> {
     const scope = urlSegments[3];
     this.sharedDataService.setActualScopes(scope);
 
-    return forkJoin({
-      questions: this.faqService.getQuestionsByScope(scope).pipe(first()),
-      scopes: this.streamService.getUserScopes().pipe(first()),
-      allScopes: this.streamService.getAllScopes().pipe(first()),
-    });
+    if (route.params.id) {
+      return forkJoin({
+        question: this.faqService
+          .getQuestionsByID(route.params.id)
+          .pipe(first()),
+        questions: this.faqService.getQuestionsByScope(scope).pipe(first()),
+        scopes: this.streamService.getUserScopes().pipe(first()),
+        allScopes: this.streamService.getAllScopes().pipe(first()),
+      });
+    } else {
+      return forkJoin({
+        questions: this.faqService.getQuestionsByScope(scope).pipe(first()),
+        scopes: this.streamService.getUserScopes().pipe(first()),
+        allScopes: this.streamService.getAllScopes().pipe(first()),
+      });
+    }
   }
 }

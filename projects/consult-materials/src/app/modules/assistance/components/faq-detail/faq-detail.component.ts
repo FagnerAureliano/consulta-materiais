@@ -1,10 +1,5 @@
-import {
-  Component,
-  Input,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-faq-detail',
@@ -13,11 +8,15 @@ import {
 })
 export class FaqDetailComponent implements OnInit {
   @Input() question: any;
+  @Output() removeEmmitter = new EventEmitter();
+  constructor(private router: Router) {}
 
-  constructor() {}
+  ngOnInit(): void {}
 
-  ngOnInit(): void {
-    console.log(this.question);
-    
+  handleEditQuestion(question) {
+    this.router.navigate([`/assistance/content/faq/update/${question.id}`]);
+  }
+  onRemove(question) {
+    this.removeEmmitter.emit(question)
   }
 }

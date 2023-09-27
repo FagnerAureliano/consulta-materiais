@@ -8,9 +8,7 @@
     </div>
 
     <div class="capitalize pr-1 cursor-pointer font-light">
-      <!-- (click)="emitTag.emit(file)" -->
-      <!-- {{ document?.properties["dc:source"] | wordConverter }} -->
-      Saúde
+      {{ actualScope | wordConverter }}
     </div>
   </div>
   <div class="border-1 p-3 border-200 border-round">
@@ -23,19 +21,27 @@
           placeholder="Buscar pergunta"
         />
       </span>
-      <p-button 
+      <p-button
         type="button"
         styleClass="p-button-sm p-button-outlined"
         icon="pi pi-plus"
         label="CADASTAR NOVA FAQ"
-        (click)="showFaqDialog()"
+        (click)="handleCreateFAQ()"
       ></p-button>
     </div>
 
-    <div *ngIf="table">
+    <div class="mt-1" *ngIf="visibleTable; else noContent">
       <div *ngFor="let question of questions">
-        <app-faq-detail [question]="question"></app-faq-detail>
+        <app-faq-detail [question]="question" (removeEmmitter)="handleRemoveQuestion($event)"></app-faq-detail>
       </div>
     </div>
+    <ng-template #noContent>
+      <div
+        *ngIf="!visibleTable"
+        class="text-center p-4 bg-white border-1 border-round border-200 mt-2"
+      >
+        <div>Não há perguntas</div>
+      </div>
+    </ng-template>
   </div>
 </p-card>

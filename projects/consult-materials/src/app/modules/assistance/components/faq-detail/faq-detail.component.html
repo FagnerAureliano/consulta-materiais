@@ -1,12 +1,28 @@
-<div class="guide-header text-left">
-  <p-accordion class="p-4">
-    <p-accordionTab class="capitalize" [header]="question.content">
-      <div class="w-full border-1 border-200 p-4 border-round">
-        <span class="l-form-header py-2 px-1">Resposta:</span>
-        <p>
-          {{ question.response }}
-        </p>
+<div class="guide-header text-left"> 
+    <div class="flex pt-1 gap-1 pr-1" >
+      <p-accordion class=" w-full">
+        <p-accordionTab class="capitalize" [header]="question.content">
+          <div class="w-full border-1 border-200 p-4 border-round">
+            <span class="l-form-header py-2 px-1">Resposta:</span>
+            <p>
+              {{ question.response }}
+            </p>
+          </div>
+        </p-accordionTab>
+      </p-accordion>
+      <div class="  flex">
+        <button
+          pButton
+          icon="pi pi-pencil"
+          (click)="handleEditQuestion(question)"
+          class="p-button-text p-button-primary p-button-sm"
+        ></button>
+         <button
+          pButton
+          icon="pi pi-trash"
+          class="p-button-text p-button-danger p-button-sm"
+          (click)="onRemove(question)"
+        ></button>
       </div>
-    </p-accordionTab>
-  </p-accordion>
+    </div>
 </div>

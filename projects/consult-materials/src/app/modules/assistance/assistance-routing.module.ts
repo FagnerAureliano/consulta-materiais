@@ -8,20 +8,29 @@ import { FaqCadastroComponent } from './containers/faq-cadastro/faq-cadastro.com
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'content',
+    redirectTo: 'content/faq',
     pathMatch: 'full',
   },
   {
-    path: 'content',
-    component: ContentContainerComponent,
-  },
-  {
-    path: 'content/faq/cadastro',
-    component: FaqCadastroComponent, 
+    path: 'content/faq',
+    component: FaqCadastroComponent,
+    resolve: { data: ContentResolver },
+    children: [
+      {
+        path: 'create',
+        component: FaqCadastroComponent,
+        resolve: { data: ContentResolver },
+      },
+      {
+        path: 'update/:id',
+        component: FaqCadastroComponent,
+        resolve: { data: ContentResolver },
+      },
+    ],
   },
   {
     path: 'content/:scope',
-    component: ContentContainerComponent, 
+    component: ContentContainerComponent,
     children: [
       {
         path: '',
@@ -36,7 +45,6 @@ const routes: Routes = [
       {
         path: 'manuais',
         component: FaqCadastroComponent,
-        resolve: { data: ContentResolver },
       },
     ],
   },
