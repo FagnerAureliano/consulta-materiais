@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 })
 export class FaqDetailComponent implements OnInit {
   @Input() question: any;
+  @Input() isActionBtnDisabled: boolean;
   @Output() removeEmmitter = new EventEmitter();
   constructor(private router: Router) {}
 

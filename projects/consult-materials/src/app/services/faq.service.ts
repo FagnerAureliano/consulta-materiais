@@ -5,7 +5,9 @@ import { Inject, Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class FAQService {
-  private defaultHeaders = new HttpHeaders();
+  private defaultHeaders = new HttpHeaders({
+    'Content-Type': 'application/json',
+  });
 
   constructor(
     private http: HttpClient,
@@ -13,18 +15,35 @@ export class FAQService {
   ) {}
 
   getContentByScope(scope: string) {
-    return this.http.get(`your-api-url/content/${scope}`);
+    return this.http.get(`your-api-url/content/${scope}`, {
+      headers: this.defaultHeaders,
+    });
   }
 
   getQuestions() {
-    return this.http.get(`${this.endpoint}/questions`);
+    return this.http.get(`${this.endpoint}/questions`, {
+      headers: this.defaultHeaders,
+    });
   }
   getQuestionsByID(id: string) {
-    return this.http.get(`${this.endpoint}/questions/select-question/${id}`);
+    return this.http.get(`${this.endpoint}/questions/select-question/${id}`, {
+      headers: this.defaultHeaders,
+    });
   }
 
   getQuestionsByScope(scope: string) {
-    return this.http.get(`${this.endpoint}/questions/scope/${scope}`);
+    return this.http.get(`${this.endpoint}/questions/scope/${scope}`, {
+      headers: this.defaultHeaders,
+    });
+  }
+  removeQuestionByID(idQuestion: string) {
+    return this.http.delete(`${this.endpoint}/questions/${idQuestion}`, {
+      headers: this.defaultHeaders,
+    });
+  }
+
+  updateQuestion(id: string, questionData: Object) {
+    return this.http.patch(`${this.endpoint}/questions${id}`, questionData);
   }
 
   saveQuestion(questionData: any) {

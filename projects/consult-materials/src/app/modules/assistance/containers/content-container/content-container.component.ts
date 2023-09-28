@@ -21,10 +21,9 @@ export class ContentContainerComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private hasContent: HasContentService,
-    private activatedRoute: ActivatedRoute,
-    private sharedDataService: SharedDataService
+    private activatedRoute: ActivatedRoute
   ) {}
-  
+
   ngOnDestroy(): void {
     this.subs$.forEach((sub) => {
       sub.unsubscribe();
@@ -33,7 +32,6 @@ export class ContentContainerComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((params) => {
       this.atualScope = params.scope;
-      this.sharedDataService.setActualScopes(this.atualScope);
     });
 
     this.hasContent.setActive(true);
@@ -43,17 +41,20 @@ export class ContentContainerComponent implements OnInit, OnDestroy {
         label: 'Perguntas Frequentes',
         command: () => this.navigateTo('faq'),
       },
-      {
-        label: 'Manuais',
-        command: () => this.navigateTo('manuais'),
-        disabled: true,
-      },
+
       {
         label: 'Video Aulas',
+        command: () => this.navigateTo('video'),
         disabled: true,
       },
       {
         label: 'Guias Rápido',
+        command: () => this.navigateTo('guideo'),
+        disabled: true,
+      },
+      {
+        label: 'Manuais',
+        command: () => this.navigateTo('manuais'),
         disabled: true,
       },
     ];

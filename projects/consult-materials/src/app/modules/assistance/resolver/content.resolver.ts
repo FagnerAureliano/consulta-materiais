@@ -6,9 +6,8 @@ import {
 } from '@angular/router';
 import { Observable, forkJoin, of } from 'rxjs';
 import { FAQService } from '../../../services/faq.service';
+import { first } from 'rxjs/operators'; 
 import { StreamMaterialsService } from '../../../services/stream-materiais.service';
-import { first } from 'rxjs/operators';
-import { SharedDataService } from '../../../../../../shared/src/lib/services/shared-data.service';
 
 @Injectable({
   providedIn: 'root',
@@ -16,8 +15,7 @@ import { SharedDataService } from '../../../../../../shared/src/lib/services/sha
 export class ContentResolver implements Resolve<any> {
   constructor(
     private faqService: FAQService,
-    private streamService: StreamMaterialsService,
-    private sharedDataService: SharedDataService
+    private streamService: StreamMaterialsService
   ) {}
 
   resolve(
@@ -26,7 +24,6 @@ export class ContentResolver implements Resolve<any> {
   ): Observable<any> {
     let urlSegments = route['_routerState'].url.split('/');
     const scope = urlSegments[3];
-    this.sharedDataService.setActualScopes(scope);
 
     return forkJoin({
       questions: this.faqService.getQuestionsByScope(scope).pipe(first()),

@@ -12,10 +12,9 @@ export class FaqCadastroFormComponent implements OnInit {
   @Output() tagsEmitter = new EventEmitter();
   
   @Input() form: FormGroup;
-  @Input() whitelist: string[] = [];
-  @Input() scopes: Scopes[];
-  @Input() question: any;
+  @Input() scopes: Scopes[]; 
   @Input() actualScope: string
+  @Input() whitelist: string[] = [];
 
   _changedTags: Tag[];
 

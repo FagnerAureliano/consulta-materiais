@@ -6,8 +6,13 @@
   </div>
   <section class="flex justify-content-center">
     <div class="p-grid w-10">
-      <div class="p-col-12 p-xl-10 p-xl-offset-1">
-        <p-tabMenu #tabMenuItem [model]="_tabMenuItems" [activeItem]="_activeTabMenuItem"></p-tabMenu>
+      <div class="p-col-12 p-xl-10 p-xl-offset-1 mt-1">
+        <p-tabMenu
+          styleClass="border-1 border-round border-300 shadow-1"
+          #tabMenuItem
+          [model]="_tabMenuItems"
+          [activeItem]="_activeTabMenuItem"
+        ></p-tabMenu>
         <router-outlet></router-outlet>
       </div>
     </div>

@@ -1,5 +1,5 @@
 <p-card class="w-full">
-  <!-- <div
+  <div
     class="flex text-left flex pl-1 text-gray-700 w-full p-2 border-round l-form-header mb-2"
   >
     <div class="pl-2">
@@ -8,12 +8,10 @@
     </div>
 
     <div class="capitalize pr-1 cursor-pointer font-light">
-      {{ actualScope | wordConverter }}
+      {{ actualScope ? (actualScope | wordConverter) : "" }}
     </div>
-  </div> -->
+  </div>
   <form [formGroup]="form" class="border-1 p-3 border-200 border-round">
-    {{ question | json }}
-
     <div class="mb-2 w-full text-left" style="margin-bottom: 1rem !important">
       <div class="flex w-full">
         <label class="mb-1 text-500">Pergunta</label>

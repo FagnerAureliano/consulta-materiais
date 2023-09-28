@@ -5,21 +5,16 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
   templateUrl: './material-card.component.html',
   styleUrls: ['./material-card.component.scss'],
 })
-export class MaterialCardsComponent implements OnInit{
- 
+export class MaterialCardsComponent implements OnInit {
   @Input() document!: any;
   @Input() isActionBtnDisabled: boolean = false;
   @Output() emitTag: EventEmitter<any> = new EventEmitter();
   @Output() deleteEmitter: EventEmitter<any> = new EventEmitter();
   @Output() updateEmitter: EventEmitter<any> = new EventEmitter();
 
-  constructor() {
-    console.log('MaterialCardsComponent');
-  }
+  constructor() {}
 
-  ngOnInit(): void {
-    console.log(this.document);
-  }
+  ngOnInit(): void {}
 
   handleDelete(): void {
     this.deleteEmitter.emit(this.document.id);

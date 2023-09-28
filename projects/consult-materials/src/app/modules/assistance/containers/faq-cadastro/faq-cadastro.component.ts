@@ -1,21 +1,22 @@
 import { Location } from '@angular/common';
 import {
-  ChangeDetectorRef,
-  Component,
-  EventEmitter,
   Input,
-  OnDestroy,
   OnInit,
   Output,
+  OnDestroy,
+  Component,
+  EventEmitter,
+  ChangeDetectorRef,
 } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Subscription, throwError } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Scopes } from 'projects/consult-materials/src/app/models/scopes.models';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Tag } from 'projects/consult-materials/src/app/models/search.models';
+import { Scopes } from 'projects/consult-materials/src/app/models/scopes.models';
 import { FAQService } from 'projects/consult-materials/src/app/services/faq.service';
 import { SearchMaterialsService } from 'projects/consult-materials/src/app/services/search-materiais.service';
-import { SharedDataService } from 'projects/shared/src/lib/services/shared-data.service';
+import { MessageService } from 'primeng/api';
+import { catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'app-faq-cadastro',
@@ -28,27 +29,25 @@ export class FaqCadastroComponent implements OnInit, OnDestroy {
   @Output() cadastroEmitter = new EventEmitter();
   @Input() _scopes: Scopes[];
 
-  faqData: any;
+  _changedTags: Tag[];
   _allScopes: Scopes[];
   _whitelist: string[];
   _actualScope: string;
 
+  faqData: any;
   form: FormGroup;
-
-  hasDocuments: boolean = false;
-  question: any;
-
-  _changedTags: Tag[];
   whitelist: string[] = [];
+  isEdit: boolean = false;
+  idQuestion: string;
 
   constructor(
-    private fb: FormBuilder,
-    private faqService: FAQService,
     private router: Router,
-    private cdref: ChangeDetectorRef,
+    private fb: FormBuilder,
     private location: Location,
-    private sharedDataService: SharedDataService,
     private route: ActivatedRoute,
+    private faqService: FAQService,
+    private cdref: ChangeDetectorRef,
+    private messageService: MessageService,
     private searchService: SearchMaterialsService
   ) {
     this.subs$.push(
@@ -57,17 +56,23 @@ export class FaqCadastroComponent implements OnInit, OnDestroy {
         this._allScopes = res.data.allScopes;
       })
     );
-    this.subs$.push(
-      this.sharedDataService.actualScope$.subscribe((res) => {
-        this._actualScope = res;
-      })
-    );
-    const idQuestion = this.route.snapshot.paramMap.get('id');
-    if (idQuestion) {
+    
+    this._actualScope = localStorage.getItem('actualScope');
+
+    this.idQuestion = this.route.snapshot['_routerState'].url.split('/')[5];
+
+    if (this.idQuestion && this.idQuestion !== 'create') {
+      this.isEdit = true;
       this.subs$.push(
-        this.faqService.getQuestionsByID(idQuestion).subscribe((res) => {
-          this.faqData = res;
-        })
+        this.faqService
+          .getQuestionsByID(this.idQuestion)
+          .pipe(
+            catchError((err) => {
+              this.goBack();
+              return throwError(err);
+            })
+          )
+          .subscribe((res) => (this.faqData = res))
       );
     }
   }
@@ -81,10 +86,15 @@ export class FaqCadastroComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    const pathScope = this._allScopes.find(
+      (res) => res.scope === this._actualScope.toUpperCase()
+    );
+
     this.form = this.fb.group({
+      nuxeoPathId: [pathScope?.id],
       content: ['', [Validators.required]],
       response: ['', [Validators.required]],
-      nuxeoPathId: ['', Validators.required],
+      attachments: [''],
       tags: ['', Validators.required],
     });
 
@@ -99,12 +109,9 @@ export class FaqCadastroComponent implements OnInit, OnDestroy {
   }
   onFillForm(): void {
     if (this.faqData) {
-      this.hasDocuments = true;
-
       const faqScope = this._allScopes.find(
         (res) => res.id === this.faqData.nuxeoPathId
       );
-
       this.form.get('nuxeoPathId').setValue(faqScope.id);
       this.form.get('content').setValue(this.faqData.content);
       this.form.get('response').setValue(this.faqData.response);
@@ -123,35 +130,50 @@ export class FaqCadastroComponent implements OnInit, OnDestroy {
   }
 
   handleSave(): void {
-    console.log(this.form);
+    console.log(this.form.value);
 
-    // if (this.form.valid) {
-    // //   const questionData = {
-    // //     content: this.form.get('content')?.value,
-    // //     response: this.form.get('response')?.value,
-    // //     nuxeoPathId: this.form.get('nuxeoPathId')?.value,
-    // //   };
-
-    // //   // const attachmentData = {
-    // //   //   title: this.form.get('title')?.value,
-    // //   //   description: this.form.get('description')?.value,
-    // //   //   tags: this.form.get('tags')?.value,
-    // //   // };
-
-    // //   // const files: File[] = this.form.get('files')?.value || [];
-
-    //   this.faqService
-    //     .saveQuestion(this.form.value)
-    //     .subscribe(
-    //       (response) => {
-    //         console.log('Question saved successfully', response);
-    //         this.cadastroEmitter.emit(response);
-    //       },
-    //       (error) => {
-    //         console.error('Error saving question', error);
-    //       }
-    //     );
-    // }
+    const observableResolved = (_) => {
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Tudo OK',
+        detail: this.isEdit
+          ? `${'Pergunta atualizada com sucesso'}`
+          : `${'Pergunta salva com sucesso'}`,
+      });
+    };
+    if (this.isEdit) {
+      // this.subs$.push(
+      //   this.faqService
+      //     .updateQuestion(this.idQuestion, this.form.value)
+      //     .pipe(
+      //       catchError((err) => {
+      //         return throwError(err);
+      //       })
+      //     )
+      //     .subscribe((res) => {
+      //       observableResolved(res);
+      //       this.goBack();
+      //     })
+      // );
+      observableResolved(null);
+      this.goBack();
+    } else {
+      // this.subs$.push(
+      //   this.faqService
+      //     .saveQuestion(this.form.value)
+      //     .pipe(
+      //       catchError((err) => {
+      //         return throwError(err);
+      //       })
+      //     )
+      //     .subscribe((res) => {
+      //       observableResolved(res);
+      //       this.goBack();
+      //     })
+      // );
+      observableResolved(null);
+      this.goBack();
+    }
   }
 
   goBack(): void {

@@ -44,9 +44,6 @@ export class MaterialFilterComponent implements OnInit {
     const segments = fullUrl.split('/');
 
     if (!segments.includes('search')) {
-
-      console.log("condition met");
-
       this.router.navigate(['search'], { relativeTo: this.route });
     }
   }

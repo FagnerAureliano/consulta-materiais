@@ -12,7 +12,7 @@ export class SidenavComponent implements OnInit {
 
   @Input() basePath!: string;
 
-  constructor(private hasContent: HasContentService, private router: Router) {}
+  constructor(private router: Router, private hasContent: HasContentService) {}
 
   ngOnInit(): void {
     this.hasContent.getActive().subscribe((hasContent) => {
@@ -26,6 +26,10 @@ export class SidenavComponent implements OnInit {
 
   navigateToContent(scope: string) {
     this._isHidden = !this._isHidden;
+
+    //Responsável por guardar o scopo atual utilizado no módulo FAQ
+    localStorage.setItem('actualScope', scope);
+
     this.router.navigate([`/assistance/content/${scope}`]);
   }
 }

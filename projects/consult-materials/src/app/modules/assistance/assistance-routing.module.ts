@@ -43,7 +43,15 @@ const routes: Routes = [
         resolve: { data: ContentResolver },
       },
       {
-        path: 'manuais',
+        path: 'video',
+        component: FaqCadastroComponent,
+      },
+      {
+        path: 'guide',
+        component: FaqCadastroComponent,
+      },
+      {
+        path: 'manual',
         component: FaqCadastroComponent,
       },
     ],

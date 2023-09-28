@@ -1,9 +1,9 @@
-<div class="flex-1 card_responsivo mt-4">
+<div class="flex-1 card_responsivo mt-5">
   <div
-    class="mt-2 flex-column justify-content-between w-full align-items-end header-content mb-1"
+    class="flex-column justify-content-between w-full align-items-end header-content mb-1"
   >
     <h1 class="align-self-center div_buttons">
-      Cadastro de Perguntas Frequentes
+      {{ isEdit ? "Edição de " : "Cadastro de " }} Perguntas Frequentes
     </h1>
 
     <div class="justify-content-end flex div_buttons">
@@ -36,7 +36,6 @@
   <div class="text-left">
     <app-faq-cadastro-form
       [form]="form"
-      [question]="question"
       [scopes]="_scopes"
       [actualScope]="_actualScope"
       [whitelist]="_whitelist"
@@ -45,3 +44,4 @@
     </app-faq-cadastro-form>
   </div>
 </div>
+<p-toast></p-toast>

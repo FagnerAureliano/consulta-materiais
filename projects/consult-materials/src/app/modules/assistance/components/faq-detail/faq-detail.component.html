@@ -22,6 +22,7 @@
           icon="pi pi-trash"
           class="p-button-text p-button-danger p-button-sm"
           (click)="onRemove(question)"
+          [disabled]="isActionBtnDisabled"
         ></button>
       </div>
     </div>
