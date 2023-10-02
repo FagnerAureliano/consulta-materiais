@@ -7,17 +7,18 @@ import { Router } from '@angular/router';
   styleUrls: ['./faq-detail.component.scss'],
 })
 export class FaqDetailComponent implements OnInit {
+  @Output() removeEmitter = new EventEmitter();
+  @Output() tagEmitter = new EventEmitter();
   @Input() question: any;
   @Input() isActionBtnDisabled: boolean;
-  @Output() removeEmmitter = new EventEmitter();
   constructor(private router: Router) {}
 
   ngOnInit(): void {}
 
-  handleEditQuestion(question) {
+  handleEditQuestion(question: { id: string }) {
     this.router.navigate([`/assistance/content/faq/update/${question.id}`]);
   }
-  onRemove(question) {
-    this.removeEmmitter.emit(question)
+  onRemove(question: any) {
+    this.removeEmitter.emit(question);
   }
 }

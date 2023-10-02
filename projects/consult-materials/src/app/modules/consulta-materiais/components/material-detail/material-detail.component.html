@@ -125,7 +125,7 @@
       pButton
       icon="pi pi-trash"
       label="EXCLUIR"
-      (click)="visible = false"
+      (click)="handleDelete()"
     ></button>
 
     <button
@@ -134,7 +134,7 @@
       pButton
       icon="pi pi-pencil"
       label="EDITAR"
-      (click)="visible = false"
+      (click)="handleUpdate()"
     ></button>
   </div>
 </p-dialog>

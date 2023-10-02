@@ -60,7 +60,9 @@ export class RequestInterceptor implements HttpInterceptor {
             this.messageService.add({
               severity: 'error',
               summary: 'Tivemos um problema no nosso servidor',
-              detail: err.error.message,
+              detail: err.error.message.includes('5.000 milliseconds')
+                ? 'Favor tente novamente.'
+                : err.error.message,
             });
             break;
         }

@@ -45,26 +45,17 @@ export class FAQService {
   updateQuestion(id: string, questionData: Object) {
     return this.http.patch(`${this.endpoint}/questions${id}`, questionData);
   }
-
+  searchQuestions(term?: string, scopeId?: number) {
+    return this.http.get(
+      `${this.endpoint}/questions/auto-complete?term=${
+        term ? term : ''
+      }&nuxeoPathId=${scopeId}`,
+      {
+        headers: this.defaultHeaders,
+      }
+    );
+  }
   saveQuestion(questionData: any) {
     return this.http.post(`${this.endpoint}/questions`, questionData);
-
-    // const formData = new FormData();
-
-    // if (files) {
-    //   files.forEach((file, index) => {
-    //     formData.append(`files`, file, file.name);
-    //   });
-    // }else {
-    //   formData.append(`files`, null);
-    // }
-
-    // if (attachmentData) {
-    //   formData.append('attachmentData', JSON.stringify(attachmentData));
-    // }else {
-    //   formData.append('attachmentData', null);
-    // }
-
-    // formData.append('questionData', JSON.stringify(questionData));
   }
 }

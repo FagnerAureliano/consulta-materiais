@@ -1,16 +1,19 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 
+import { Subscription, throwError } from 'rxjs';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { Scopes } from 'projects/consult-materials/src/app/models/scopes.models';
+import { FAQService } from 'projects/consult-materials/src/app/services/faq.service';
 import {
   catchError,
   debounceTime,
   distinctUntilChanged,
   filter,
+  first,
+  switchMap,
 } from 'rxjs/operators';
-import { Subscription, throwError } from 'rxjs';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { ConfirmationService, MessageService } from 'primeng/api';
-import { FAQService } from 'projects/consult-materials/src/app/services/faq.service';
-import { FormBuilder, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-faq-container',
@@ -21,12 +24,13 @@ export class FaqContainerComponent implements OnInit, OnDestroy {
   private subs$: Subscription[] = [];
 
   questions: any;
-  visibleTable = false;
-  actualScope: string;
+  actualScope: Scopes;
+  _allScopes: Scopes[];
   _isActionBtnDisabled = false;
-
   _searchField: FormControl;
+  _allScopeSearch: FormControl;
 
+  checked: boolean = false;
   constructor(
     private router: Router,
     private fb: FormBuilder,
@@ -38,16 +42,18 @@ export class FaqContainerComponent implements OnInit, OnDestroy {
     this.subs$.push(
       this.route.data.subscribe((res) => {
         this.questions = res.data.questions;
-        // this.visibleTable = this.questions.length > 0 ? true : false;
+        this._allScopes = res.data.allScopes;
       })
-      
     );
 
     this.router.events
-    .pipe(filter((event) => event instanceof NavigationEnd))
-    .subscribe(() => {
-      this.actualScope = localStorage.getItem('actualScope');
-    });
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe(() => {
+        this.actualScope = this._allScopes.find(
+          (res) =>
+            res.scope === localStorage.getItem('actualScope').toUpperCase()
+        );
+      });
 
     this._searchField = this.fb.control('');
   }
@@ -58,27 +64,50 @@ export class FaqContainerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-   
-    this._searchField.valueChanges
-      .pipe(
-        filter(
-          (value: string) =>
-            value.length === 0 || (value && !/^\s*$/.test(value))
-        ),
-        debounceTime(300),
-        distinctUntilChanged()
-      )
-      .subscribe((text: string) => {
-        console.log(text);
-
-      });
+    const searchFieldChanges$ = this._searchField.valueChanges.pipe(
+      filter(
+        (value: string) => value.length === 0 || (value && !/^\s*$/.test(value))
+      ),
+      debounceTime(300),
+      distinctUntilChanged()
+    );
+    this.subs$.push(
+      searchFieldChanges$
+        .pipe(
+          switchMap((text: string) =>
+            this.faqService.searchQuestions(text, this.actualScope.id).pipe(
+              catchError((error) => {
+                return throwError(error);
+              })
+            )
+          )
+        )
+        .subscribe((res) => {
+          this.questions = res;
+        })
+    );
   }
 
   handleCreateFAQ(): void {
     this.router.navigate(['assistance/content/faq/create']);
   }
+  handleSearchByTag(tag: string): void {
+    this.faqService
+      .searchQuestions(tag, this.actualScope.id)
+      .pipe(
+        first(),
+        catchError((error) => {
+          return throwError(error);
+        })
+      )
+      .subscribe((res) => {
+        this.questions = res;
+        this._searchField.setValue(tag);
+      });
+  }
+  handleAll(): void {}
 
-  handleRemoveQuestion(question: any) {
+  handleRemoveQuestion(question: any): void {
     this._isActionBtnDisabled = true;
     this.confirmationService.confirm({
       acceptLabel: 'Sim, excluir',
@@ -89,7 +118,7 @@ export class FaqContainerComponent implements OnInit, OnDestroy {
       accept: () => {
         this.subs$.push(
           this.faqService
-            .removeQuestionByID('2')
+            .removeQuestionByID(question.id)
             .pipe(
               catchError((err) => {
                 return throwError(err);
@@ -113,10 +142,11 @@ export class FaqContainerComponent implements OnInit, OnDestroy {
   }
   updateQuestionsList() {
     this.subs$.push(
-      this.faqService.getQuestionsByScope(this.actualScope).subscribe((res) => {
-        this.questions = res;
-        // this.visibleTable = this.questions.length > 0 ? true : false;
-      })
+      this.faqService
+        .searchQuestions('', this.actualScope.id)
+        .subscribe((res) => {
+          this.questions = res;
+        })
     );
   }
 }

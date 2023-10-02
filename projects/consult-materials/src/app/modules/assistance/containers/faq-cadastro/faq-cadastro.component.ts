@@ -56,7 +56,7 @@ export class FaqCadastroComponent implements OnInit, OnDestroy {
         this._allScopes = res.data.allScopes;
       })
     );
-    
+
     this._actualScope = localStorage.getItem('actualScope');
 
     this.idQuestion = this.route.snapshot['_routerState'].url.split('/')[5];
@@ -92,10 +92,10 @@ export class FaqCadastroComponent implements OnInit, OnDestroy {
 
     this.form = this.fb.group({
       nuxeoPathId: [pathScope?.id],
-      content: ['', [Validators.required]],
-      response: ['', [Validators.required]],
-      attachments: [''],
-      tags: ['', Validators.required],
+      content: [null, [Validators.required]],
+      response: [null, [Validators.required]],
+      attachments: [null],
+      tags: [null, Validators.required],
     });
 
     if (this.faqData) {
@@ -118,7 +118,7 @@ export class FaqCadastroComponent implements OnInit, OnDestroy {
 
       // Devido ao'Tag Input' ser do Shared, utilizando uma lib externa,
       // é necessário enviar a lista da tag para o mesmo e ser tratada por lá.
-      // this._changedTags = this.faqData.
+      this._changedTags = this.faqData.tags;
     }
   }
 
@@ -142,37 +142,33 @@ export class FaqCadastroComponent implements OnInit, OnDestroy {
       });
     };
     if (this.isEdit) {
-      // this.subs$.push(
-      //   this.faqService
-      //     .updateQuestion(this.idQuestion, this.form.value)
-      //     .pipe(
-      //       catchError((err) => {
-      //         return throwError(err);
-      //       })
-      //     )
-      //     .subscribe((res) => {
-      //       observableResolved(res);
-      //       this.goBack();
-      //     })
-      // );
-      observableResolved(null);
-      this.goBack();
+      this.subs$.push(
+        this.faqService
+          .updateQuestion(this.idQuestion, this.form.value)
+          .pipe(
+            catchError((err) => {
+              return throwError(err);
+            })
+          )
+          .subscribe((res) => {
+            observableResolved(res);
+            this.goBack();
+          })
+      );
     } else {
-      // this.subs$.push(
-      //   this.faqService
-      //     .saveQuestion(this.form.value)
-      //     .pipe(
-      //       catchError((err) => {
-      //         return throwError(err);
-      //       })
-      //     )
-      //     .subscribe((res) => {
-      //       observableResolved(res);
-      //       this.goBack();
-      //     })
-      // );
-      observableResolved(null);
-      this.goBack();
+      this.subs$.push(
+        this.faqService
+          .saveQuestion(this.form.value)
+          .pipe(
+            catchError((err) => {
+              return throwError(err);
+            })
+          )
+          .subscribe((res) => {
+            observableResolved(res);
+            this.goBack();
+          })
+      );
     }
   }
 

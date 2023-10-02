@@ -4,6 +4,7 @@ import { ContentContainerComponent } from './containers/content-container/conten
 import { ContentResolver } from './resolver/content.resolver';
 import { FaqContainerComponent } from './containers/faq-container/faq-container.component';
 import { FaqCadastroComponent } from './containers/faq-cadastro/faq-cadastro.component';
+import { MoviesContainerComponent } from './containers/movies-container/movies-container.component';
 
 const routes: Routes = [
   {
@@ -44,7 +45,7 @@ const routes: Routes = [
       },
       {
         path: 'video',
-        component: FaqCadastroComponent,
+        component: MoviesContainerComponent,
       },
       {
         path: 'guide',

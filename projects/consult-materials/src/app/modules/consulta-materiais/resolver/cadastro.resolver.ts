@@ -20,7 +20,7 @@ export class CadastroResolver implements Resolve<any> {
   ): Observable<any> {
     return forkJoin({
       userScopes: this.streamService.getUserScopes().pipe(first()),
-      allScopes: this.streamService.getAllScopes().pipe(first()),
+      allScopes: this.streamService.getScopes().pipe(first()),
     });
   }
 }

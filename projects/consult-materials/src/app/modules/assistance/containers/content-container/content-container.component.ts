@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { HasContentService } from 'projects/shared/src/lib/services/has-content.service';
-import { SharedDataService } from 'projects/shared/src/lib/services/shared-data.service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -41,7 +40,6 @@ export class ContentContainerComponent implements OnInit, OnDestroy {
         label: 'Perguntas Frequentes',
         command: () => this.navigateTo('faq'),
       },
-
       {
         label: 'Video Aulas',
         command: () => this.navigateTo('video'),
@@ -49,7 +47,7 @@ export class ContentContainerComponent implements OnInit, OnDestroy {
       },
       {
         label: 'Guias Rápido',
-        command: () => this.navigateTo('guideo'),
+        command: () => this.navigateTo('guide'),
         disabled: true,
       },
       {

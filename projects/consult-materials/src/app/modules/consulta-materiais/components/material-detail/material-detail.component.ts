@@ -1,4 +1,11 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import {
   DomSanitizer,
   SafeHtml,
@@ -16,7 +23,11 @@ import { catchError, finalize, tap } from 'rxjs/operators';
 })
 export class MaterialDetailComponent implements OnInit, OnDestroy {
   private _subs$: Subscription[] = [];
-  @Input() documentId: any;
+  @Output() deleteEmitter: EventEmitter<any> = new EventEmitter();
+  @Output() updateEmitter: EventEmitter<any> = new EventEmitter();
+  @Input() documentId: string;
+  @Input() showDiag: boolean;
+  @Input() diagDetail: boolean;
 
   visible: boolean;
   mimeType: string;
@@ -103,7 +114,15 @@ export class MaterialDetailComponent implements OnInit, OnDestroy {
         })
     );
   }
+  handleDelete(): void {
+    this.deleteEmitter.emit();
+    this.onShow(false);
+  }
 
+  handleUpdate(): void {
+    this.updateEmitter.emit();
+    this.onShow(false);
+  }
   onShow(isOpen: boolean): void {
     isOpen
       ? (this.htmlElement.style.overflow = 'hidden')

@@ -8,7 +8,7 @@
     </div>
 
     <div class="capitalize pr-1 cursor-pointer font-light">
-      {{ actualScope | wordConverter }}
+      {{ actualScope.scope | wordConverter }}
     </div>
   </div>
   <div class="border-1 p-3 border-200 border-round">
@@ -21,6 +21,21 @@
           class="p-inputtext-sm p-inputtext-outlined"
           placeholder="Buscar pergunta"
         />
+        <!-- <div class="field-checkbox">
+          <p-checkbox
+            [(ngModel)]="checked"
+            [binary]="true"
+            inputId="binary"
+          ></p-checkbox>
+          <label for="binary">{{ checked }}</label>
+        </div> -->
+        <i
+          *ngIf="_searchField.value?.length > 0"
+          class="ml-2 pi pi-times cursor-pointer"
+          style="right: 1rem"
+          (click)="_searchField.setValue('')"
+        ></i>
+        <div></div>
       </span>
       <p-button
         type="button"
@@ -36,7 +51,8 @@
         <app-faq-detail
           [question]="question"
           [isActionBtnDisabled]="_isActionBtnDisabled"
-          (removeEmmitter)="handleRemoveQuestion($event)"
+          (removeEmitter)="handleRemoveQuestion(question)"
+          (tagEmitter)="handleSearchByTag($event)"
         ></app-faq-detail>
       </div>
     </div>
