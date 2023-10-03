@@ -6,14 +6,15 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
 import { MessageService } from 'primeng/api';
+import { Subscription, throwError } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import { catchError, finalize, tap } from 'rxjs/operators';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Scopes } from 'projects/consult-materials/src/app/models/scopes.models';
 import { SearchMaterialsService } from 'projects/consult-materials/src/app/services/search-materiais.service';
 import { StreamMaterialsService } from 'projects/consult-materials/src/app/services/stream-materiais.service';
-import { Subscription, throwError } from 'rxjs';
-import { catchError, finalize, tap } from 'rxjs/operators';
+import { Tag } from 'projects/consult-materials/src/app/models/search.models';
 
 @Component({
   selector: 'app-guia-cadastro-container',
@@ -30,6 +31,7 @@ export class GuiaCadastroContainerComponent
   _allScopes: Scopes[];
   _whitelist: string[];
   _material: any;
+  _changedTags: Tag[];
   material_id: string;
   hasDocument: boolean = false;
 
@@ -58,7 +60,7 @@ export class GuiaCadastroContainerComponent
           .getDocumentByID(this.material_id)
           .subscribe((res: any) => {
             this._material = res;
-            this._scopes =  this._material ? this._allScopes : this._scopes
+            this._scopes = this._material ? this._allScopes : this._scopes;
           })
       );
     }
@@ -88,56 +90,43 @@ export class GuiaCadastroContainerComponent
   handleSave(): void {
     const { content, title, description, tags, nuxeoPathId } =
       this._form?.value;
-
-    const observableResolved = (_) => {
-      this.messageService.add({
-        severity: 'success',
-        summary: 'Tudo OK',
-        detail: `${'Documento salvo com sucesso'}`,
-      });
-    };
-
-    if (!this.material_id) {
-      this.subs$.push(
-        this.streamService
-          .createDocumentNote({
+    const isEdit = !!this.material_id; // Verifica se é uma edição ou criação
+    const serviceFunction = isEdit
+      ? () =>
+          this.streamService.updateDocumentNote(this.material_id, {
             content,
             title,
             description,
             tags,
             nuxeoPathId,
           })
-          .pipe(
-            catchError((err) => {
-              return throwError(err);
-            })
-          )
-          .subscribe((res) => {
-            observableResolved(res);
-            this.goBack();
-          })
-      );
-    } else {
-      this.subs$.push(
-        this.streamService
-          .updateDocumentNote(this.material_id, {
+      : () =>
+          this.streamService.createDocumentNote({
             content,
             title,
             description,
             tags,
             nuxeoPathId,
-          })
-          .pipe(
-            catchError((err) => {
-              return throwError(err);
-            })
-          )
-          .subscribe((res) => {
-            observableResolved(res);
+          });
+    const successMessage = isEdit
+      ? 'Documento atualizado com sucesso'
+      : 'Documento salvo com sucesso';
+
+    this.subs$.push(
+      serviceFunction()
+        .pipe(
+          catchError((err) => throwError(err)),
+          tap(() => {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Tudo OK',
+              detail: successMessage,
+            });
             this.goBack();
           })
-      );
-    }
+        )
+        .subscribe()
+    );
   }
 
   handleSearchTags(data: string): void {
@@ -182,7 +171,11 @@ export class GuiaCadastroContainerComponent
   }
 
   onClear(): void {
-    this._form.reset();
+    this._changedTags = null;
+    this._form.get('content').setValue(null);
+    this._form.get('tags').setValue(null);
+    this._form.get('title').setValue(null);
+    this._form.get('description').setValue(null);
   }
 
   extractUUIDFromURL(url: string): string | null {

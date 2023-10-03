@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import {
+  ActivatedRouteSnapshot,
   Resolve,
   RouterStateSnapshot,
-  ActivatedRouteSnapshot,
 } from '@angular/router';
-import { Observable, forkJoin, of, throwError } from 'rxjs';
-import { FAQService } from '../../../services/faq.service';
+import { Observable, forkJoin, of } from 'rxjs';
 import { first, switchMap } from 'rxjs/operators';
-import { StreamMaterialsService } from '../../../services/stream-materiais.service';
 import { Scopes } from '../../../models/scopes.models';
+import { FAQService } from '../../../services/faq.service';
+import { StreamMaterialsService } from '../../../services/stream-materiais.service';
 
 @Injectable({
   providedIn: 'root',

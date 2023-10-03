@@ -12,8 +12,8 @@
           <div *ngFor="let tag of question.tags" li-index>
             <p-tag
               class="uppercase border-white border-right-1 cursor-pointer font-bold"
-              value="#{{ tag }}"
-              (click)="tagEmitter.emit(tag)"
+              value="#{{ tag.label }}"
+              (click)="handleSearchByTags(tag)"
             ></p-tag>
           </div>
         </div>
@@ -23,14 +23,14 @@
       <button
         pButton
         icon="pi pi-pencil"
-        (click)="handleEditQuestion(question)"
+        (click)="handleEdit(question)"
         class="p-button-text p-button-primary p-button-sm"
       ></button>
       <button
         pButton
         icon="pi pi-trash"
         class="p-button-text p-button-danger p-button-sm"
-        (click)="onRemove(question)"
+        (click)="handleRemove(question)"
         [disabled]="isActionBtnDisabled"
       ></button>
     </div>

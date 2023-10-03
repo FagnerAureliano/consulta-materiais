@@ -43,13 +43,13 @@ export class FAQService {
   }
 
   updateQuestion(id: string, questionData: Object) {
-    return this.http.patch(`${this.endpoint}/questions${id}`, questionData);
+    return this.http.patch(`${this.endpoint}/questions/${id}`, questionData);
   }
   searchQuestions(term?: string, scopeId?: number) {
     return this.http.get(
       `${this.endpoint}/questions/auto-complete?term=${
         term ? term : ''
-      }&nuxeoPathId=${scopeId}`,
+      }&nuxeoPathId=${scopeId ? scopeId : ''}`,
       {
         headers: this.defaultHeaders,
       }

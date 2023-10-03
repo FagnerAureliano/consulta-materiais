@@ -30,7 +30,7 @@ export class ConsultaContainerComponent implements OnInit, OnDestroy {
   _isActionBtnDisabled: boolean = false;
 
   _loading = false;
-  
+
   items: MenuItem[] = [
     {
       label: 'Documentos',
@@ -45,6 +45,8 @@ export class ConsultaContainerComponent implements OnInit, OnDestroy {
   ];
 
   isEmpty = true;
+
+  htmlElement = document.documentElement;
 
   constructor(
     private searchService: SearchMaterialsService,
@@ -168,16 +170,13 @@ export class ConsultaContainerComponent implements OnInit, OnDestroy {
 
   updateDocument(data: any): void {
     const { id, type } = data;
-
-    if (type === 'Note') {
-      this.router.navigate(['/materials/guia-cadastro/edit/', id]);
-    } else {
-      this.router.navigate(['/materials/documento-cadastro/edit/', id]);
-    }
+    const routePrefix =
+      type === 'Note' ? 'guia-cadastro' : 'documento-cadastro';
+    this.router.navigate([`/materials/${routePrefix}/edit/${id}`]);
   }
 
   deleteDocument(id: string): void {
-    this._isActionBtnDisabled = true;
+    this.setActionButtonState(true);
 
     this.confirmationService.confirm({
       acceptLabel: 'Sim, excluir',
@@ -191,27 +190,33 @@ export class ConsultaContainerComponent implements OnInit, OnDestroy {
             .deleteDocument(id)
             .pipe(
               catchError((err) => {
-                this._isActionBtnDisabled = false;
+                this.setActionButtonState(false);
                 return throwError(err);
               })
             )
             .subscribe(() => {
-              this._isActionBtnDisabled = false;
-              this.messageService.add({
-                severity: 'success',
-                summary: 'Tudo OK',
-                detail: 'Documento deletado com sucesso',
-              });
-
-              this.searchObject = this.searchObject.filter((objeto) => {
-                objeto.id !== id;
-              });
+              this.setActionButtonState(false);
+              this.handleDeleteSuccess(id);
             })
         );
       },
       reject: () => {
-        this._isActionBtnDisabled = false;
+        this.setActionButtonState(false);
       },
     });
+  }
+
+  private setActionButtonState(isDisabled: boolean): void {
+    this._isActionBtnDisabled = isDisabled;
+  }
+
+  private handleDeleteSuccess(id: string): void {
+    this.messageService.add({
+      severity: 'success',
+      summary: 'Tudo OK',
+      detail: 'Documento deletado com sucesso',
+    });
+    this.htmlElement.style.overflow = ''; // desbloqueia o scroller
+    this.searchObject = this.searchObject.filter((objeto) => objeto.id !== id);
   }
 }

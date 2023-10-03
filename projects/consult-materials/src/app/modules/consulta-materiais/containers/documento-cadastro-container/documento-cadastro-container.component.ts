@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { Scopes } from 'projects/consult-materials/src/app/models/scopes.models';
-import { Material } from 'projects/consult-materials/src/app/models/search.models';
+import { Material, Tag } from 'projects/consult-materials/src/app/models/search.models';
 import { SearchMaterialsService } from 'projects/consult-materials/src/app/services/search-materiais.service';
 import { StreamMaterialsService } from 'projects/consult-materials/src/app/services/stream-materiais.service';
 import { Subscription, throwError } from 'rxjs';
@@ -17,11 +17,13 @@ import { catchError, finalize, tap } from 'rxjs/operators';
 })
 export class DocumentoCadastroContainerComponent implements OnInit, OnDestroy {
   private subs$: Subscription[] = [];
+  
   _form: FormGroup;
   _whitelist: string[];
   _scopes: Scopes[];
   _allScopes: Scopes[];
   _material: Material;
+  _changedTags: Tag[] 
   material_id: string;
   hasDocument: boolean = false;
 
@@ -51,7 +53,7 @@ export class DocumentoCadastroContainerComponent implements OnInit, OnDestroy {
           .getDocumentByID(this.material_id)
           .subscribe((res: any) => {
             this._material = res;
-            this._scopes =  this._material ? this._allScopes : this._scopes
+            this._scopes = this._material ? this._allScopes : this._scopes;
           })
       );
     }
@@ -92,73 +94,51 @@ export class DocumentoCadastroContainerComponent implements OnInit, OnDestroy {
   }
 
   onClear(): void {
-    this._form.reset();
+    this._changedTags = null;
+    this._form.get('content').setValue(null);
+    this._form.get('tags').setValue(null);
+    this._form.get('title').setValue(null);
+    this._form.get('description').setValue(null);
   }
 
   handleSave(): void {
     const formData = new FormData();
-
     formData.append('file', this._form?.value.document);
 
-    const { id, title, description, tags, nuxeoPathId } = this._form?.value;
-
-    const observableResolved = (_) => {
-      this.messageService.add({
-        severity: 'success',
-        summary: 'Tudo OK',
-        detail: `${'Documento salvo com sucesso'}`,
-      });
+    const { title, description, tags, nuxeoPathId } = this._form?.value;
+    const isEdit = !!this.material_id;
+    const data = {
+      title,
+      description,
+      tags,
+      nuxeoPathId,
     };
 
-    if (this.material_id) {
-      formData.append(
-        'data',
-        JSON.stringify({
-          title,
-          description,
-          tags,
-          nuxeoPathId,
-        })
-      );
+    formData.append('data', JSON.stringify(data));
 
-      this.subs$.push(
-        this.streamService
-          .updateDocumentFile(this.material_id, formData)
-          .pipe(
-            catchError((err) => {
-              return throwError(err);
-            })
-          )
-          .subscribe((res) => {
-            observableResolved(res);
+    const successMessage = isEdit
+      ? 'Documento atualizado com sucesso'
+      : 'Documento salvo com sucesso';
+
+    const serviceFunction = isEdit
+      ? () => this.streamService.updateDocumentFile(this.material_id, formData)
+      : () => this.streamService.createDocumentFile(formData);
+
+    this.subs$.push(
+      serviceFunction()
+        .pipe(
+          catchError((err) => throwError(err)),
+          tap(() => {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Tudo OK',
+              detail: successMessage,
+            });
             this.goBack();
           })
-      );
-    } else {
-      formData.append(
-        'data',
-        JSON.stringify({
-          title,
-          description,
-          tags,
-          nuxeoPathId,
-        })
-      );
-
-      this.subs$.push(
-        this.streamService
-          .createDocumentFile(formData)
-          .pipe(
-            catchError((err) => {
-              return throwError(err);
-            })
-          )
-          .subscribe((res) => {
-            observableResolved(res);
-            this.goBack();
-          })
-      );
-    }
+        )
+        .subscribe()
+    );
   }
 
   handleDownload(event): void {

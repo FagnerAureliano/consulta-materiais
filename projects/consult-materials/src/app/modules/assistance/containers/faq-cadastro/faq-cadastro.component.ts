@@ -1,22 +1,22 @@
 import { Location } from '@angular/common';
 import {
-  Input,
-  OnInit,
-  Output,
-  OnDestroy,
+  ChangeDetectorRef,
   Component,
   EventEmitter,
-  ChangeDetectorRef,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
 } from '@angular/core';
+import { catchError, tap } from 'rxjs/operators';
+import { MessageService } from 'primeng/api';
 import { Subscription, throwError } from 'rxjs';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Tag } from 'projects/consult-materials/src/app/models/search.models';
 import { Scopes } from 'projects/consult-materials/src/app/models/scopes.models';
 import { FAQService } from 'projects/consult-materials/src/app/services/faq.service';
 import { SearchMaterialsService } from 'projects/consult-materials/src/app/services/search-materiais.service';
-import { MessageService } from 'primeng/api';
-import { catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'app-faq-cadastro',
@@ -41,7 +41,6 @@ export class FaqCadastroComponent implements OnInit, OnDestroy {
   idQuestion: string;
 
   constructor(
-    private router: Router,
     private fb: FormBuilder,
     private location: Location,
     private route: ActivatedRoute,
@@ -58,7 +57,6 @@ export class FaqCadastroComponent implements OnInit, OnDestroy {
     );
 
     this._actualScope = localStorage.getItem('actualScope');
-
     this.idQuestion = this.route.snapshot['_routerState'].url.split('/')[5];
 
     if (this.idQuestion && this.idQuestion !== 'create') {
@@ -76,11 +74,13 @@ export class FaqCadastroComponent implements OnInit, OnDestroy {
       );
     }
   }
+
   ngOnDestroy(): void {
     this.subs$.forEach((sub) => {
       sub.unsubscribe();
     });
   }
+
   ngAfterContentChecked(): void {
     this.cdref.detectChanges();
   }
@@ -91,11 +91,11 @@ export class FaqCadastroComponent implements OnInit, OnDestroy {
     );
 
     this.form = this.fb.group({
-      nuxeoPathId: [pathScope?.id],
       content: [null, [Validators.required]],
       response: [null, [Validators.required]],
-      attachments: [null],
       tags: [null, Validators.required],
+      attachments: [null],
+      nuxeoPathId: [pathScope?.id],
     });
 
     if (this.faqData) {
@@ -115,61 +115,36 @@ export class FaqCadastroComponent implements OnInit, OnDestroy {
       this.form.get('nuxeoPathId').setValue(faqScope.id);
       this.form.get('content').setValue(this.faqData.content);
       this.form.get('response').setValue(this.faqData.response);
-
       // Devido ao'Tag Input' ser do Shared, utilizando uma lib externa,
       // é necessário enviar a lista da tag para o mesmo e ser tratada por lá.
       this._changedTags = this.faqData.tags;
     }
   }
 
-  onFileChange(event: any) {
-    if (event.target.files.length > 0) {
-      const files = Array.from(event.target.files);
-      this.form.patchValue({ files: files });
-    }
-  }
-
   handleSave(): void {
-    console.log(this.form.value);
+    const successMessage = this.isEdit
+      ? 'Pergunta atualizada com sucesso'
+      : 'Pergunta salva com sucesso';
 
-    const observableResolved = (_) => {
-      this.messageService.add({
-        severity: 'success',
-        summary: 'Tudo OK',
-        detail: this.isEdit
-          ? `${'Pergunta atualizada com sucesso'}`
-          : `${'Pergunta salva com sucesso'}`,
-      });
-    };
-    if (this.isEdit) {
-      this.subs$.push(
-        this.faqService
-          .updateQuestion(this.idQuestion, this.form.value)
-          .pipe(
-            catchError((err) => {
-              return throwError(err);
-            })
-          )
-          .subscribe((res) => {
-            observableResolved(res);
+    const saveOrUpdate = this.isEdit
+      ? () => this.faqService.updateQuestion(this.idQuestion, this.form.value)
+      : () => this.faqService.saveQuestion(this.form.value);
+
+    this.subs$.push(
+      saveOrUpdate()
+        .pipe(
+          catchError((err) => throwError(err)),
+          tap(() => {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Tudo OK',
+              detail: successMessage,
+            });
             this.goBack();
           })
-      );
-    } else {
-      this.subs$.push(
-        this.faqService
-          .saveQuestion(this.form.value)
-          .pipe(
-            catchError((err) => {
-              return throwError(err);
-            })
-          )
-          .subscribe((res) => {
-            observableResolved(res);
-            this.goBack();
-          })
-      );
-    }
+        )
+        .subscribe()
+    );
   }
 
   goBack(): void {
@@ -177,6 +152,7 @@ export class FaqCadastroComponent implements OnInit, OnDestroy {
   }
 
   onClear(): void {
+    this._changedTags = null
     this.form.reset();
   }
 

@@ -17,7 +17,7 @@ export class GuiaCadastroFormComponent implements OnInit {
   @Input() scopes: Scopes[];
   @Output() tagsEmitter = new EventEmitter();
   @Input() material: Material;
-  _changedTags: Tag[];
+  @Input() _changedTags: Tag[];
   hasDocuments: boolean = false;
 
   handleSearchTags(data: string | string[]): void {

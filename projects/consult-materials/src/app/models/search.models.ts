@@ -112,6 +112,7 @@ export interface FiTemporalidade {
 }
 
 export interface Tag {
+  id?: string;
   label?: string;
   username?: string;
 }

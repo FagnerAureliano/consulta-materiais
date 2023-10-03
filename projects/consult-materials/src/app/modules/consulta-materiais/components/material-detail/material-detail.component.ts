@@ -44,8 +44,7 @@ export class MaterialDetailComponent implements OnInit, OnDestroy {
     private sanitizer: DomSanitizer
   ) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   ngOnDestroy(): void {
     this._subs$.forEach((subs) => subs.unsubscribe());
@@ -116,7 +115,6 @@ export class MaterialDetailComponent implements OnInit, OnDestroy {
   }
   handleDelete(): void {
     this.deleteEmitter.emit();
-    this.onShow(false);
   }
 
   handleUpdate(): void {

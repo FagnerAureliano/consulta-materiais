@@ -13,30 +13,32 @@
   </div>
   <div class="border-1 p-3 border-200 border-round">
     <div class="mt-2 flex w-full justify-content-between">
-      <span class="p-input-icon-left w-4">
-        <i class="pi pi-search"></i>
-        <input
-          pInputText
-          [formControl]="_searchField"
-          class="p-inputtext-sm p-inputtext-outlined"
-          placeholder="Buscar pergunta"
-        />
-        <!-- <div class="field-checkbox">
+      <div class="w-10">
+        <span class="p-input-icon-left w-5">
+          <i class="pi pi-search"></i>
+          <input
+            pInputText
+            [formControl]="_searchField"
+            class="p-inputtext-sm p-inputtext-outlined"
+            placeholder="Buscar pergunta"
+          />
+          <i
+            *ngIf="_searchField.value?.length > 0"
+            class="ml-2 pi pi-times cursor-pointer text-gray-600"
+            style="right: 1rem"
+            (click)="_searchField.setValue('')"
+          ></i>
+        </span>
+        <div class="my-2">
           <p-checkbox
-            [(ngModel)]="checked"
+            [(ngModel)]="searchAllCheck"
             [binary]="true"
             inputId="binary"
           ></p-checkbox>
-          <label for="binary">{{ checked }}</label>
-        </div> -->
-        <i
-          *ngIf="_searchField.value?.length > 0"
-          class="ml-2 pi pi-times cursor-pointer"
-          style="right: 1rem"
-          (click)="_searchField.setValue('')"
-        ></i>
-        <div></div>
-      </span>
+          <label for="binary" class="ml-1">Buscar em Tudo</label>
+        </div>
+      </div>
+
       <p-button
         type="button"
         styleClass="p-button-sm p-button-outlined"
@@ -60,7 +62,10 @@
       <div
         class="text-center p-4 bg-white border-1 border-round border-200 mt-2"
       >
-        <div class="text-600 font-semibold">Não há perguntas</div>
+        <div class="text-600 font-semibold">
+          Ainda não há perguntas frequentes para
+          {{ actualScope.scope | wordConverter }}
+        </div>
       </div>
     </ng-template>
   </div>

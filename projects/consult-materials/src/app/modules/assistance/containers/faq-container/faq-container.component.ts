@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { Subscription, throwError } from 'rxjs';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Scopes } from 'projects/consult-materials/src/app/models/scopes.models';
@@ -26,11 +26,10 @@ export class FaqContainerComponent implements OnInit, OnDestroy {
   questions: any;
   actualScope: Scopes;
   _allScopes: Scopes[];
-  _isActionBtnDisabled = false;
   _searchField: FormControl;
-  _allScopeSearch: FormControl;
+  _isActionBtnDisabled = false;
+  searchAllCheck: boolean = false;
 
-  checked: boolean = false;
   constructor(
     private router: Router,
     private fb: FormBuilder,
@@ -54,7 +53,6 @@ export class FaqContainerComponent implements OnInit, OnDestroy {
             res.scope === localStorage.getItem('actualScope').toUpperCase()
         );
       });
-
     this._searchField = this.fb.control('');
   }
   ngOnDestroy(): void {
@@ -75,11 +73,16 @@ export class FaqContainerComponent implements OnInit, OnDestroy {
       searchFieldChanges$
         .pipe(
           switchMap((text: string) =>
-            this.faqService.searchQuestions(text, this.actualScope.id).pipe(
-              catchError((error) => {
-                return throwError(error);
-              })
-            )
+            this.faqService
+              .searchQuestions(
+                text,
+                this.searchAllCheck ? null : this.actualScope.id
+              )
+              .pipe(
+                catchError((error) => {
+                  return throwError(error);
+                })
+              )
           )
         )
         .subscribe((res) => {
@@ -91,9 +94,10 @@ export class FaqContainerComponent implements OnInit, OnDestroy {
   handleCreateFAQ(): void {
     this.router.navigate(['assistance/content/faq/create']);
   }
+
   handleSearchByTag(tag: string): void {
     this.faqService
-      .searchQuestions(tag, this.actualScope.id)
+      .searchQuestions(tag, this.searchAllCheck ? null : this.actualScope.id)
       .pipe(
         first(),
         catchError((error) => {
@@ -105,7 +109,6 @@ export class FaqContainerComponent implements OnInit, OnDestroy {
         this._searchField.setValue(tag);
       });
   }
-  handleAll(): void {}
 
   handleRemoveQuestion(question: any): void {
     this._isActionBtnDisabled = true;
@@ -140,10 +143,11 @@ export class FaqContainerComponent implements OnInit, OnDestroy {
       },
     });
   }
+
   updateQuestionsList() {
     this.subs$.push(
       this.faqService
-        .searchQuestions('', this.actualScope.id)
+        .searchQuestions('', this.searchAllCheck ? null : this.actualScope.id)
         .subscribe((res) => {
           this.questions = res;
         })
