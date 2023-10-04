@@ -1,14 +1,21 @@
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Observable, Subject, forkJoin, of, throwError } from 'rxjs';
+import {
+  catchError,
+  finalize,
+  map,
+  switchMap,
+  takeUntil,
+} from 'rxjs/operators';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
-import { SearchObjectParams } from 'projects/consult-materials/src/app/models/search-object-params';
-import { SearchMaterialsService } from 'projects/consult-materials/src/app/services/search-materiais.service';
-import { StreamMaterialsService } from 'projects/consult-materials/src/app/services/stream-materiais.service';
+
 import { ClearService } from 'projects/shared/src/lib/services/clear.service';
+import { SearchObjectParams } from 'projects/shared/src/lib/models/search-object-params';
 import { HasContentService } from 'projects/shared/src/lib/services/has-content.service';
 import { MaterialFilterService } from 'projects/shared/src/lib/services/material-filter.service';
-import { Observable, Subscription, forkJoin, of, throwError } from 'rxjs';
-import { catchError, finalize, map, switchMap } from 'rxjs/operators';
+import { SearchMaterialsService } from 'projects/consult-materials/src/app/services/search-materiais.service';
+import { StreamMaterialsService } from 'projects/consult-materials/src/app/services/stream-materiais.service';
 
 @Component({
   selector: 'app-search-container',
@@ -16,20 +23,18 @@ import { catchError, finalize, map, switchMap } from 'rxjs/operators';
   styleUrls: ['./consulta-container.component.scss'],
 })
 export class ConsultaContainerComponent implements OnInit, OnDestroy {
-  private subs$: Subscription[] = [];
+  private _subs$ = new Subject();
 
+  startIndex: number = 0;
+  isEmpty: boolean = true;
+  itemsPerPage: number = 6;
+  searchObject: any[] = [];
+  filterParam: SearchObjectParams;
+  htmlElement: HTMLElement = document.documentElement;
   content$: Observable<boolean> = this.hasContent.getActive();
 
-  searchObject: any[] = [];
-
-  filterParam: SearchObjectParams;
-
-  itemsPerPage = 6;
-  startIndex = 0;
-
+  _loading: boolean = false;
   _isActionBtnDisabled: boolean = false;
-
-  _loading = false;
 
   items: MenuItem[] = [
     {
@@ -44,20 +49,16 @@ export class ConsultaContainerComponent implements OnInit, OnDestroy {
     },
   ];
 
-  isEmpty = true;
-
-  htmlElement = document.documentElement;
-
   constructor(
-    private searchService: SearchMaterialsService,
-    private streamService: StreamMaterialsService,
-    private confirmationService: ConfirmationService,
+    private router: Router,
+    private route: ActivatedRoute,
     private clearService: ClearService,
-    private filterService: MaterialFilterService,
     private hasContent: HasContentService,
     private messageService: MessageService,
-    private route: ActivatedRoute,
-    private router: Router
+    private filterService: MaterialFilterService,
+    private searchService: SearchMaterialsService,
+    private streamService: StreamMaterialsService,
+    private confirmationService: ConfirmationService
   ) {}
 
   @HostListener('window:scroll', ['$event'])
@@ -73,13 +74,14 @@ export class ConsultaContainerComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subs$.forEach((sub$) => sub$.unsubscribe());
+    this._subs$.next();
+    this._subs$.complete();
   }
 
   ngOnInit(): void {
-    this.clearService.clear$.subscribe(() => {
-      this.searchObject = [];
-    });
+    this.clearService.clear$
+      .pipe(takeUntil(this._subs$))
+      .subscribe(() => this.clearSearch());
 
     const queryParam = this.route.snapshot.queryParams.q;
 
@@ -88,66 +90,75 @@ export class ConsultaContainerComponent implements OnInit, OnDestroy {
         searchText: queryParam,
         primaryType: null,
       };
-
-      this.loadItems(searchObject);
+      this.loadAndDisplayItems(searchObject);
     }
 
-    this.filterService.inputChange$.subscribe((value) => {
-      if (value) {
-        this.searchObject = [];
-        this.startIndex = 0;
-      }
-
-      this.loadItems(value);
-    });
+    this.filterService.inputChange$
+      .pipe(takeUntil(this._subs$))
+      .subscribe((value) => {
+        if (value) {
+          this.clearSearch();
+        }
+        this.loadAndDisplayItems(value);
+      });
 
     this.hasContent.setActive(false);
   }
 
+  private clearSearch(): void {
+    this.startIndex = 0;
+    this.searchObject = [];
+  }
+
+  private loadAndDisplayItems(params: SearchObjectParams): void {
+    this.clearSearch();
+    this.loadItems(params);
+  }
+
   loadItems(params: SearchObjectParams): void {
-    if (params) {
-      this.filterParam = params;
-
-      if (params !== this.filterParam) {
-        this.startIndex = 0;
-      }
-    }
-
     if (this._loading) {
       return; // Carregamento em andamento, retornar sem fazer nada
     }
 
     this._loading = true;
 
-    this.subs$.push(
-      this.searchService
-        .getEntrypointSearch(params, this.startIndex, this.itemsPerPage)
-        .pipe(
-          switchMap((items: any) =>
-            forkJoin(
-              items.entries.map((value: { id: string }) =>
-                this.getThumbnailWithFallback(value)
-              )
-            )
-          ),
-          finalize(() => {
-            this._loading = false;
+    const filterParam =
+      typeof params === 'string'
+        ? { searchText: params, primaryType: null, scopePath: null }
+        : params;
 
-            this.hasContent.setActive(
-              this.searchObject.length > 0 ? true : false
-            );
-          })
-        )
-        .subscribe((mappedItems) => {
-          this.searchObject = [...this.searchObject, ...mappedItems];
-          this.startIndex = this.startIndex + 1;
-          this.isEmpty = mappedItems.length > 0 ? false : true;
+    if (filterParam !== this.filterParam) {
+      this.startIndex = 0;
+    }
+
+    this.filterParam = filterParam;
+
+    this.searchService
+      .getEntrypointSearch(this.filterParam, this.startIndex, this.itemsPerPage, filterParam.scopePath)
+      .pipe(
+        takeUntil(this._subs$),
+        switchMap((items: any) =>
+          forkJoin(
+            items.entries.map((value: { id: string }) =>
+              this.getThumbnailWithFallback(value)
+            )
+          )
+        ),
+        finalize(() => {
+          this._loading = false;
+          this.hasContent.setActive(this.searchObject.length > 0);
         })
-    );
+      )
+      .subscribe((mappedItems) => {
+        this.searchObject = [...this.searchObject, ...mappedItems];
+        this.startIndex++;
+        this.isEmpty = mappedItems.length === 0;
+      });
   }
 
   getThumbnailWithFallback(value: { id: string }) {
     return this.streamService.getThumbnail(value['id']).pipe(
+      takeUntil(this._subs$),
       catchError(() => of(null)),
       map((thumbnail: any) => {
         const thumbnailBase64 =
@@ -163,8 +174,7 @@ export class ConsultaContainerComponent implements OnInit, OnDestroy {
     if (value) {
       this.searchObject = [];
       this.startIndex = 0;
-
-      this.loadItems(value.label);
+      this.loadItems(value);
     }
   }
 
@@ -185,20 +195,19 @@ export class ConsultaContainerComponent implements OnInit, OnDestroy {
       message: 'Deseja realmente excluir este documento?',
       icon: 'pi pi-info-circle',
       accept: () => {
-        this.subs$.push(
-          this.streamService
-            .deleteDocument(id)
-            .pipe(
-              catchError((err) => {
-                this.setActionButtonState(false);
-                return throwError(err);
-              })
-            )
-            .subscribe(() => {
+        this.streamService
+          .deleteDocument(id)
+          .pipe(
+            takeUntil(this._subs$),
+            catchError((err) => {
               this.setActionButtonState(false);
-              this.handleDeleteSuccess(id);
+              return throwError(err);
             })
-        );
+          )
+          .subscribe(() => {
+            this.setActionButtonState(false);
+            this.handleDeleteSuccess(id);
+          });
       },
       reject: () => {
         this.setActionButtonState(false);

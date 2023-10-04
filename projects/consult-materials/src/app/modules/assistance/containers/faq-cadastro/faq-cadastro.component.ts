@@ -17,6 +17,7 @@ import { Tag } from 'projects/consult-materials/src/app/models/search.models';
 import { Scopes } from 'projects/consult-materials/src/app/models/scopes.models';
 import { FAQService } from 'projects/consult-materials/src/app/services/faq.service';
 import { SearchMaterialsService } from 'projects/consult-materials/src/app/services/search-materiais.service';
+import { Question } from 'projects/consult-materials/src/app/models/question.models';
 
 @Component({
   selector: 'app-faq-cadastro',
@@ -34,11 +35,11 @@ export class FaqCadastroComponent implements OnInit, OnDestroy {
   _whitelist: string[];
   _actualScope: string;
 
-  faqData: any;
   form: FormGroup;
-  whitelist: string[] = [];
-  isEdit: boolean = false;
+  question: Question;
   idQuestion: string;
+  isEdit: boolean = false;
+  whitelist: string[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -70,7 +71,7 @@ export class FaqCadastroComponent implements OnInit, OnDestroy {
               return throwError(err);
             })
           )
-          .subscribe((res) => (this.faqData = res))
+          .subscribe((res) => (this.question = res))
       );
     }
   }
@@ -98,7 +99,7 @@ export class FaqCadastroComponent implements OnInit, OnDestroy {
       nuxeoPathId: [pathScope?.id],
     });
 
-    if (this.faqData) {
+    if (this.question) {
       this.onFillForm();
     } else {
       //TEMPORARY
@@ -108,16 +109,16 @@ export class FaqCadastroComponent implements OnInit, OnDestroy {
     }
   }
   onFillForm(): void {
-    if (this.faqData) {
+    if (this.question) {
       const faqScope = this._allScopes.find(
-        (res) => res.id === this.faqData.nuxeoPathId
+        (res) => res.id === this.question.nuxeoPathId
       );
       this.form.get('nuxeoPathId').setValue(faqScope.id);
-      this.form.get('content').setValue(this.faqData.content);
-      this.form.get('response').setValue(this.faqData.response);
+      this.form.get('content').setValue(this.question.content);
+      this.form.get('response').setValue(this.question.response);
       // Devido ao'Tag Input' ser do Shared, utilizando uma lib externa,
       // é necessário enviar a lista da tag para o mesmo e ser tratada por lá.
-      this._changedTags = this.faqData.tags;
+      this._changedTags = this.question.tags;
     }
   }
 
@@ -152,7 +153,7 @@ export class FaqCadastroComponent implements OnInit, OnDestroy {
   }
 
   onClear(): void {
-    this._changedTags = null
+    this._changedTags = null;
     this.form.reset();
   }
 

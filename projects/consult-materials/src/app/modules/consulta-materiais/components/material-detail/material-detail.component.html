@@ -78,8 +78,9 @@
     <div class="w-full border-top-1 border-gray-200 my-2 text-left pt-2 flex">
       <div *ngFor="let file of material?.properties['nxtag:tags']" li-index>
         <p-tag
-          class="uppercase border-white border-right-1 font-bold"
+          class="uppercase border-white border-right-1 font-bold cursor-pointer"
           value="#{{ file.label }}"
+          (click)="handleTagSearch(file.label)"
         ></p-tag>
       </div>
     </div>

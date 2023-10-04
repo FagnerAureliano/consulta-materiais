@@ -40,7 +40,7 @@
         <p-tag
           class="uppercase border-white border-right-1 cursor-pointer font-bold"
           value="#{{ file.label }}"
-          (click)="emitTag.emit(file)"
+          (click)="handleTagSearch(file.label)"
         ></p-tag>
       </div>
     </div>
@@ -86,6 +86,7 @@
           [documentId]="document.id"
           (deleteEmitter)="handleDelete()"
           (updateEmitter)="handleUpdate()"
+          (tagEmitter)="handleTagSearch($event)"
         >
         </app-material-detail>
       </div>

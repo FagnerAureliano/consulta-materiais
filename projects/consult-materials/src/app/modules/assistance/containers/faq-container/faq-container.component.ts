@@ -14,6 +14,8 @@ import {
   first,
   switchMap,
 } from 'rxjs/operators';
+import { Question } from 'projects/consult-materials/src/app/models/question.models';
+import { Role, UserService } from '@shared';
 
 @Component({
   selector: 'app-faq-container',
@@ -23,7 +25,8 @@ import {
 export class FaqContainerComponent implements OnInit, OnDestroy {
   private subs$: Subscription[] = [];
 
-  questions: any;
+  isAdmin: boolean;
+  questions: Question[];
   actualScope: Scopes;
   _allScopes: Scopes[];
   _searchField: FormControl;
@@ -35,9 +38,11 @@ export class FaqContainerComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private faqService: FAQService,
+    private useService: UserService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService
   ) {
+    this.isAdmin = useService.user.roles.includes(Role.ADMIN);
     this.subs$.push(
       this.route.data.subscribe((res) => {
         this.questions = res.data.questions;
@@ -86,7 +91,7 @@ export class FaqContainerComponent implements OnInit, OnDestroy {
           )
         )
         .subscribe((res) => {
-          this.questions = res;
+          this.questions = Array(res);
         })
     );
   }
@@ -105,9 +110,14 @@ export class FaqContainerComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe((res) => {
-        this.questions = res;
+        this.questions = Array(res);
         this._searchField.setValue(tag);
       });
+  }
+  onQuestionView(questionId: any): void {
+    this.subs$.push(
+      this.faqService.getQuestionsByIDForCount(questionId).subscribe()
+    );
   }
 
   handleRemoveQuestion(question: any): void {
@@ -149,7 +159,7 @@ export class FaqContainerComponent implements OnInit, OnDestroy {
       this.faqService
         .searchQuestions('', this.searchAllCheck ? null : this.actualScope.id)
         .subscribe((res) => {
-          this.questions = res;
+          this.questions = Array(res);
         })
     );
   }

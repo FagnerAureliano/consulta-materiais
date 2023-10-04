@@ -1,4 +1,5 @@
-export interface searchObjectParams {
-    searchText: string;
-    primaryType: string;
+export interface SearchObjectParams {
+    searchText?: string;
+    primaryType?: string;
+    scopePath?: string;
 }

@@ -5,6 +5,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class WordConverterPipe implements PipeTransform {
   private wordsCorrected: { [key: string]: string } = {
+    'geral': 'Geral',
     'orcamento': 'Orçamento',
     'saude': 'Saúde',
     'logistica': 'Logística',

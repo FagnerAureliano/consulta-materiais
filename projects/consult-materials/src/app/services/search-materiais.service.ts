@@ -1,10 +1,11 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
-import { UserService } from '@shared';
-import { mappedScope } from 'projects/shared/src/lib/utils/mapped-scopes';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { UserService } from '@shared';
 import { first } from 'rxjs/operators';
-import { SearchObjectParams } from '../models/search-object-params';
+import { Inject, Injectable } from '@angular/core';
+
+import { mappedScope } from 'projects/shared/src/lib/utils/mapped-scopes';
+import { SearchObjectParams } from 'projects/shared/src/lib/models/search-object-params';
 
 @Injectable({
   providedIn: 'root',
@@ -28,19 +29,29 @@ export class SearchMaterialsService {
   getEntrypointSearch(
     term: SearchObjectParams,
     startIndex: number = 0,
-    itemsPerPage: number
+    itemsPerPage: number,
+    scopePath: string = null
   ): Observable<any[]> {
+    const searchText = term.searchText;
+    const primaryType = term.primaryType || '';
+    const scope = scopePath || mappedScope(this.userService.user.roles);
+
+    const queryParams = new HttpParams()
+      .set('term', searchText)
+      .set('scopePath', scope)
+      .set('primaryType', primaryType)
+      .set('pageSize', itemsPerPage.toString())
+      .set('pageIndex', startIndex.toString())
+      .set('sortBy', 'created')
+      .set('sortOrder', 'desc');
+
+    const options = {
+      headers: this.defaultHeaders,
+      params: queryParams,
+    };
+
     return this.http
-      .get<any[]>(
-        `${
-          this.endpoint
-        }/searches/entry-point?term=${term.searchText}&scopePath=${mappedScope(
-          this.userService.user.roles
-        )}&primaryType=${term.primaryType ? term.primaryType : ""}&pageSize=${itemsPerPage}&pageIndex=${startIndex}&sortBy=created&sortOrder=desc`,
-        {
-          headers: this.defaultHeaders,
-        }
-      )
+      .get<any[]>(`${this.endpoint}/searches/entry-point`, options)
       .pipe(first());
   }
 

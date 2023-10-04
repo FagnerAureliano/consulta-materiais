@@ -40,6 +40,7 @@
       </div>
 
       <p-button
+      *ngIf="isAdmin"
         type="button"
         styleClass="p-button-sm p-button-outlined"
         icon="pi pi-plus"
@@ -53,8 +54,9 @@
         <app-faq-detail
           [question]="question"
           [isActionBtnDisabled]="_isActionBtnDisabled"
-          (removeEmitter)="handleRemoveQuestion(question)"
           (tagEmitter)="handleSearchByTag($event)"
+          (removeEmitter)="handleRemoveQuestion(question)"
+          (questionViewEmitter)="onQuestionView($event)"
         ></app-faq-detail>
       </div>
     </div>

@@ -4,11 +4,12 @@ import {
   RouterStateSnapshot,
   ActivatedRouteSnapshot,
 } from '@angular/router';
-import { Observable, forkJoin, of } from 'rxjs';
+import { first } from 'rxjs/operators';
+import { Observable, forkJoin } from 'rxjs';
+
 import { FAQService } from '../../../services/faq.service';
 import { StreamMaterialsService } from '../../../services/stream-materiais.service';
-import { first } from 'rxjs/operators';
-import { SharedDataService } from '../../../../../../shared/src/lib/services/shared-data.service';
+import { SharedDataService } from 'projects/shared/src/lib/services/shared-data.service';
 
 @Injectable({
   providedIn: 'root',
@@ -16,8 +17,8 @@ import { SharedDataService } from '../../../../../../shared/src/lib/services/sha
 export class FaqCreateResolver implements Resolve<any> {
   constructor(
     private faqService: FAQService,
-    private streamService: StreamMaterialsService,
-    private sharedDataService: SharedDataService
+    private sharedDataService: SharedDataService,
+    private streamService: StreamMaterialsService
   ) {}
 
   resolve(

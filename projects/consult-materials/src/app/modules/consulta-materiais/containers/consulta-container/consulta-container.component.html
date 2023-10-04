@@ -23,14 +23,14 @@
     class="flex-row grid mt-1 justify-content-center md:flex"
   >
     <div *ngFor="let file of searchObject" class="sm:col-12 md:col-6 lg:col-6">
-      <app-cards
+      <app-material-cards
         [document]="file"
         [isActionBtnDisabled]="_isActionBtnDisabled"
-        (emitTag)="handleClickTag($event)"
+        (tagEmitter)="handleClickTag($event)"
         (deleteEmitter)="deleteDocument($event)"
         (updateEmitter)="updateDocument($event)"
       >
-      </app-cards>
+      </app-material-cards>
     </div>
   </div>
 

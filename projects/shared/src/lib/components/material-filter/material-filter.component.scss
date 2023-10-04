@@ -1,6 +1,18 @@
 :host {
-    ::ng-deep .p-checkbox .p-checkbox-box {
-        // border: 0.1rem solid rgba(139, 139, 139, 0.2) !important;
-        border-color: rgba(139, 139, 139, 0.7)!important;
+  ::ng-deep {
+    .p-checkbox .p-checkbox-box {
+      border-color: rgba(139, 139, 139, 0.7) !important;
     }
+
+    .p-dropdown {
+      width: 100%;
+      height: 2rem;
+
+      .p-inputtext {
+        border: none;
+        padding: 0 1;
+        align-self: center;
+      }
+    }
+  }
 }

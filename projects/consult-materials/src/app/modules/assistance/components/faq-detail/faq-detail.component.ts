@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
+import { Role, UserService } from '@shared';
+import { Question } from 'projects/consult-materials/src/app/models/question.models';
 import { Tag } from 'projects/consult-materials/src/app/models/search.models';
 
 @Component({
@@ -8,22 +10,30 @@ import { Tag } from 'projects/consult-materials/src/app/models/search.models';
   styleUrls: ['./faq-detail.component.scss'],
 })
 export class FaqDetailComponent implements OnInit {
-  @Output() removeEmitter = new EventEmitter();
   @Output() tagEmitter = new EventEmitter();
-  @Input() question: any;
+  @Output() removeEmitter = new EventEmitter();
+  @Output() questionViewEmitter = new EventEmitter();
+  @Input() question: Question;
   @Input() isActionBtnDisabled: boolean;
 
-  constructor(private router: Router) {}
+  isAdmin: boolean;
+
+  constructor(private router: Router, private userService: UserService) {
+    this.isAdmin = userService.user.roles.includes(Role.ADMIN);
+  }
 
   ngOnInit(): void {}
 
-  handleEdit(question: { id: string }): void {
+  handleEdit(question: Question): void {
     this.router.navigate([`/assistance/content/faq/update/${question.id}`]);
   }
-  handleRemove(question: any): void {
+  handleRemove(question: Question): void {
     this.removeEmitter.emit(question);
   }
   handleSearchByTags(tag: Tag): void {
     this.tagEmitter.emit(tag.label);
+  }
+  onQuestionView(question: Question): void {
+    this.questionViewEmitter.emit(question.id);
   }
 }

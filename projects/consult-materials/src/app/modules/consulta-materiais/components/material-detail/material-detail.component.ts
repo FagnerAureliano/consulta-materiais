@@ -11,10 +11,11 @@ import {
   SafeHtml,
   SafeResourceUrl,
 } from '@angular/platform-browser';
-import { SearchMaterialsService } from 'projects/consult-materials/src/app/services/search-materiais.service';
-import { StreamMaterialsService } from 'projects/consult-materials/src/app/services/stream-materiais.service';
 import { Subscription, of, throwError } from 'rxjs';
 import { catchError, finalize, tap } from 'rxjs/operators';
+
+import { SearchMaterialsService } from 'projects/consult-materials/src/app/services/search-materiais.service';
+import { StreamMaterialsService } from 'projects/consult-materials/src/app/services/stream-materiais.service';
 
 @Component({
   selector: 'app-material-detail',
@@ -23,25 +24,26 @@ import { catchError, finalize, tap } from 'rxjs/operators';
 })
 export class MaterialDetailComponent implements OnInit, OnDestroy {
   private _subs$: Subscription[] = [];
+
+  @Input() showDiag: boolean;
+  @Input() documentId: string;
+  @Input() diagDetail: boolean;
+  @Output() tagEmitter: EventEmitter<any> = new EventEmitter();
   @Output() deleteEmitter: EventEmitter<any> = new EventEmitter();
   @Output() updateEmitter: EventEmitter<any> = new EventEmitter();
-  @Input() documentId: string;
-  @Input() showDiag: boolean;
-  @Input() diagDetail: boolean;
 
+  material: any;
   visible: boolean;
   mimeType: string;
   note_material: SafeHtml;
   file_material: SafeResourceUrl;
-  material: any;
   hasPermission: boolean = true;
-
-  htmlElement = document.documentElement; // Obtém o elemento HTML raiz
+  htmlElement:HTMLElement = document.documentElement; // Obtém o elemento HTML raiz
 
   constructor(
+    private sanitizer: DomSanitizer,
     private streamService: StreamMaterialsService,
-    private searchService: SearchMaterialsService,
-    private sanitizer: DomSanitizer
+    private searchService: SearchMaterialsService
   ) {}
 
   ngOnInit(): void {}
@@ -113,14 +115,21 @@ export class MaterialDetailComponent implements OnInit, OnDestroy {
         })
     );
   }
+
   handleDelete(): void {
     this.deleteEmitter.emit();
+  }
+
+  handleTagSearch(tag: string): void {
+    this.tagEmitter.emit(tag);
+    this.onShow(false);
   }
 
   handleUpdate(): void {
     this.updateEmitter.emit();
     this.onShow(false);
   }
+
   onShow(isOpen: boolean): void {
     isOpen
       ? (this.htmlElement.style.overflow = 'hidden')
