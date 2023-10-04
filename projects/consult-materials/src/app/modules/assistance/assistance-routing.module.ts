@@ -3,21 +3,35 @@ import { RouterModule, Routes } from '@angular/router';
 import { ContentContainerComponent } from './containers/content-container/content-container.component';
 import { ContentResolver } from './resolver/content.resolver';
 import { FaqContainerComponent } from './containers/faq-container/faq-container.component';
+import { FaqCadastroComponent } from './containers/faq-cadastro/faq-cadastro.component';
+import { MoviesContainerComponent } from './containers/movies-container/movies-container.component';
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'content',
+    redirectTo: 'content/faq',
     pathMatch: 'full',
   },
   {
-    path: 'content',
-    component: ContentContainerComponent,
+    path: 'content/faq',
+    component: FaqCadastroComponent,
+    resolve: { data: ContentResolver },
+    children: [
+      {
+        path: 'create',
+        component: FaqCadastroComponent,
+        resolve: { data: ContentResolver },
+      },
+      {
+        path: 'update/:id',
+        component: FaqCadastroComponent,
+        resolve: { data: ContentResolver },
+      },
+    ],
   },
   {
     path: 'content/:scope',
     component: ContentContainerComponent,
-    resolve: { data: ContentResolver },
     children: [
       {
         path: '',
@@ -27,10 +41,19 @@ const routes: Routes = [
       {
         path: 'faq',
         component: FaqContainerComponent,
+        resolve: { data: ContentResolver },
       },
       {
-        path: 'other',
-        component: FaqContainerComponent,
+        path: 'video',
+        component: MoviesContainerComponent,
+      },
+      {
+        path: 'guide',
+        component: FaqCadastroComponent,
+      },
+      {
+        path: 'manual',
+        component: FaqCadastroComponent,
       },
     ],
   },

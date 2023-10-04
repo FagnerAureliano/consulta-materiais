@@ -1,0 +1,59 @@
+<p-card class="w-full">
+  <div
+    class="flex text-left flex pl-1 text-gray-700 w-full p-2 border-round l-form-header mb-2"
+  >
+    <div class="pl-2">
+      <i class="pi pi-folder pr-1"></i>
+      <i class="pi pi-angle-right"></i>
+    </div>
+
+    <div class="capitalize pr-1 cursor-pointer font-light">
+      {{ actualScope ? (actualScope | wordConverter) : "" }}
+    </div>
+  </div>
+  <form [formGroup]="form" class="border-1 p-3 border-200 border-round">
+    <div class="mb-2 w-full text-left" style="margin-bottom: 1rem !important">
+      <div class="flex w-full">
+        <label class="mb-1 text-500">Pergunta</label>
+      </div>
+
+      <div class="p-fluid flex mb-2">
+        <textarea
+          class="w-full pl-1"
+          formControlName="content"
+          rows="5"
+          cols="30"
+          pInputTextarea
+        ></textarea>
+      </div>
+    </div>
+
+    <div class="mb-2 w-full text-left" style="margin-bottom: 1rem !important">
+      <div class="flex w-full">
+        <label class="mb-1 text-500">Resposta</label>
+      </div>
+
+      <div class="p-fluid flex">
+        <textarea
+          class="w-full pl-1"
+          formControlName="response"
+          rows="5"
+          cols="30"
+          pInputTextarea
+        ></textarea>
+      </div>
+    </div>
+    <div class="mb-3">
+      <div class="flex">
+        <label class="mb-1 text-500">Insira as tags</label>
+      </div>
+
+      <lib-tag-input
+        [whitelist]="whitelist"
+        [changedTags]="_changedTags"
+        (characterInputed)="handleSearchTags($event)"
+        (tagsEmitter)="handleSearchTags($event)"
+      ></lib-tag-input>
+    </div>
+  </form>
+</p-card>

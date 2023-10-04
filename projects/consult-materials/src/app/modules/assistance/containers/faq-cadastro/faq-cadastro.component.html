@@ -1,9 +1,9 @@
-<div class="flex-1 card_responsivo mt-4">
+<div class="flex-1 card_responsivo mt-5">
   <div
-    class="mt-2 flex-column justify-content-between w-full align-items-end header-content"
+    class="flex-column justify-content-between w-full align-items-end header-content mb-1"
   >
     <h1 class="align-self-center div_buttons">
-      {{ _material ? "Edição de Documentos" : "Cadastro Documentos" }}
+      {{ isEdit ? "Edição de " : "Cadastro de " }} Perguntas Frequentes
     </h1>
 
     <div class="justify-content-end flex div_buttons">
@@ -27,24 +27,22 @@
         pRipple
         styleClass="p-button-sm"
         icon="pi pi-check"
-        (onClick)="handleSave()"
-        [disabled]="this._form?.invalid"
+        [disabled]="this.form?.invalid"
         label="SALVAR"
+        (onClick)="handleSave()"
       ></p-button>
     </div>
   </div>
-  <div class="w-full mt-2">
-    <p-card>
-      <app-documento-cadastro-form
-        [form]="_form"
-        [scopes]="_scopes"
-        [_changedTags]="_changedTags"
-        [material]="_material"
-        [whitelist]="_whitelist"
-        (tagsEmitter)="handleSearchTags($event)"
-        (downloadDoc)="handleDownload($event)"
-      ></app-documento-cadastro-form>
-    </p-card>
+  <div class="text-left">
+    <app-faq-cadastro-form
+      [form]="form"
+      [scopes]="_scopes"
+      [_changedTags]="_changedTags"
+      [actualScope]="_actualScope"
+      [whitelist]="_whitelist"
+      (tagsEmitter)="handleSearchTags($event)"
+    >
+    </app-faq-cadastro-form>
   </div>
 </div>
 <p-toast></p-toast>

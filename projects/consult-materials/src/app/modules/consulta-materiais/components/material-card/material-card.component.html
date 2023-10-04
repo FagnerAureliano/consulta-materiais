@@ -82,7 +82,12 @@
           class="p-button-text p-button- p-button-primary p-button-sm p-mr-1 l-button mr-1"
         ></button>
 
-        <app-material-detail [documentId]="document.id"> </app-material-detail>
+        <app-material-detail
+          [documentId]="document.id"
+          (deleteEmitter)="handleDelete()"
+          (updateEmitter)="handleUpdate()"
+        >
+        </app-material-detail>
       </div>
     </div>
   </div>

@@ -1,0 +1,32 @@
+:host {
+    text-align: -webkit-center;
+    .header-content {
+      text-align-last: left;
+    }
+    .card_responsivo {
+      width: 83.2vw;
+    }
+    h1 {
+      font-size: 2.5rem;
+    }
+    @media only screen and (max-width: 768px) {
+      .card_responsivo {
+        width: 95vw;
+      }
+      h1 {
+        font-size: 1.75rem;
+      }
+    }
+    @media only screen and (max-width: 425px) {
+      .card_responsivo {
+        width: 100vw;
+      }
+      h1 {
+        font-size: 1.75rem;
+      }
+      .div_buttons {
+        padding: 0.5rem;
+      }
+    }
+  }
+  

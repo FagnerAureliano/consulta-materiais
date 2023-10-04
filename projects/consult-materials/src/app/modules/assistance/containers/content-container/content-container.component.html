@@ -1,11 +1,20 @@
-<div class="m-8">
-    <p-tabView [activeIndex]="activeIndex" (onChange)="handleChange($event)">
-        <p-tabPanel header="FAQ">
-            <router-outlet></router-outlet>
-        </p-tabPanel>
-
-        <!-- <p-tabPanel header="OUTRO CONTEÚDO" [disabled]="true">
-            <router-outlet></router-outlet>
-        </p-tabPanel> -->
-    </p-tabView>
+<div class="mt-5">
+  <div class="flex w-full justify-content-center">
+    <header class="w-10 mb-5">
+      <h1>FAQ</h1>
+    </header>
+  </div>
+  <section class="flex justify-content-center">
+    <div class="p-grid w-10">
+      <div class="p-col-12 p-xl-10 p-xl-offset-1 mt-1">
+        <p-tabMenu
+          styleClass="border-1 border-round border-300 shadow-1"
+          #tabMenuItem
+          [model]="_tabMenuItems"
+          [activeItem]="_activeTabMenuItem"
+        ></p-tabMenu>
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </section>
 </div>

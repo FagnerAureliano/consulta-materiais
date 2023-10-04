@@ -1,85 +1,156 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+
+import { Subscription, throwError } from 'rxjs';
+import { FormBuilder, FormControl } from '@angular/forms';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Scopes } from 'projects/consult-materials/src/app/models/scopes.models';
-import { ContentService } from 'projects/consult-materials/src/app/services/content.service';
-import { SharedDataService } from 'projects/consult-materials/src/app/services/shared-data.service';
+import { FAQService } from 'projects/consult-materials/src/app/services/faq.service';
+import {
+  catchError,
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  first,
+  switchMap,
+} from 'rxjs/operators';
 
 @Component({
   selector: 'app-faq-container',
   templateUrl: './faq-container.component.html',
   styleUrls: ['./faq-container.component.scss'],
 })
-export class FaqContainerComponent implements OnInit, OnChanges {
+export class FaqContainerComponent implements OnInit, OnDestroy {
+  private subs$: Subscription[] = [];
+
   questions: any;
-  scopes: Scopes[];
-
-  displayDialog: boolean = false;
-  displayDialogDetail: boolean = false;
-
-  faqToEdit: any;
-  table = true;
-
-  htmlElement = document.documentElement;
+  actualScope: Scopes;
+  _allScopes: Scopes[];
+  _searchField: FormControl;
+  _isActionBtnDisabled = false;
+  searchAllCheck: boolean = false;
 
   constructor(
-    private cdref: ChangeDetectorRef,
-    private sharedDataService: SharedDataService,
-    private faqService: ContentService
-  ) {}
+    private router: Router,
+    private fb: FormBuilder,
+    private route: ActivatedRoute,
+    private faqService: FAQService,
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService
+  ) {
+    this.subs$.push(
+      this.route.data.subscribe((res) => {
+        this.questions = res.data.questions;
+        this._allScopes = res.data.allScopes;
+      })
+    );
 
-  ngOnChanges(changes: SimpleChanges): void {
-    this.table = false;
-    this.sharedDataService.questions$.subscribe((data) => {
-      this.questions = data;
-      this.table = true;
-      this.displayDialog = false;
+    this.router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe(() => {
+        this.actualScope = this._allScopes.find(
+          (res) =>
+            res.scope === localStorage.getItem('actualScope').toUpperCase()
+        );
+      });
+    this._searchField = this.fb.control('');
+  }
+  ngOnDestroy(): void {
+    this.subs$.forEach((sub) => {
+      sub.unsubscribe();
     });
   }
 
-  update(data) {
-    this.table = false;
-    this.faqService.getQuestions().subscribe((data) => {
-      this.questions = data;
-      this.table = true;
-      this.displayDialog = false;
-    });
-  }
   ngOnInit(): void {
-    this.sharedDataService.questions$.subscribe((data) => {
-      this.questions = data;
+    const searchFieldChanges$ = this._searchField.valueChanges.pipe(
+      filter(
+        (value: string) => value.length === 0 || (value && !/^\s*$/.test(value))
+      ),
+      debounceTime(300),
+      distinctUntilChanged()
+    );
+    this.subs$.push(
+      searchFieldChanges$
+        .pipe(
+          switchMap((text: string) =>
+            this.faqService
+              .searchQuestions(
+                text,
+                this.searchAllCheck ? null : this.actualScope.id
+              )
+              .pipe(
+                catchError((error) => {
+                  return throwError(error);
+                })
+              )
+          )
+        )
+        .subscribe((res) => {
+          this.questions = res;
+        })
+    );
+  }
+
+  handleCreateFAQ(): void {
+    this.router.navigate(['assistance/content/faq/create']);
+  }
+
+  handleSearchByTag(tag: string): void {
+    this.faqService
+      .searchQuestions(tag, this.searchAllCheck ? null : this.actualScope.id)
+      .pipe(
+        first(),
+        catchError((error) => {
+          return throwError(error);
+        })
+      )
+      .subscribe((res) => {
+        this.questions = res;
+        this._searchField.setValue(tag);
+      });
+  }
+
+  handleRemoveQuestion(question: any): void {
+    this._isActionBtnDisabled = true;
+    this.confirmationService.confirm({
+      acceptLabel: 'Sim, excluir',
+      rejectLabel: 'Cancelar',
+      target: event.target,
+      message: 'Deseja realmente excluir esta pergunta?',
+      icon: 'pi pi-info-circle',
+      accept: () => {
+        this.subs$.push(
+          this.faqService
+            .removeQuestionByID(question.id)
+            .pipe(
+              catchError((err) => {
+                return throwError(err);
+              })
+            )
+            .subscribe(() => {
+              this._isActionBtnDisabled = false;
+              this.messageService.add({
+                severity: 'success',
+                summary: 'Tudo OK',
+                detail: 'Pergunta deletada com sucesso',
+              });
+              this.updateQuestionsList();
+            })
+        );
+      },
+      reject: () => {
+        this._isActionBtnDisabled = false;
+      },
     });
-
-    this.sharedDataService.scopes$.subscribe((data) => {
-      this.scopes = data;
-    });
   }
 
-  showFaqDialog(faqData?: any): void {
-    this.faqToEdit = faqData;
-
-    this.displayDialog = true;
-  }
-
-  showDetails(question: any) {
-    this.faqToEdit = question;
-    this.displayDialogDetail = true;
-  }
-
-  editQuestion(question: any) {
-    console.log('editQuestion');
-  }
-
-  ngAfterContentChecked() {
-    this.cdref.detectChanges();
-  }
-  onShow(isOpen: boolean): void {
-    isOpen
-      ? (this.htmlElement.style.overflow = 'hidden')
-      : (this.htmlElement.style.overflow = '');
+  updateQuestionsList() {
+    this.subs$.push(
+      this.faqService
+        .searchQuestions('', this.searchAllCheck ? null : this.actualScope.id)
+        .subscribe((res) => {
+          this.questions = res;
+        })
+    );
   }
 }

@@ -4,7 +4,7 @@ import {
   Input,
   OnInit,
   Output,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 import { FormGroup, Validators } from '@angular/forms';
 import { FileUpload } from 'primeng/fileupload';
@@ -27,7 +27,7 @@ export class DocumentoCadastroFormComponent implements OnInit {
   @Input() whitelist: string[] = [];
   @Input() scopes: Scopes[];
   @Input() material: Material;
-  _changedTags: Tag[];
+  @Input() _changedTags: Tag[];
 
   hasDocuments: boolean = false;
 
@@ -53,10 +53,10 @@ export class DocumentoCadastroFormComponent implements OnInit {
   onFillForm(): void {
     if (this.material) {
       this.hasDocuments = true;
-      
+
       const materialScope = this.scopes.find(
         (res) => res.scope === this.material.properties['dc:source']
-      );      
+      );
 
       this.form.get('nuxeoPathId').setValue(materialScope.id);
       this.form.get('title').setValue(this.material.title);

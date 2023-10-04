@@ -75,12 +75,5 @@ export class StreamMaterialsService {
         headers: this.defaultHeaders,
       })
       .pipe(first());
-  }
-  getAllScopes(): Observable<Scopes[]> {
-    return this.http
-      .get<Scopes[]>(`${this.endpoint}/scopes`, {
-        headers: this.defaultHeaders,
-      })
-      .pipe(first());
-  }
+  }  
 }

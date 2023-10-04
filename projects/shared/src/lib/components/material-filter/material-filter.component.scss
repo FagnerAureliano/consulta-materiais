@@ -1,1 +1,6 @@
- 
+:host {
+    ::ng-deep .p-checkbox .p-checkbox-box {
+        // border: 0.1rem solid rgba(139, 139, 139, 0.2) !important;
+        border-color: rgba(139, 139, 139, 0.7)!important;
+    }
+}

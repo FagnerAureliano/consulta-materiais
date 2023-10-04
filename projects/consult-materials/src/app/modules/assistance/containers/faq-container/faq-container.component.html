@@ -1,39 +1,73 @@
-<div style="display: flex; flex-direction: column;">
+<p-card class="flex flex-column">
+  <div
+    class="flex text-left flex pl-1 text-gray-700 w-full p-2 border-round l-form-header mb-2"
+  >
+    <div class="pl-2">
+      <i class="pi pi-folder pr-1"></i>
+      <i class="pi pi-angle-right"></i>
+    </div>
 
-  <div style="display: flex; flex-direction: row; justify-content: end;">
-    <button pButton type="button" label="CADASTAR NOVA FAQ" (click)="showFaqDialog()"></button>
+    <div class="capitalize pr-1 cursor-pointer font-light">
+      {{ actualScope.scope | wordConverter }}
+    </div>
   </div>
-  
-  <div *ngIf="table" style="margin-left: 30%; margin-right: 30%;">
-    <table style="width: 100%; border-collapse: collapse;" >
-      <tbody>
-        <tr *ngFor="let question of questions">
-          <app-faq-detail   [question]="question.content" [answer]="question.response"></app-faq-detail>
-        </tr>
-      </tbody>
-    </table>
+  <div class="border-1 p-3 border-200 border-round">
+    <div class="mt-2 flex w-full justify-content-between">
+      <div class="w-10">
+        <span class="p-input-icon-left w-5">
+          <i class="pi pi-search"></i>
+          <input
+            pInputText
+            [formControl]="_searchField"
+            class="p-inputtext-sm p-inputtext-outlined"
+            placeholder="Buscar pergunta"
+          />
+          <i
+            *ngIf="_searchField.value?.length > 0"
+            class="ml-2 pi pi-times cursor-pointer text-gray-600"
+            style="right: 1rem"
+            (click)="_searchField.setValue('')"
+          ></i>
+        </span>
+        <div class="my-2">
+          <p-checkbox
+            [(ngModel)]="searchAllCheck"
+            [binary]="true"
+            inputId="binary"
+          ></p-checkbox>
+          <label for="binary" class="ml-1">Buscar em Tudo</label>
+        </div>
+      </div>
+
+      <p-button
+        type="button"
+        styleClass="p-button-sm p-button-outlined"
+        icon="pi pi-plus"
+        label="CADASTAR NOVA FAQ"
+        (click)="handleCreateFAQ()"
+      ></p-button>
+    </div>
+
+    <div class="mt-1" *ngIf="questions.length > 0; else noContent">
+      <div *ngFor="let question of questions">
+        <app-faq-detail
+          [question]="question"
+          [isActionBtnDisabled]="_isActionBtnDisabled"
+          (removeEmitter)="handleRemoveQuestion(question)"
+          (tagEmitter)="handleSearchByTag($event)"
+        ></app-faq-detail>
+      </div>
+    </div>
+    <ng-template #noContent>
+      <div
+        class="text-center p-4 bg-white border-1 border-round border-200 mt-2"
+      >
+        <div class="text-600 font-semibold">
+          Ainda não há perguntas frequentes para
+          {{ actualScope.scope | wordConverter }}
+        </div>
+      </div>
+    </ng-template>
   </div>
-</div>
-
-<p-dialog 
-  [(visible)]="displayDialog" 
-  [modal]="true" 
-  [closeOnEscape]="true"
-  [dismissableMask]="true"
-  [blockScroll]="true"
-  [modal]="true"
-  [draggable]="false"
-  [resizable]="false"
-  (onHide)="onShow(false)"
-  (onShow)="onShow(true)"
->
-  <app-faq-cadastro 
-    (cadastroEmitter)="update($event)"
-    [faqData]="faqToEdit" 
-    [scopes]="scopes"
-  ></app-faq-cadastro>
-</p-dialog>
-
-<div class="faq-list">
- 
-</div> 
+</p-card>
+<p-toast></p-toast>

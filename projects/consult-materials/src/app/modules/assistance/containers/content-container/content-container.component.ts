@@ -1,57 +1,70 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SharedDataService } from 'projects/consult-materials/src/app/services/shared-data.service';
+import { MenuItem } from 'primeng/api';
 import { HasContentService } from 'projects/shared/src/lib/services/has-content.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-content-container',
   templateUrl: './content-container.component.html',
-  styleUrls: ['./content-container.component.scss']
+  styleUrls: ['./content-container.component.scss'],
 })
-export class ContentContainerComponent implements OnInit {
-
+export class ContentContainerComponent implements OnInit, OnDestroy {
+  private subs$: Subscription[] = [];
   activeIndex: number = 0;
 
-  public questions: any;
-  public scopes: any;
-  
+  _tabMenuItems: MenuItem[];
+  _activeTabMenuItem: MenuItem;
+  atualScope: any;
 
   constructor(
-    private hasContent: HasContentService,
     private router: Router,
-    private route: ActivatedRoute,
-    private sharedDataService: SharedDataService
-  ) {
-    const resolvedData = this.route.snapshot.data['data'];
-    this.questions = resolvedData.questions;
-    this.scopes = resolvedData.scopes;
-   }
+    private hasContent: HasContentService,
+    private activatedRoute: ActivatedRoute
+  ) {}
 
+  ngOnDestroy(): void {
+    this.subs$.forEach((sub) => {
+      sub.unsubscribe();
+    });
+  }
   ngOnInit(): void {
-    this.sharedDataService.setQuestions(this.questions);
-    this.sharedDataService.setScopes(this.scopes);
-
-    const activeChildRoute = this.route.snapshot.firstChild;
-
-    if (activeChildRoute?.url.length) {
-      const activePath = activeChildRoute.url[0].path;
-
-      this.activeIndex = activePath === 'faq' ? 0 : 1;
-    }
+    this.activatedRoute.params.subscribe((params) => {
+      this.atualScope = params.scope;
+    });
 
     this.hasContent.setActive(true);
+
+    this._tabMenuItems = [
+      {
+        label: 'Perguntas Frequentes',
+        command: () => this.navigateTo('faq'),
+      },
+      {
+        label: 'Video Aulas',
+        command: () => this.navigateTo('video'),
+        disabled: true,
+      },
+      {
+        label: 'Guias Rápido',
+        command: () => this.navigateTo('guide'),
+        disabled: true,
+      },
+      {
+        label: 'Manuais',
+        command: () => this.navigateTo('manuais'),
+        disabled: true,
+      },
+    ];
+    this._activeTabMenuItem = this._tabMenuItems.find((tabMenu) =>
+      this.router.url.includes(tabMenu.command.toString().split("'")[1])
+    );
   }
-
-  handleChange(event) {
-    const index = event.index;
-    let path: string;
-
-    if (index === 0) {
-      path = 'faq';
-    } else if (index === 1) {
-      path = 'other'
-    }
-
-    this.router.navigate([path], {relativeTo: this.route});
+  navigateTo(scope: string) {
+    this.router.navigate([
+      `/assistance/content/${
+        this.atualScope ? this.atualScope : null
+      }/${scope}`,
+    ]);
   }
 }

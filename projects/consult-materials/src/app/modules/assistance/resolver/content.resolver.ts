@@ -1,31 +1,48 @@
 import { Injectable } from '@angular/core';
-import { 
+import {
+  ActivatedRouteSnapshot,
   Resolve,
   RouterStateSnapshot,
-  ActivatedRouteSnapshot
 } from '@angular/router';
 import { Observable, forkJoin, of } from 'rxjs';
-import { ContentService } from '../../../services/content.service';
+import { first, switchMap } from 'rxjs/operators';
+import { Scopes } from '../../../models/scopes.models';
+import { FAQService } from '../../../services/faq.service';
 import { StreamMaterialsService } from '../../../services/stream-materiais.service';
-import { first } from 'rxjs/operators';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ContentResolver implements Resolve<any> {
-
   constructor(
-    private contentService: ContentService,
+    private faqService: FAQService,
     private streamService: StreamMaterialsService
-    ) {}
+  ) {}
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
-    const scope = route.paramMap.get('scope');
-    // const scope = 'educacao'
+  resolve(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): Observable<any> {
+    let urlSegments = route['_routerState'].url.split('/');
+    const actualScope = urlSegments[3];
 
-    return forkJoin({
-      questions: this.contentService.getQuestionsByScope(scope),
-      scopes: this.streamService.getUserScopes().pipe(first())
-    });
+    return this.streamService.getScopes().pipe(
+      first(),
+      switchMap((allScopes) => {
+        let pathScope: Scopes = allScopes.find(
+          (res) => res.scope === actualScope.toUpperCase()
+        );
+        if (!pathScope) {
+          pathScope = allScopes[1];
+        }
+        return forkJoin({
+          allScopes: of(allScopes),
+          questions: this.faqService
+            .searchQuestions('', pathScope.id)
+            .pipe(first()),
+          scopes: this.streamService.getUserScopes().pipe(first()),
+        });
+      })
+    );
   }
 }

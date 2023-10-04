@@ -30,10 +30,12 @@ export class TagInputComponent implements OnInit, OnChanges {
       this.tagify.settings.whitelist = this.whitelist;
       this.tagify.loading(false);
     }
-    if (this.changedTags) {
+    if (this.changedTags && this.changedTags.length > 0) {
       this.changedTags.forEach((tag) => {
         this.tagify.addTags([{ value: tag.label }]);
       });
+    } else {
+      this.tagify?.removeAllTags();
     }
   }
 
