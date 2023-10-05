@@ -25,12 +25,13 @@ import { Role, UserService } from '@shared';
 export class FaqContainerComponent implements OnInit, OnDestroy {
   private subs$: Subscription[] = [];
 
-  questions: Question;
   actualScope: Scopes;
+  questions: Question | any;
+  searchAllCheck: boolean = false;
+  
   _allScopes: Scopes[];
   _searchField: FormControl;
   _isActionBtnDisabled = false;
-  searchAllCheck: boolean = false;
   _hasPermission: boolean; //ALLOW TO CREATE/EDIT/EXCLUDE BY ADMIN OR MANAGER
 
   constructor(
