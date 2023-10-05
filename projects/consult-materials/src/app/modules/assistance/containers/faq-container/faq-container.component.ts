@@ -25,13 +25,13 @@ import { Role, UserService } from '@shared';
 export class FaqContainerComponent implements OnInit, OnDestroy {
   private subs$: Subscription[] = [];
 
-  questions: Question[];
+  questions: Question;
   actualScope: Scopes;
   _allScopes: Scopes[];
   _searchField: FormControl;
   _isActionBtnDisabled = false;
   searchAllCheck: boolean = false;
-  _hasPermission: boolean;   //ALLOW TO CREATE/EDIT/EXCLUDE BY ADMIN OR MANAGER
+  _hasPermission: boolean; //ALLOW TO CREATE/EDIT/EXCLUDE BY ADMIN OR MANAGER
 
   constructor(
     private router: Router,
@@ -42,7 +42,6 @@ export class FaqContainerComponent implements OnInit, OnDestroy {
     private messageService: MessageService,
     private confirmationService: ConfirmationService
   ) {
-  
     this._hasPermission =
       userService.user.roles.includes(Role.ADMIN) ||
       userService.user.roles.includes(Role.MANAGER);
@@ -95,7 +94,7 @@ export class FaqContainerComponent implements OnInit, OnDestroy {
           )
         )
         .subscribe((res) => {
-          this.questions = Array(res);
+          this.questions = res;
         })
     );
   }
@@ -114,7 +113,7 @@ export class FaqContainerComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe((res) => {
-        this.questions = Array(res);
+        this.questions = res;
         this._searchField.setValue(tag);
       });
   }
@@ -166,7 +165,7 @@ export class FaqContainerComponent implements OnInit, OnDestroy {
       this.faqService
         .searchQuestions('', this.searchAllCheck ? null : this.actualScope.id)
         .subscribe((res) => {
-          this.questions = Array(res);
+          this.questions = res;
         })
     );
   }
