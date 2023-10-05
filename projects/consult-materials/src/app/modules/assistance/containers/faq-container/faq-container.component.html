@@ -40,7 +40,7 @@
       </div>
 
       <p-button
-      *ngIf="isAdmin"
+        *ngIf="_hasPermission"
         type="button"
         styleClass="p-button-sm p-button-outlined"
         icon="pi pi-plus"
@@ -52,11 +52,13 @@
     <div class="mt-1" *ngIf="questions.length > 0; else noContent">
       <div *ngFor="let question of questions">
         <app-faq-detail
+          [hasPermission]="_hasPermission"
           [question]="question"
           [isActionBtnDisabled]="_isActionBtnDisabled"
           (tagEmitter)="handleSearchByTag($event)"
           (removeEmitter)="handleRemoveQuestion(question)"
           (questionViewEmitter)="onQuestionView($event)"
+          (editEmitter)="handleEdit($event)"
         ></app-faq-detail>
       </div>
     </div>

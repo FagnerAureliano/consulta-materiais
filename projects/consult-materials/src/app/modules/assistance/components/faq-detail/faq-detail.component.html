@@ -19,7 +19,7 @@
         </div>
       </p-accordionTab>
     </p-accordion>
-    <div *ngIf="isAdmin" class="flex">
+    <div *ngIf="hasPermission" class="flex">
       <button
         pButton
         icon="pi pi-pencil"

@@ -25,24 +25,28 @@ import { Role, UserService } from '@shared';
 export class FaqContainerComponent implements OnInit, OnDestroy {
   private subs$: Subscription[] = [];
 
-  isAdmin: boolean;
   questions: Question[];
   actualScope: Scopes;
   _allScopes: Scopes[];
   _searchField: FormControl;
   _isActionBtnDisabled = false;
   searchAllCheck: boolean = false;
+  _hasPermission: boolean;   //ALLOW TO CREATE/EDIT/EXCLUDE BY ADMIN OR MANAGER
 
   constructor(
     private router: Router,
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private faqService: FAQService,
-    private useService: UserService,
+    private userService: UserService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService
   ) {
-    this.isAdmin = useService.user.roles.includes(Role.ADMIN);
+  
+    this._hasPermission =
+      userService.user.roles.includes(Role.ADMIN) ||
+      userService.user.roles.includes(Role.MANAGER);
+
     this.subs$.push(
       this.route.data.subscribe((res) => {
         this.questions = res.data.questions;
@@ -118,6 +122,9 @@ export class FaqContainerComponent implements OnInit, OnDestroy {
     this.subs$.push(
       this.faqService.getQuestionsByIDForCount(questionId).subscribe()
     );
+  }
+  handleEdit(question: Question): void {
+    this.router.navigate([`/assistance/content/faq/update/${question.id}`]);
   }
 
   handleRemoveQuestion(question: any): void {

@@ -16,6 +16,7 @@ import { catchError, finalize, tap } from 'rxjs/operators';
 
 import { SearchMaterialsService } from 'projects/consult-materials/src/app/services/search-materiais.service';
 import { StreamMaterialsService } from 'projects/consult-materials/src/app/services/stream-materiais.service';
+import { Role, UserService } from '@shared';
 
 @Component({
   selector: 'app-material-detail',
@@ -28,6 +29,7 @@ export class MaterialDetailComponent implements OnInit, OnDestroy {
   @Input() showDiag: boolean;
   @Input() documentId: string;
   @Input() diagDetail: boolean;
+  @Input() hasPermission: boolean;
   @Output() tagEmitter: EventEmitter<any> = new EventEmitter();
   @Output() deleteEmitter: EventEmitter<any> = new EventEmitter();
   @Output() updateEmitter: EventEmitter<any> = new EventEmitter();
@@ -37,10 +39,10 @@ export class MaterialDetailComponent implements OnInit, OnDestroy {
   mimeType: string;
   note_material: SafeHtml;
   file_material: SafeResourceUrl;
-  hasPermission: boolean = true;
-  htmlElement:HTMLElement = document.documentElement; // Obtém o elemento HTML raiz
+  htmlElement: HTMLElement = document.documentElement; // Obtém o elemento HTML raiz
 
   constructor(
+    private userService: UserService,
     private sanitizer: DomSanitizer,
     private streamService: StreamMaterialsService,
     private searchService: SearchMaterialsService

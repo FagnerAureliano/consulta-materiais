@@ -7,6 +7,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 })
 export class MaterialCardsComponent implements OnInit {
   @Input() document!: any;
+  @Input() hasPermission: boolean;
   @Input() isActionBtnDisabled: boolean = false;
   @Output() tagEmitter: EventEmitter<any> = new EventEmitter();
   @Output() deleteEmitter: EventEmitter<any> = new EventEmitter();

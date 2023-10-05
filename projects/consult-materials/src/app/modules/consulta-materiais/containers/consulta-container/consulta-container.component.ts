@@ -16,6 +16,7 @@ import { HasContentService } from 'projects/shared/src/lib/services/has-content.
 import { MaterialFilterService } from 'projects/shared/src/lib/services/material-filter.service';
 import { SearchMaterialsService } from 'projects/consult-materials/src/app/services/search-materiais.service';
 import { StreamMaterialsService } from 'projects/consult-materials/src/app/services/stream-materiais.service';
+import { Role, UserService } from '@shared';
 
 @Component({
   selector: 'app-search-container',
@@ -48,10 +49,12 @@ export class ConsultaContainerComponent implements OnInit, OnDestroy {
       routerLink: '/materials/guia-cadastro',
     },
   ];
+  _hasPermission: any;
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
+    private userService: UserService,
     private clearService: ClearService,
     private hasContent: HasContentService,
     private messageService: MessageService,
@@ -59,7 +62,11 @@ export class ConsultaContainerComponent implements OnInit, OnDestroy {
     private searchService: SearchMaterialsService,
     private streamService: StreamMaterialsService,
     private confirmationService: ConfirmationService
-  ) {}
+  ) {
+    this._hasPermission =
+      userService.user.roles.includes(Role.ADMIN) ||
+      userService.user.roles.includes(Role.MANAGER);
+  }
 
   @HostListener('window:scroll', ['$event'])
   onScroll(event: Event): void {
@@ -134,7 +141,12 @@ export class ConsultaContainerComponent implements OnInit, OnDestroy {
     this.filterParam = filterParam;
 
     this.searchService
-      .getEntrypointSearch(this.filterParam, this.startIndex, this.itemsPerPage, filterParam.scopePath)
+      .getEntrypointSearch(
+        this.filterParam,
+        this.startIndex,
+        this.itemsPerPage,
+        filterParam.scopePath
+      )
       .pipe(
         takeUntil(this._subs$),
         switchMap((items: any) =>

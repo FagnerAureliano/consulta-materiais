@@ -60,6 +60,7 @@
     <div class="w-full mb-2 text-right">
       <div class="flex justify-content-end">
         <button
+          *ngIf="hasPermission"
           pButton
           pRipple
           (click)="handleDelete()"
@@ -71,6 +72,7 @@
         ></button>
 
         <button
+          *ngIf="hasPermission"
           pButton
           pRipple
           (click)="handleUpdate()"
@@ -83,6 +85,7 @@
         ></button>
 
         <app-material-detail
+          [hasPermission]="hasPermission"
           [documentId]="document.id"
           (deleteEmitter)="handleDelete()"
           (updateEmitter)="handleUpdate()"

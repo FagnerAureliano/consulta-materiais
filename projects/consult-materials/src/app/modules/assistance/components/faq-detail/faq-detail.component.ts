@@ -11,21 +11,19 @@ import { Tag } from 'projects/consult-materials/src/app/models/search.models';
 })
 export class FaqDetailComponent implements OnInit {
   @Output() tagEmitter = new EventEmitter();
+  @Output() editEmitter = new EventEmitter();
   @Output() removeEmitter = new EventEmitter();
   @Output() questionViewEmitter = new EventEmitter();
   @Input() question: Question;
   @Input() isActionBtnDisabled: boolean;
+  @Input() hasPermission: boolean; // ADMIN OR MANAGER
 
-  isAdmin: boolean;
-
-  constructor(private router: Router, private userService: UserService) {
-    this.isAdmin = userService.user.roles.includes(Role.ADMIN);
-  }
+  constructor() {}
 
   ngOnInit(): void {}
 
   handleEdit(question: Question): void {
-    this.router.navigate([`/assistance/content/faq/update/${question.id}`]);
+    this.editEmitter.emit(question);
   }
   handleRemove(question: Question): void {
     this.removeEmitter.emit(question);
