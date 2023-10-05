@@ -6,15 +6,16 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { Subscription, throwError } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
 import { catchError, finalize, tap } from 'rxjs/operators';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+import { Tag } from 'projects/consult-materials/src/app/models/search.models';
 import { Scopes } from 'projects/consult-materials/src/app/models/scopes.models';
 import { SearchMaterialsService } from 'projects/consult-materials/src/app/services/search-materiais.service';
 import { StreamMaterialsService } from 'projects/consult-materials/src/app/services/stream-materiais.service';
-import { Tag } from 'projects/consult-materials/src/app/models/search.models';
 
 @Component({
   selector: 'app-guia-cadastro-container',

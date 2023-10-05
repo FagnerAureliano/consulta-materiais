@@ -14,6 +14,8 @@ import {
   first,
   switchMap,
 } from 'rxjs/operators';
+import { Question } from 'projects/consult-materials/src/app/models/question.models';
+import { Role, UserService } from '@shared';
 
 @Component({
   selector: 'app-faq-container',
@@ -23,21 +25,28 @@ import {
 export class FaqContainerComponent implements OnInit, OnDestroy {
   private subs$: Subscription[] = [];
 
-  questions: any;
+  questions: Question[];
   actualScope: Scopes;
   _allScopes: Scopes[];
   _searchField: FormControl;
   _isActionBtnDisabled = false;
   searchAllCheck: boolean = false;
+  _hasPermission: boolean;   //ALLOW TO CREATE/EDIT/EXCLUDE BY ADMIN OR MANAGER
 
   constructor(
     private router: Router,
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private faqService: FAQService,
+    private userService: UserService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService
   ) {
+  
+    this._hasPermission =
+      userService.user.roles.includes(Role.ADMIN) ||
+      userService.user.roles.includes(Role.MANAGER);
+
     this.subs$.push(
       this.route.data.subscribe((res) => {
         this.questions = res.data.questions;
@@ -86,7 +95,7 @@ export class FaqContainerComponent implements OnInit, OnDestroy {
           )
         )
         .subscribe((res) => {
-          this.questions = res;
+          this.questions = Array(res);
         })
     );
   }
@@ -105,9 +114,17 @@ export class FaqContainerComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe((res) => {
-        this.questions = res;
+        this.questions = Array(res);
         this._searchField.setValue(tag);
       });
+  }
+  onQuestionView(questionId: any): void {
+    this.subs$.push(
+      this.faqService.getQuestionsByIDForCount(questionId).subscribe()
+    );
+  }
+  handleEdit(question: Question): void {
+    this.router.navigate([`/assistance/content/faq/update/${question.id}`]);
   }
 
   handleRemoveQuestion(question: any): void {
@@ -149,7 +166,7 @@ export class FaqContainerComponent implements OnInit, OnDestroy {
       this.faqService
         .searchQuestions('', this.searchAllCheck ? null : this.actualScope.id)
         .subscribe((res) => {
-          this.questions = res;
+          this.questions = Array(res);
         })
     );
   }

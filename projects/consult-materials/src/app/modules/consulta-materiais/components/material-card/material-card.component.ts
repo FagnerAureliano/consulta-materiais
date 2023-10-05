@@ -1,14 +1,15 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
-  selector: 'app-cards',
+  selector: 'app-material-cards',
   templateUrl: './material-card.component.html',
   styleUrls: ['./material-card.component.scss'],
 })
 export class MaterialCardsComponent implements OnInit {
   @Input() document!: any;
+  @Input() hasPermission: boolean;
   @Input() isActionBtnDisabled: boolean = false;
-  @Output() emitTag: EventEmitter<any> = new EventEmitter();
+  @Output() tagEmitter: EventEmitter<any> = new EventEmitter();
   @Output() deleteEmitter: EventEmitter<any> = new EventEmitter();
   @Output() updateEmitter: EventEmitter<any> = new EventEmitter();
 
@@ -22,5 +23,9 @@ export class MaterialCardsComponent implements OnInit {
 
   handleUpdate(): void {
     this.updateEmitter.emit(this.document);
+  }
+
+  handleTagSearch(tag: string): void {
+    this.tagEmitter.emit(tag);
   }
 }

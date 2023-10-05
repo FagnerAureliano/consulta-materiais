@@ -88,6 +88,24 @@
           <label for="note">Guia Rápido</label>
         </div>
       </div>
+      <div class="w-full gap-1 mb-2">
+        <label class="gap-1">Diretório</label>
+        <p-dropdown
+          class="border-cyan-100"
+          [options]="scopes"
+          optionLabel="scope"
+          optionValue="path"
+          formControlName="path"
+          placeholder="Local"
+        >
+          <ng-template let-item pTemplate="selectedItem">
+            <span>{{ item.id }} - {{ item.scope | wordConverter }}</span>
+          </ng-template>
+          <ng-template let-item pTemplate="item">
+            <span>{{ item.id }} - {{ item.scope | wordConverter }}</span>
+          </ng-template>
+        </p-dropdown>
+      </div>
     </div>
 
     <div class="flex-row">
@@ -101,7 +119,7 @@
             (onClick)="clear()"
           >
           </p-button>
-    
+
           <p-button
             type="button"
             icon="pi pi-search"

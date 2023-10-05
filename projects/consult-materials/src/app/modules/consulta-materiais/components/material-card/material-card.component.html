@@ -40,7 +40,7 @@
         <p-tag
           class="uppercase border-white border-right-1 cursor-pointer font-bold"
           value="#{{ file.label }}"
-          (click)="emitTag.emit(file)"
+          (click)="handleTagSearch(file.label)"
         ></p-tag>
       </div>
     </div>
@@ -60,6 +60,7 @@
     <div class="w-full mb-2 text-right">
       <div class="flex justify-content-end">
         <button
+          *ngIf="hasPermission"
           pButton
           pRipple
           (click)="handleDelete()"
@@ -71,6 +72,7 @@
         ></button>
 
         <button
+          *ngIf="hasPermission"
           pButton
           pRipple
           (click)="handleUpdate()"
@@ -83,9 +85,11 @@
         ></button>
 
         <app-material-detail
+          [hasPermission]="hasPermission"
           [documentId]="document.id"
           (deleteEmitter)="handleDelete()"
           (updateEmitter)="handleUpdate()"
+          (tagEmitter)="handleTagSearch($event)"
         >
         </app-material-detail>
       </div>

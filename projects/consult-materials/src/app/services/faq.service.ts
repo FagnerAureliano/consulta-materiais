@@ -25,8 +25,13 @@ export class FAQService {
       headers: this.defaultHeaders,
     });
   }
-  getQuestionsByID(id: string) {
+  getQuestionsByIDForCount(id: string) {
     return this.http.get(`${this.endpoint}/questions/select-question/${id}`, {
+      headers: this.defaultHeaders,
+    });
+  }
+  getQuestionsByID(id: string) {
+    return this.http.get(`${this.endpoint}/questions/${id}`, {
       headers: this.defaultHeaders,
     });
   }
