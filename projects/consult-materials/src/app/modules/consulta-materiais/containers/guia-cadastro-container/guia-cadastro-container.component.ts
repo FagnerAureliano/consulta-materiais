@@ -51,8 +51,7 @@ export class GuiaCadastroContainerComponent
 
     this.subs$.push(
       this.route.data.subscribe((res) => {
-        this._scopes = res.data.userScopes;
-        this._allScopes = res.data.allScopes;
+        this._scopes = res.data.allScopes; 
       })
     );
     if (this.material_id) {
@@ -60,8 +59,7 @@ export class GuiaCadastroContainerComponent
         this.searchService
           .getDocumentByID(this.material_id)
           .subscribe((res: any) => {
-            this._material = res;
-            this._scopes = this._material ? this._allScopes : this._scopes;
+            this._material = res; 
           })
       );
     }

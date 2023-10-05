@@ -4,7 +4,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { Scopes } from 'projects/consult-materials/src/app/models/scopes.models';
-import { Material, Tag } from 'projects/consult-materials/src/app/models/search.models';
+import {
+  Material,
+  Tag,
+} from 'projects/consult-materials/src/app/models/search.models';
 import { SearchMaterialsService } from 'projects/consult-materials/src/app/services/search-materiais.service';
 import { StreamMaterialsService } from 'projects/consult-materials/src/app/services/stream-materiais.service';
 import { Subscription, throwError } from 'rxjs';
@@ -17,13 +20,13 @@ import { catchError, finalize, tap } from 'rxjs/operators';
 })
 export class DocumentoCadastroContainerComponent implements OnInit, OnDestroy {
   private subs$: Subscription[] = [];
-  
+
   _form: FormGroup;
   _whitelist: string[];
   _scopes: Scopes[];
   _allScopes: Scopes[];
   _material: Material;
-  _changedTags: Tag[] 
+  _changedTags: Tag[];
   material_id: string;
   hasDocument: boolean = false;
 
@@ -42,8 +45,7 @@ export class DocumentoCadastroContainerComponent implements OnInit, OnDestroy {
 
     this.subs$.push(
       this.route.data.subscribe((res) => {
-        this._scopes = res.data.userScopes;
-        this._allScopes = res.data.allScopes;
+        this._scopes = res.data.allScopes; 
       })
     );
 
@@ -53,7 +55,6 @@ export class DocumentoCadastroContainerComponent implements OnInit, OnDestroy {
           .getDocumentByID(this.material_id)
           .subscribe((res: any) => {
             this._material = res;
-            this._scopes = this._material ? this._allScopes : this._scopes;
           })
       );
     }
