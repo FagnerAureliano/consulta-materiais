@@ -45,7 +45,7 @@ export class DocumentoCadastroContainerComponent implements OnInit, OnDestroy {
 
     this.subs$.push(
       this.route.data.subscribe((res) => {
-        this._scopes = res.data.allScopes; 
+        this._scopes = res.data.allScopes;
       })
     );
 
@@ -95,11 +95,12 @@ export class DocumentoCadastroContainerComponent implements OnInit, OnDestroy {
   }
 
   onClear(): void {
-    this._changedTags = null;
-    this._form.get('content').setValue(null);
-    this._form.get('tags').setValue(null);
-    this._form.get('title').setValue(null);
-    this._form.get('description').setValue(null);
+    if (this.material_id) {
+      this._form.get('title').setValue(null);
+      this._form.get('description').setValue(null);
+    } else {
+      this._form.reset();
+    }
   }
 
   handleSave(): void {
