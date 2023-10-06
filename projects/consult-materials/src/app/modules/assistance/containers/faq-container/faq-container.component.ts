@@ -1,11 +1,4 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-
-import { Subscription, throwError } from 'rxjs';
-import { FormBuilder, FormControl } from '@angular/forms';
-import { ConfirmationService, MessageService } from 'primeng/api';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { Scopes } from 'projects/consult-materials/src/app/models/scopes.models';
-import { FAQService } from 'projects/consult-materials/src/app/services/faq.service';
 import {
   catchError,
   debounceTime,
@@ -14,8 +7,15 @@ import {
   first,
   switchMap,
 } from 'rxjs/operators';
-import { Question } from 'projects/consult-materials/src/app/models/question.models';
+import { Subscription, throwError } from 'rxjs';
+import { FormBuilder, FormControl } from '@angular/forms';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+
 import { Role, UserService } from '@shared';
+import { Scopes } from 'projects/consult-materials/src/app/models/scopes.models';
+import { FAQService } from 'projects/consult-materials/src/app/services/faq.service';
+import { Question } from 'projects/consult-materials/src/app/models/question.models';
 
 @Component({
   selector: 'app-faq-container',
@@ -28,8 +28,8 @@ export class FaqContainerComponent implements OnInit, OnDestroy {
   actualScope: Scopes;
   questions: Question | any;
   searchAllCheck: boolean = false;
-  
-  _allScopes: Scopes[];
+
+  _scopes: Scopes[];
   _searchField: FormControl;
   _isActionBtnDisabled = false;
   _hasPermission: boolean; //ALLOW TO CREATE/EDIT/EXCLUDE BY ADMIN OR MANAGER
@@ -50,14 +50,14 @@ export class FaqContainerComponent implements OnInit, OnDestroy {
     this.subs$.push(
       this.route.data.subscribe((res) => {
         this.questions = res.data.questions;
-        this._allScopes = res.data.allScopes;
+        this._scopes = res.data.scopes;
       })
     );
 
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe(() => {
-        this.actualScope = this._allScopes.find(
+        this.actualScope = this._scopes.find(
           (res) =>
             res.scope === localStorage.getItem('actualScope').toUpperCase()
         );

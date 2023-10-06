@@ -36,11 +36,10 @@ export class ContentResolver implements Resolve<any> {
           pathScope = allScopes[1];
         }
         return forkJoin({
-          allScopes: of(allScopes),
+          scopes: of(allScopes),
           questions: this.faqService
             .searchQuestions('', pathScope.id)
             .pipe(first()),
-          scopes: this.streamService.getUserScopes().pipe(first()),
         });
       })
     );

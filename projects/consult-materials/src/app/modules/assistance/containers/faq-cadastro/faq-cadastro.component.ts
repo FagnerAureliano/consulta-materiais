@@ -8,16 +8,17 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { catchError, tap } from 'rxjs/operators';
 import { MessageService } from 'primeng/api';
+import { catchError, tap } from 'rxjs/operators';
 import { Subscription, throwError } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
 import { Tag } from 'projects/consult-materials/src/app/models/search.models';
 import { Scopes } from 'projects/consult-materials/src/app/models/scopes.models';
 import { FAQService } from 'projects/consult-materials/src/app/services/faq.service';
-import { SearchMaterialsService } from 'projects/consult-materials/src/app/services/search-materiais.service';
 import { Question } from 'projects/consult-materials/src/app/models/question.models';
+import { SearchMaterialsService } from 'projects/consult-materials/src/app/services/search-materiais.service';
 
 @Component({
   selector: 'app-faq-cadastro',
@@ -28,10 +29,9 @@ export class FaqCadastroComponent implements OnInit, OnDestroy {
   private subs$: Subscription[] = [];
 
   @Output() cadastroEmitter = new EventEmitter();
-  @Input() _scopes: Scopes[];
 
+  _scopes: Scopes[];
   _changedTags: Tag[];
-  _allScopes: Scopes[];
   _whitelist: string[];
   _actualScope: string;
 
@@ -53,7 +53,6 @@ export class FaqCadastroComponent implements OnInit, OnDestroy {
     this.subs$.push(
       this.route.data.subscribe((res) => {
         this._scopes = res.data.scopes;
-        this._allScopes = res.data.allScopes;
       })
     );
 
@@ -87,7 +86,7 @@ export class FaqCadastroComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    const pathScope = this._allScopes.find(
+    const pathScope = this._scopes.find(
       (res) => res.scope === this._actualScope.toUpperCase()
     );
 
@@ -110,7 +109,7 @@ export class FaqCadastroComponent implements OnInit, OnDestroy {
   }
   onFillForm(): void {
     if (this.question) {
-      const faqScope = this._allScopes.find(
+      const faqScope = this._scopes.find(
         (res) => res.id === this.question.nuxeoPathId
       );
       this.form.get('nuxeoPathId').setValue(faqScope.id);

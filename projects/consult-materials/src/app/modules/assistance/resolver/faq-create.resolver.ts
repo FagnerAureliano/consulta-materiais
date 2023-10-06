@@ -35,13 +35,11 @@ export class FaqCreateResolver implements Resolve<any> {
           .getQuestionsByID(route.params.id)
           .pipe(first()),
         questions: this.faqService.getQuestionsByScope(scope).pipe(first()),
-        scopes: this.streamService.getUserScopes().pipe(first()),
         allScopes: this.streamService.getScopes().pipe(first()),
       });
     } else {
       return forkJoin({
         questions: this.faqService.getQuestionsByScope(scope).pipe(first()),
-        scopes: this.streamService.getUserScopes().pipe(first()),
         allScopes: this.streamService.getScopes().pipe(first()),
       });
     }

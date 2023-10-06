@@ -1,7 +1,8 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
+import { Inject, Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+
 import { Scopes } from '../models/scopes.models';
 
 @Injectable({
@@ -11,7 +12,7 @@ export class StreamMaterialsService {
   private defaultHeaders = new HttpHeaders({
     'Content-Type': 'application/json',
   });
-  
+
   constructor(
     private http: HttpClient,
     @Inject('STREAM_API_ENDPOINT') private endpoint: string
@@ -20,7 +21,7 @@ export class StreamMaterialsService {
   createDocumentFile(document: any): Observable<any> {
     return this.http.post<any>(`${this.endpoint}/file`, document).pipe(first());
   }
-  
+
   updateDocumentFile(id: string, document: any): Observable<any> {
     return this.http
       .patch<any>(`${this.endpoint}/file/${id}`, document)
@@ -68,12 +69,4 @@ export class StreamMaterialsService {
       })
       .pipe(first());
   }
-  
-  getUserScopes(): Observable<Scopes[]> {
-    return this.http
-      .get<Scopes[]>(`${this.endpoint}/scopes/scope-user`, {
-        headers: this.defaultHeaders,
-      })
-      .pipe(first());
-  }  
 }
