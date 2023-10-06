@@ -1,17 +1,17 @@
 import { Location } from '@angular/common';
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
 import { MessageService } from 'primeng/api';
-import { Scopes } from 'projects/consult-materials/src/app/models/scopes.models';
+import { ActivatedRoute } from '@angular/router';
+import { Subscription, throwError } from 'rxjs';
+import { catchError, finalize, tap } from 'rxjs/operators';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import {
   Material,
   Tag,
 } from 'projects/consult-materials/src/app/models/search.models';
+import { Scopes } from 'projects/consult-materials/src/app/models/scopes.models';
 import { SearchMaterialsService } from 'projects/consult-materials/src/app/services/search-materiais.service';
 import { StreamMaterialsService } from 'projects/consult-materials/src/app/services/stream-materiais.service';
-import { Subscription, throwError } from 'rxjs';
-import { catchError, finalize, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-documento-cadastro-container',
@@ -88,7 +88,7 @@ export class DocumentoCadastroContainerComponent implements OnInit, OnDestroy {
     } else {
       this.subs$.push(
         this.searchService.searchTags(data).subscribe((tags: string[]) => {
-          this._whitelist = tags.map((obj: any) => obj.tag);
+          this._whitelist = tags.map((obj: any) => obj.label);
         })
       );
     }

@@ -162,7 +162,7 @@ export class FaqCadastroComponent implements OnInit, OnDestroy {
     } else {
       this.subs$.push(
         this.searchService.searchTags(data).subscribe((tags: string[]) => {
-          this._whitelist = tags.map((obj: any) => obj.tag);
+          this._whitelist = tags.map((obj: any) => obj.label);
         })
       );
     }
