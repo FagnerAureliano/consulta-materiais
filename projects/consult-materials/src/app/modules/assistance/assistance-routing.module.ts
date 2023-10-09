@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ContentContainerComponent } from './containers/content-container/content-container.component';
 import { ContentResolver } from './resolver/content.resolver';
-import { FaqContainerComponent } from './containers/faq-container/faq-container.component';
 import { FaqCadastroComponent } from './containers/faq-cadastro/faq-cadastro.component';
-import { MoviesContainerComponent } from './containers/movies-container/movies-container.component';
+import { FaqContainerComponent } from './containers/faq-container/faq-container.component';
+import { ContentContainerComponent } from './containers/content-container/content-container.component';
+import { MaterialsLinksContainerComponent } from './containers/materials-links-container/materials-links-container.component';
 
 const routes: Routes = [
   {
@@ -45,7 +45,7 @@ const routes: Routes = [
       },
       {
         path: 'video',
-        component: MoviesContainerComponent,
+        component: MaterialsLinksContainerComponent,
       },
       {
         path: 'guide',

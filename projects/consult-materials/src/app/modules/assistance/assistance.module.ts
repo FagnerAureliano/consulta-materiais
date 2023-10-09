@@ -35,6 +35,8 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { VirtualScrollerModule } from 'primeng/virtualscroller';
+import { MaterialsLinksComponent } from './components/materials-links/materials-links.component';
+import { MaterialsLinksContainerComponent } from './containers/materials-links-container/materials-links-container.component';
 
 const PRIME_COMPONENTS = [
   TagModule,
@@ -68,6 +70,8 @@ const PRIME_COMPONENTS = [
     ContentContainerComponent,
     FaqCadastroFormComponent,
     MoviesContainerComponent,
+    MaterialsLinksComponent,
+    MaterialsLinksContainerComponent,
   ],
   imports: [
     FormsModule,

@@ -45,7 +45,11 @@
   <div class="border-round border-1 border-200 p-3">
     <div *ngIf="material?.type === 'Note'; else files">
       <div *ngIf="note_material != null; else loading">
-        <div [innerHTML]="note_material" class="text-left"></div>
+        <div
+          [innerHTML]="note_material"
+          class="text-left"
+          style="min-height: 30rem"
+        ></div>
       </div>
     </div>
 
@@ -57,7 +61,7 @@
           [type]="mimeType"
           [title]="material?.title"
           width="100%"
-          height="500px"
+          [height]="mimeType.includes('image') ? 'auto' : '450px'"
         />
       </div>
     </ng-template>
