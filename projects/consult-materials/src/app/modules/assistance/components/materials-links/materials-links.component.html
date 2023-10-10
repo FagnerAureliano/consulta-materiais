@@ -1,12 +1,15 @@
+<div>
+  <label class="mb-1 text-500">Inserir link de documento</label>
+</div>
 <div class="mt-2 flex w-full justify-content-between">
-  <div class="w-full">
+  <div *ngIf="isSelected; else hasLink" class="w-full">
     <span class="p-input-icon-left w-full">
       <i class="pi pi-search"></i>
       <input
         pInputText
         [formControl]="_searchField"
         class="p-inputtext-sm p-inputtext-outlined"
-        placeholder="Inserir link"
+        placeholder="Buscar material"
       />
       <i
         *ngIf="_searchField.value?.length > 0"
@@ -16,31 +19,46 @@
       ></i>
     </span>
   </div>
-</div>
-<div>
-  <div *ngFor="let mat of materials" li-index>
-    <p-card class="h-8rem">
-      <div class="flex pr-3">
-        <div class="ml-3">
-          <img
-            class="border-1 border-gray-200 border-round image-responsive w-7rem"
-            [src]="
-              mat.thumbnail ? mat.thumbnail : './assets/images/guia-usuario.png'
-            "
-            [style.opacity]="mat.thumbnail ? '1' : '0.2'"
-          />
-        </div>
-        <div class="ml-2 text-left border-round border-1 border-200 p-2 w-full cursor-pointer" style="height: 9.85rem;" (click)="onClick(mat)">
-          <div class="flex">
-            <label class="pb-1 text-500">Título</label>
-          </div>
-          {{ mat?.title }}
-          <div>
-            <label class="pb-1 text-500">Descrição</label>
-          </div>
-          {{ mat?.properties["dc:description"] | truncateText : 250 }}
-        </div>
+  <ng-template #hasLink>
+    <div
+      class="flex w-full align-items-center border-bottom-1 border-gray-200 justify-content-between p-1 text-gray-600"
+    >
+      <div class="text-blue-500">
+        <i class="pi pi-link text-lg"></i>
+        <a class="p-1 underline">
+          {{ selectedLinks }}
+        </a>
       </div>
-    </p-card>
-  </div>
+      <i class="pi pi-times text-lg cursor-pointer" (click)="onCancel()"></i>
+    </div>
+  </ng-template>
+</div>
+<div *ngFor="let mat of materials" li-index>
+  <p-card class="h-8rem">
+    <div class="flex pr-3">
+      <div class="ml-3">
+        <img
+          class="border-1 border-gray-200 border-round image-responsive w-7rem"
+          [src]="
+            mat.thumbnail ? mat.thumbnail : './assets/images/guia-usuario.png'
+          "
+          [style.opacity]="mat.thumbnail ? '1' : '0.2'"
+        />
+      </div>
+      <div
+        class="ml-2 text-left border-round border-1 border-200 p-2 w-full cursor-pointer"
+        style="height: 9.85rem"
+        (click)="onClick(mat)"
+      >
+        <div class="flex">
+          <label class="pb-1 text-500">Título</label>
+        </div>
+        {{ mat?.title }}
+        <div>
+          <label class="pb-1 text-500">Descrição</label>
+        </div>
+        {{ mat?.properties["dc:description"] | truncateText : 250 }}
+      </div>
+    </div>
+  </p-card>
 </div>

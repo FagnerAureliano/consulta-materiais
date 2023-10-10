@@ -19,6 +19,7 @@ import { Scopes } from 'projects/consult-materials/src/app/models/scopes.models'
 import { FAQService } from 'projects/consult-materials/src/app/services/faq.service';
 import { Question } from 'projects/consult-materials/src/app/models/question.models';
 import { SearchMaterialsService } from 'projects/consult-materials/src/app/services/search-materiais.service';
+import { FAQLinksService } from 'projects/shared/src/lib/services/faq-links.service';
 
 @Component({
   selector: 'app-faq-cadastro',
@@ -27,8 +28,6 @@ import { SearchMaterialsService } from 'projects/consult-materials/src/app/servi
 })
 export class FaqCadastroComponent implements OnInit, OnDestroy {
   private subs$: Subscription[] = [];
-
-  @Output() cadastroEmitter = new EventEmitter();
 
   _scopes: Scopes[];
   _changedTags: Tag[];
@@ -48,6 +47,7 @@ export class FaqCadastroComponent implements OnInit, OnDestroy {
     private faqService: FAQService,
     private cdref: ChangeDetectorRef,
     private messageService: MessageService,
+    private faqLinksService: FAQLinksService,
     private searchService: SearchMaterialsService
   ) {
     this.subs$.push(
@@ -106,7 +106,18 @@ export class FaqCadastroComponent implements OnInit, OnDestroy {
         this.onFillForm();
       }, 300);
     }
+    this.onIncludesLink();
   }
+
+  onIncludesLink(): void {
+    this.subs$.push(
+      this.faqLinksService.materialLinkUUID$.subscribe((res) => {
+        this.form.get('attachments').setValue([res])
+        console.log(this.form.value);
+      })
+    );
+  }
+  
   onFillForm(): void {
     if (this.question) {
       const faqScope = this._scopes.find(

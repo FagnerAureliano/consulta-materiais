@@ -43,11 +43,14 @@
         ></textarea>
       </div>
     </div>
+    <div class="pb-3">
+      <app-materials-links-container 
+      ></app-materials-links-container>
+    </div>
     <div class="mb-3">
       <div class="flex">
         <label class="mb-1 text-500">Insira as tags</label>
       </div>
-
       <lib-tag-input
         [whitelist]="whitelist"
         [changedTags]="_changedTags"
