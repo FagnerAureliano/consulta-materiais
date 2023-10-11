@@ -1,16 +1,13 @@
 import { Location } from '@angular/common';
 import {
-  ChangeDetectorRef,
-  Component,
-  EventEmitter,
-  Input,
+  OnInit, 
   OnDestroy,
-  OnInit,
-  Output,
+  Component, 
+  ChangeDetectorRef,
 } from '@angular/core';
 import { MessageService } from 'primeng/api';
-import { catchError, tap } from 'rxjs/operators';
 import { Subscription, throwError } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 

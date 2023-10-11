@@ -16,7 +16,7 @@ export class MaterialsLinksComponent implements OnInit {
   @Input() materials: any = [];
   @Output() textEmitter = new EventEmitter();
 
-  selectedLinks: string;
+  selectedLinks: any[] = [];
   isSelected: boolean = true;
   _searchField: FormControl = this.fb.control('');
 
@@ -26,6 +26,7 @@ export class MaterialsLinksComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.materials = this.materials.filter(material => material.id != this.selectedLinks)
     this.subs$.push(
       this._searchField.valueChanges
         .pipe(
@@ -49,14 +50,24 @@ export class MaterialsLinksComponent implements OnInit {
         })
     );
   }
-  onCancel() {
-    this.faqLinksService.setLinkUUID(null);
+  onRemoveLink(link: any): void {
+    this.selectedLinks = this.selectedLinks.filter((lnk) => link.id !== lnk.id);
+    this.updateSelectedLinks();
+  }
+
+  onAdd() {
     this.isSelected = !this.isSelected;
   }
-  onClick(material: any): void {
-    this.selectedLinks = material.title;
-    this.isSelected = false;
+
+  onClick(material: any): void { 
     this.materials = [];
-    this.faqLinksService.setLinkUUID(material.id);
+    this.selectedLinks.push({ title: material.title, id: material.id });
+    this.updateSelectedLinks();
+  }
+
+  private updateSelectedLinks() {
+    this.isSelected = this.selectedLinks.length === 0;
+    const UUIDs = this.selectedLinks.map((item) => item.id);
+    this.faqLinksService.setLinkUUID(UUIDs);
   }
 }
