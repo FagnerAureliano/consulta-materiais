@@ -13,6 +13,7 @@ export class FaqDetailComponent implements OnInit {
   @Output() tagEmitter = new EventEmitter();
   @Output() editEmitter = new EventEmitter();
   @Output() removeEmitter = new EventEmitter();
+  @Output() linkRedirectEmitter = new EventEmitter();
   @Output() questionViewEmitter = new EventEmitter();
   @Input() question: Question;
   @Input() isActionBtnDisabled: boolean;
@@ -34,4 +35,8 @@ export class FaqDetailComponent implements OnInit {
   onQuestionView(question: Question): void {
     this.questionViewEmitter.emit(question.id);
   }
+  handleLinkRedirect(link: string): void {
+    this.linkRedirectEmitter.emit(link)
+  }
+
 }

@@ -23,10 +23,17 @@ export class MaterialsLinksComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private faqLinksService: FAQLinksService
-  ) {}
+  ) {
+    faqLinksService.materialLinkUUID$.subscribe((res) => {
+      this.selectedLinks = res ? res : [];
+      this.isSelected = this.selectedLinks?.length > 0 ? false : true;
+    });
+  }
 
   ngOnInit(): void {
-    this.materials = this.materials.filter(material => material.id != this.selectedLinks)
+    this.materials = this.materials.filter(
+      (material) => material.id != this.selectedLinks
+    );
     this.subs$.push(
       this._searchField.valueChanges
         .pipe(
@@ -50,8 +57,10 @@ export class MaterialsLinksComponent implements OnInit {
         })
     );
   }
-  onRemoveLink(link: any): void {
-    this.selectedLinks = this.selectedLinks.filter((lnk) => link.id !== lnk.id);
+  onRemoveLink(link: { documentUid: any; }): void {
+    this.selectedLinks = this.selectedLinks.filter(
+      (lnk) => link.documentUid !== lnk.documentUid
+    );
     this.updateSelectedLinks();
   }
 
@@ -59,15 +68,17 @@ export class MaterialsLinksComponent implements OnInit {
     this.isSelected = !this.isSelected;
   }
 
-  onClick(material: any): void { 
+  onClick(material: any): void {
     this.materials = [];
-    this.selectedLinks.push({ title: material.title, id: material.id });
+    this.selectedLinks.push({
+      title: material.title,
+      documentUid: material.id,
+    });
     this.updateSelectedLinks();
   }
 
-  private updateSelectedLinks() {
+  private updateSelectedLinks(): void {
     this.isSelected = this.selectedLinks.length === 0;
-    const UUIDs = this.selectedLinks.map((item) => item.id);
-    this.faqLinksService.setLinkUUID(UUIDs);
+    this.faqLinksService.setLinkUUID(this.selectedLinks);
   }
 }

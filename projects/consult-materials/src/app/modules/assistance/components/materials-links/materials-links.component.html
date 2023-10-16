@@ -1,8 +1,8 @@
 <div>
   <label class="mb-1 text-500">Inserir link de documento</label>
 </div>
-<div class="mt-2 flex w-full justify-content-between">
-  <div *ngIf="isSelected; else hasLink" class="w-full">
+<div class="mt-2 flex flex-column-reverse w-full justify-content-between">
+  <div class="w-full">
     <span class="p-input-icon-left w-full">
       <i class="pi pi-search"></i>
       <input
@@ -19,29 +19,28 @@
       ></i>
     </span>
   </div>
-  <ng-template #hasLink>
-    <div
-      class="flex w-full align-items-center border-bottom-1 border-gray-200 justify-content-between p-1 text-gray-600"
-    >
-      <div class="flex gap-2">
-        <div *ngFor="let item of selectedLinks" class=" ">
-          <i class="pi pi-link text-lg text-blue-500"></i>
-          <a class="p-1 underline text-blue-500">
-            {{ item.title }}
-          </a>
-          <i
-            class="pi pi-times  cursor-pointer border-1 border-round border-blue-700 bg-blue-700 text-white"
-            (click)="onRemoveLink(item)"
-          ></i>
-        </div>
+  <div *ngIf="selectedLinks.length > 0"  
+    class="flex w-full align-items-center border-bottom-1 border-gray-200 justify-content-between p-1 text-gray-600"
+  >
+    <div class="flex gap-2 pb-2">
+      <i class="pi pi-link text-lg text-blue-500"></i>
+      <div *ngFor="let item of selectedLinks">
+        <a class="p-1 underline text-blue-500">
+          {{ item.title }}
+        </a>
+        <i
+          class="pi pi-times cursor-pointer border-1 border-round border-blue-700 bg-blue-700 text-white"
+          style="padding: 0.03rem"
+          (click)="onRemoveLink(item)"
+        ></i>
       </div>
-      <i
-        *ngIf="selectedLinks.length > 0"
+    </div>
+    <!-- <i
+        *ngIf="selectedLinks?.length > 0"
         class="pi pi-plus text-lg cursor-pointer border-1 border-round p-1 border-blue-700 bg-blue-700 text-white"
         (click)="onAdd()"
-      ></i>
-    </div>
-  </ng-template>
+      ></i> -->
+  </div>
 </div>
 <div *ngFor="let mat of materials" li-index>
   <p-card class="h-8rem">
