@@ -24,34 +24,11 @@
         <shrd-sidenav-item (click)="toggleNav()" href="#" [disabled]="true">
           Acesso e Perfis
         </shrd-sidenav-item>
-
-        <shrd-sidenav-item (click)="navigateToContent('educacao')" href="#">
-          EDUCAÇÃO
-        </shrd-sidenav-item>
-
-        <shrd-sidenav-item
-          (click)="navigateToContent('saude')"
-          href="#"
-          [disabled]="false"
-        >
-          SAÚDE
-        </shrd-sidenav-item>
-
-        <shrd-sidenav-item
-          (click)="navigateToContent('orcamento')"
-          href="#"
-          [disabled]="false"
-        >
-          ORÇAMENTO
-        </shrd-sidenav-item>
-
-        <shrd-sidenav-item
-          (click)="navigateToContent('logistica')"
-          href="#"
-          [disabled]="false"
-        >
-          LOGÍSTICA
-        </shrd-sidenav-item>
+        <div *ngFor="let item of scopos">
+          <shrd-sidenav-item (click)="navigateToContent(item)" href="#">
+            {{ item | wordConverter }}
+          </shrd-sidenav-item>
+        </div>
       </ul>
     </nav>
   </div>

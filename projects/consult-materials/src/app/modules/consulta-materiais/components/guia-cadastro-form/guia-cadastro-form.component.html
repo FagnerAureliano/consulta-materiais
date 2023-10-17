@@ -34,14 +34,15 @@
           [ngClass]="{
             'ng-dirty ng-invalid':
               form.get('nuxeoPathId')?.invalid &&
-              (form.get('nuxeoPathId')?.dirty || form.get('nuxeoPathId')?.touched)
+              (form.get('nuxeoPathId')?.dirty ||
+                form.get('nuxeoPathId')?.touched)
           }"
         >
           <ng-template let-item pTemplate="selectedItem">
-            <span>{{ item.id }} - {{ item.scope | wordConverter }}</span>
+            <span> - {{ item.scope | wordConverter }}</span>
           </ng-template>
           <ng-template let-item pTemplate="item">
-            <span>{{ item.id }} - {{ item.scope | wordConverter }}</span>
+            <span> - {{ item.scope | wordConverter }}</span>
           </ng-template>
         </p-dropdown>
       </div>

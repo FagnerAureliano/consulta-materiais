@@ -103,6 +103,9 @@ export class FaqContainerComponent implements OnInit, OnDestroy {
   handleCreateFAQ(): void {
     this.router.navigate(['assistance/content/faq/create']);
   }
+  handleLinkRedirect(link: { documentUid: string }): void {
+    this.router.navigate([`/materials/detail/${link.documentUid}`]);
+  }
 
   handleSearchByTag(tag: string): void {
     this.faqService
@@ -118,7 +121,7 @@ export class FaqContainerComponent implements OnInit, OnDestroy {
         this._searchField.setValue(tag);
       });
   }
-  onQuestionView(questionId: any): void {
+  onQuestionView(questionId: string): void {
     this.subs$.push(
       this.faqService.getQuestionsByIDForCount(questionId).subscribe()
     );

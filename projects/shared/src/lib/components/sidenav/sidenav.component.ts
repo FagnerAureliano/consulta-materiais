@@ -8,9 +8,23 @@ import { Router } from '@angular/router';
   styleUrls: ['./sidenav.component.scss'],
 })
 export class SidenavComponent implements OnInit {
-  _isHidden = true;
-
   @Input() basePath!: string;
+
+  _isHidden = true;
+  scopos = [
+    // 'geral',
+    'bi',
+    'defesa-cibernética',
+    'ensino',
+    'e-siscult',
+    'fabmail',
+    'operacional',
+    'pessoal',
+    'sau',
+    'saude',
+    'sigadaer',
+    'siplorc',
+  ];
 
   constructor(private router: Router, private hasContent: HasContentService) {}
 

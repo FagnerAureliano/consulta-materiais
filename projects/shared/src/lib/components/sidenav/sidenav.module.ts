@@ -1,16 +1,20 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+
 import { ButtonModule } from 'primeng/button';
 import { DividerModule } from 'primeng/divider';
-import { ClickOutsideModule } from '../../directives/click-outside.module';
-import { MaterialFilterModule } from '../material-filter/material-filter.module';
+
+import { SidenavComponent } from './sidenav.component';
 import { SearchboxModule } from '../searchbox/searchbox.module';
 import { SidenavItemComponent } from './sidenav-item.component';
-import { SidenavComponent } from './sidenav.component';
+import { ClickOutsideModule } from '../../directives/click-outside.module';
+import { WordsManipulateModule } from '../../pipes/words-manipulate.module';
+import { MaterialFilterModule } from '../material-filter/material-filter.module';
 
 @NgModule({
   declarations: [SidenavComponent, SidenavItemComponent],
+  exports: [SidenavComponent, SidenavItemComponent],
   imports: [
     CommonModule,
     RouterModule,
@@ -19,7 +23,7 @@ import { SidenavComponent } from './sidenav.component';
     SearchboxModule,
     ClickOutsideModule,
     MaterialFilterModule,
+    WordsManipulateModule,
   ],
-  exports: [SidenavComponent, SidenavItemComponent],
 })
 export class SidenavModule {}

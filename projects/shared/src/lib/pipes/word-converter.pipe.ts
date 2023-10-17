@@ -5,11 +5,20 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class WordConverterPipe implements PipeTransform {
   private wordsCorrected: { [key: string]: string } = {
-    'geral': 'Geral',
-    'orcamento': 'Orçamento',
-    'saude': 'Saúde',
-    'logistica': 'Logística',
-    'educacao': 'Educação',
+    geral: 'Geral',
+    saude: 'Saúde',
+    logistica: 'Logística',
+    educacao: 'Educação',
+    pessoal: 'Pessoal',
+    'defesa-cibernética': 'Defesa Cibernética',
+    sau: 'SAU',
+    ensino: 'Ensino',
+    'e-siscult': 'E-SISCULT',
+    sigadaer: 'SIGADAER',
+    bi: 'BI',
+    fabmail: 'FABMAIL',
+    operacional: 'Operacional',
+    siplorc: 'SIPLORC',
   };
 
   transform(word: string): string {
