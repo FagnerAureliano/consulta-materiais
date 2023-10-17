@@ -9,10 +9,11 @@ import { MaterialCardsComponent } from './components/material-card/material-card
 import { MaterialDetailComponent } from './components/material-detail/material-detail.component';
 import { GuiaCadastroFormComponent } from './components/guia-cadastro-form/guia-cadastro-form.component';
 import { ConsultaContainerComponent } from './containers/consulta-container/consulta-container.component';
-import { ContentContainerComponent } from '../assistance/containers/content-container/content-container.component';
+import { MaterialLinkDetailComponent } from './components/material-link-detail/material-link-detail.component';
 import { GuiaCadastroContainerComponent } from './containers/guia-cadastro-container/guia-cadastro-container.component';
 import { DocumentoCadastroFormComponent } from './components/documento-cadastro-form/documento-cadastro-form.component';
 import { DocumentoCadastroContainerComponent } from './containers/documento-cadastro-container/documento-cadastro-container.component';
+import { MaterialLinkDetailContainerComponent } from './containers/material-link-detail-container/material-link-detail-container.component';
 
 import { WordsManipulateModule } from 'projects/shared/src/lib/pipes/words-manipulate.module';
 import { TagInputModule } from 'projects/shared/src/lib/components/tag-input/tag-input.module';
@@ -66,9 +67,11 @@ const PRIME_COMPONENTS = [
     MaterialDetailComponent,
     GuiaCadastroFormComponent,
     ConsultaContainerComponent,
+    MaterialLinkDetailComponent,
     GuiaCadastroContainerComponent,
     DocumentoCadastroFormComponent,
     DocumentoCadastroContainerComponent,
+    MaterialLinkDetailContainerComponent,
   ],
   imports: [
     //Core

@@ -1,0 +1,36 @@
+<div class="mt-5">
+  <div class="flex w-full justify-content-center">
+    <header class="w-10 mb-3">
+      <h1>Documento</h1>
+    </header>
+  </div>
+  <section class="flex justify-content-center">
+    <div class="p-grid w-10 text-right">
+      <p-button
+        pRipple
+        styleClass="p-button-text p-button-plain p-button-sm "
+        icon="pi pi-arrow-left"
+        (onClick)="goBack()"
+        label="VOLTAR"
+      ></p-button>
+      <div class="p-col-12 p-xl-10 p-xl-offset-1 mt-1">
+        <p-card>
+          <app-material-link-detail
+            [material]="material"
+            [mimeType]="mimeType"
+            [hasPermission]="_hasPermission"
+            [note_material]="note_material"
+            [file_material]="file_material"
+            (downloadEmitter)="handleDownload()"
+            (tagEmitter)="handleTagSearch($event)"
+            (updateEmitter)="updateDocument()"
+            (deleteEmitter)="handleDelete()"
+            [isActionBtnDisabled]="_isActionBtnDisabled"
+          >
+          </app-material-link-detail>
+        </p-card>
+      </div>
+    </div>
+  </section>
+</div>
+<p-toast></p-toast>

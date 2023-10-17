@@ -46,7 +46,7 @@ export class ContentContainerComponent implements OnInit, OnDestroy {
       {
         label: 'Video Aulas',
         command: () => this.navigateTo('video'),
-        disabled: false,
+        disabled: true,
       },
       {
         label: 'Guias Rápido',

@@ -5,6 +5,7 @@ import { CadastroResolver } from './resolver/cadastro.resolver';
 import { ConsultaContainerComponent } from './containers/consulta-container/consulta-container.component';
 import { GuiaCadastroContainerComponent } from './containers/guia-cadastro-container/guia-cadastro-container.component';
 import { DocumentoCadastroContainerComponent } from './containers/documento-cadastro-container/documento-cadastro-container.component';
+import { MaterialLinkDetailContainerComponent } from './containers/material-link-detail-container/material-link-detail-container.component';
 
 const routes: Routes = [
   {
@@ -15,6 +16,10 @@ const routes: Routes = [
   {
     path: 'search',
     component: ConsultaContainerComponent,
+  },
+  {
+    path: 'detail/:id',
+    component: MaterialLinkDetailContainerComponent,
   },
   {
     path: 'guia-cadastro',

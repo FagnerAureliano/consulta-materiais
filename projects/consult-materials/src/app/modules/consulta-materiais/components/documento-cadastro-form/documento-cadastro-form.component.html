@@ -58,7 +58,8 @@
           [ngClass]="{
             'ng-dirty ng-invalid':
               form.get('nuxeoPathId')?.invalid &&
-              (form.get('nuxeoPathId')?.dirty || form.get('nuxeoPathId')?.touched)
+              (form.get('nuxeoPathId')?.dirty ||
+                form.get('nuxeoPathId')?.touched)
           }"
           formControlName="nuxeoPathId"
           placeholder="Selecione o local"
@@ -67,11 +68,11 @@
           [disabled]="!!material"
         >
           <ng-template let-item pTemplate="selectedItem">
-            <span>{{ item.id }} - {{ item.scope | wordConverter }}</span>
+            <span> - {{ item.scope | wordConverter }}</span>
           </ng-template>
 
           <ng-template let-item pTemplate="item">
-            <span>{{ item.id }} - {{ item.scope | wordConverter }}</span>
+            <span> - {{ item.scope | wordConverter }}</span>
           </ng-template>
         </p-dropdown>
       </div>
@@ -102,7 +103,7 @@
         [multiple]="false"
         accept="application/*,.csv, image/*, video/*"
         (onSelect)="onShowUpload()"
-        [customUpload]="true" 
+        [customUpload]="true"
         [showUploadButton]="false"
       >
         <ng-template pTemplate="content">
@@ -157,7 +158,7 @@
     <div class="flex">
       <label class="mb-1 text-500">Descrição do documento</label>
     </div>
-    
+
     <textarea
       class="w-full pl-3"
       formControlName="description"
