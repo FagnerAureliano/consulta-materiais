@@ -1,23 +1,21 @@
 import { Injectable } from '@angular/core';
 import {
+  ActivatedRouteSnapshot,
   Resolve,
   RouterStateSnapshot,
-  ActivatedRouteSnapshot,
 } from '@angular/router';
-import { first } from 'rxjs/operators';
-import { Observable, forkJoin } from 'rxjs';
-
+import { Observable, forkJoin, of } from 'rxjs';
+import { first, switchMap } from 'rxjs/operators';
+import { Scopes } from '../../../models/scopes.models';
 import { FAQService } from '../../../services/faq.service';
 import { StreamMaterialsService } from '../../../services/stream-materiais.service';
-import { SharedDataService } from 'projects/shared/src/lib/services/shared-data.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class FaqCreateResolver implements Resolve<any> {
+export class FAQCreateResolver implements Resolve<any> {
   constructor(
     private faqService: FAQService,
-    private sharedDataService: SharedDataService,
     private streamService: StreamMaterialsService
   ) {}
 
@@ -26,22 +24,24 @@ export class FaqCreateResolver implements Resolve<any> {
     state: RouterStateSnapshot
   ): Observable<any> {
     let urlSegments = route['_routerState'].url.split('/');
-    const scope = urlSegments[3];
-    this.sharedDataService.setActualScopes(scope);
+    const actualScope = urlSegments[3];
 
-    if (route.params.id) {
-      return forkJoin({
-        question: this.faqService
-          .getQuestionsByID(route.params.id)
-          .pipe(first()),
-        questions: this.faqService.getQuestionsByScope(scope).pipe(first()),
-        allScopes: this.streamService.getScopes().pipe(first()),
-      });
-    } else {
-      return forkJoin({
-        questions: this.faqService.getQuestionsByScope(scope).pipe(first()),
-        allScopes: this.streamService.getScopes().pipe(first()),
-      });
-    }
+    return this.streamService.getScopes().pipe(
+      first(),
+      switchMap((allScopes) => {
+        let pathScope: Scopes = allScopes.find(
+          (res) => res.scope === actualScope.toUpperCase()
+        );
+        if (!pathScope) {
+          pathScope = allScopes[1];
+        }
+        return forkJoin({
+          scopes: of(allScopes),
+          questions: this.faqService
+            .searchQuestions('', pathScope.id)
+            .pipe(first()),
+        });
+      })
+    );
   }
 }

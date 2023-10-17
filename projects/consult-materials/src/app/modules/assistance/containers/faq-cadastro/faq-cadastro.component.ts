@@ -1,16 +1,8 @@
 import { Location } from '@angular/common';
-import {
-  ChangeDetectorRef,
-  Component,
-  EventEmitter,
-  Input,
-  OnDestroy,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { OnInit, OnDestroy, Component, ChangeDetectorRef } from '@angular/core';
 import { MessageService } from 'primeng/api';
-import { catchError, tap } from 'rxjs/operators';
 import { Subscription, throwError } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -19,6 +11,7 @@ import { Scopes } from 'projects/consult-materials/src/app/models/scopes.models'
 import { FAQService } from 'projects/consult-materials/src/app/services/faq.service';
 import { Question } from 'projects/consult-materials/src/app/models/question.models';
 import { SearchMaterialsService } from 'projects/consult-materials/src/app/services/search-materiais.service';
+import { FAQLinksService } from 'projects/shared/src/lib/services/faq-links.service';
 
 @Component({
   selector: 'app-faq-cadastro',
@@ -27,8 +20,6 @@ import { SearchMaterialsService } from 'projects/consult-materials/src/app/servi
 })
 export class FaqCadastroComponent implements OnInit, OnDestroy {
   private subs$: Subscription[] = [];
-
-  @Output() cadastroEmitter = new EventEmitter();
 
   _scopes: Scopes[];
   _changedTags: Tag[];
@@ -48,6 +39,7 @@ export class FaqCadastroComponent implements OnInit, OnDestroy {
     private faqService: FAQService,
     private cdref: ChangeDetectorRef,
     private messageService: MessageService,
+    private faqLinksService: FAQLinksService,
     private searchService: SearchMaterialsService
   ) {
     this.subs$.push(
@@ -106,7 +98,22 @@ export class FaqCadastroComponent implements OnInit, OnDestroy {
         this.onFillForm();
       }, 300);
     }
+    this.onIncludesLink();
   }
+
+  onIncludesLink(): void {
+    this.subs$.push(
+      this.faqLinksService.materialLinkUUID$.subscribe((res) => {
+        if (res) {
+          const UUIDs = res.map((item) => {
+            return { documentUid: item.documentUid };
+          });
+          this.form.get('attachments').setValue(UUIDs);
+        }
+      })
+    );
+  }
+
   onFillForm(): void {
     if (this.question) {
       const faqScope = this._scopes.find(
@@ -115,9 +122,23 @@ export class FaqCadastroComponent implements OnInit, OnDestroy {
       this.form.get('nuxeoPathId').setValue(faqScope.id);
       this.form.get('content').setValue(this.question.content);
       this.form.get('response').setValue(this.question.response);
+      this.form.get('attachments').setValue(this.question.attachments);
       // Devido ao'Tag Input' ser do Shared, utilizando uma lib externa,
       // é necessário enviar a lista da tag para o mesmo e ser tratada por lá.
       this._changedTags = this.question.tags;
+
+      let attachmentArray: any[] = [];
+
+      if (this.question.attachments.length > 0) {
+        this.question.attachments.forEach((attachment) => {
+          this.searchService
+            .getDocumentByID(attachment.documentUid)
+            .subscribe((res: any) => {
+              attachmentArray.push({ title: res.title, documentUid: res.id });
+              this.faqLinksService.setLinkUUID(attachmentArray);
+            });
+        });
+      }
     }
   }
 

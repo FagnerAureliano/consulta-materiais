@@ -8,7 +8,7 @@
     </div>
 
     <div class="capitalize pr-1 cursor-pointer font-light">
-      {{ actualScope.scope | wordConverter }}
+      {{ actualScope?.scope | wordConverter }}
     </div>
   </div>
   <div class="border-1 p-3 border-200 border-round">
@@ -59,6 +59,7 @@
           (removeEmitter)="handleRemoveQuestion(question)"
           (questionViewEmitter)="onQuestionView($event)"
           (editEmitter)="handleEdit($event)"
+          (linkRedirectEmitter)="handleLinkRedirect($event)"
         ></app-faq-detail>
       </div>
     </div>
@@ -68,7 +69,7 @@
       >
         <div class="text-600 font-semibold">
           Ainda não há perguntas frequentes para
-          {{ actualScope.scope | wordConverter }}
+          {{ actualScope?.scope | wordConverter }}
         </div>
       </div>
     </ng-template>

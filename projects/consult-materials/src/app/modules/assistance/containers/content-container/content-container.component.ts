@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MenuItem } from 'primeng/api';
+import { FAQLinksService } from 'projects/shared/src/lib/services/faq-links.service';
 import { HasContentService } from 'projects/shared/src/lib/services/has-content.service';
 import { Subscription } from 'rxjs';
 
@@ -20,7 +21,8 @@ export class ContentContainerComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private hasContent: HasContentService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private faqLinksService: FAQLinksService
   ) {}
 
   ngOnDestroy(): void {
@@ -31,6 +33,7 @@ export class ContentContainerComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((params) => {
       this.atualScope = params.scope;
+      this.faqLinksService.setLinkUUID(null)
     });
 
     this.hasContent.setActive(true);

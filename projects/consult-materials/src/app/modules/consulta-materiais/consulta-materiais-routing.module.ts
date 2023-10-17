@@ -1,12 +1,11 @@
 import { NgModule } from '@angular/core';
-import { ContentResolver } from '../assistance/resolver/content.resolver';
-import { CadastroResolver } from './resolver/cadastro.resolver';
 import { RouterModule, Routes } from '@angular/router';
-// import { FaqContainerComponent } from './containers/faq-container/faq-container.component';
-import { ContentContainerComponent } from '../assistance/containers/content-container/content-container.component';
+
+import { CadastroResolver } from './resolver/cadastro.resolver';
 import { ConsultaContainerComponent } from './containers/consulta-container/consulta-container.component';
 import { GuiaCadastroContainerComponent } from './containers/guia-cadastro-container/guia-cadastro-container.component';
 import { DocumentoCadastroContainerComponent } from './containers/documento-cadastro-container/documento-cadastro-container.component';
+import { MaterialLinkDetailContainerComponent } from './containers/material-link-detail-container/material-link-detail-container.component';
 
 const routes: Routes = [
   {
@@ -17,6 +16,10 @@ const routes: Routes = [
   {
     path: 'search',
     component: ConsultaContainerComponent,
+  },
+  {
+    path: 'detail/:id',
+    component: MaterialLinkDetailContainerComponent,
   },
   {
     path: 'guia-cadastro',
@@ -40,26 +43,6 @@ const routes: Routes = [
       },
     ],
   },
-  // {
-  //   path: 'content/:scope',
-  //   component: ContentContainerComponent,
-  //   resolve: { data: ContentResolver },
-  //   children: [
-  //     {
-  //       path: '',
-  //       redirectTo: 'faq',
-  //       pathMatch: 'full',
-  //     },
-  //     {
-  //       path: 'faq',
-  //       component: FaqContainerComponent,
-  //     },
-  //     {
-  //       path: 'other',
-  //       component: FaqContainerComponent,
-  //     },
-  //   ],
-  // },
 ];
 
 @NgModule({

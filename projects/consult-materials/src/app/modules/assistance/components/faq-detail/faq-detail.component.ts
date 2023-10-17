@@ -1,6 +1,4 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Router } from '@angular/router';
-import { Role, UserService } from '@shared';
 import { Question } from 'projects/consult-materials/src/app/models/question.models';
 import { Tag } from 'projects/consult-materials/src/app/models/search.models';
 
@@ -10,13 +8,14 @@ import { Tag } from 'projects/consult-materials/src/app/models/search.models';
   styleUrls: ['./faq-detail.component.scss'],
 })
 export class FaqDetailComponent implements OnInit {
-  @Output() tagEmitter = new EventEmitter();
-  @Output() editEmitter = new EventEmitter();
-  @Output() removeEmitter = new EventEmitter();
-  @Output() questionViewEmitter = new EventEmitter();
   @Input() question: Question;
   @Input() isActionBtnDisabled: boolean;
   @Input() hasPermission: boolean; // ADMIN OR MANAGER
+  @Output() tagEmitter = new EventEmitter();
+  @Output() editEmitter = new EventEmitter();
+  @Output() removeEmitter = new EventEmitter();
+  @Output() linkRedirectEmitter = new EventEmitter();
+  @Output() questionViewEmitter = new EventEmitter();
 
   constructor() {}
 
@@ -33,5 +32,8 @@ export class FaqDetailComponent implements OnInit {
   }
   onQuestionView(question: Question): void {
     this.questionViewEmitter.emit(question.id);
+  }
+  handleLinkRedirect(link: string): void {
+    this.linkRedirectEmitter.emit(link);
   }
 }
