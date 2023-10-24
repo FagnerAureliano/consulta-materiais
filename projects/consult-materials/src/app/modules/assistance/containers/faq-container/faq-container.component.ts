@@ -49,11 +49,13 @@ export class FaqContainerComponent implements OnInit, OnDestroy {
 
     this.subs$.push(
       this.route.data.subscribe((res) => {
-        this.questions = res.data.questions;
+        this.questions = res.data.questions.sort(
+          (a, b) => b.requestCount - a.requestCount
+        );
         this._scopes = res.data.scopes;
       })
     );
-
+    
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe(() => {
