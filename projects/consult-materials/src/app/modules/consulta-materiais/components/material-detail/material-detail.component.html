@@ -44,7 +44,7 @@
   </div>
   <div class="border-round border-1 border-200 p-3">
     <div *ngIf="material?.type === 'Note'; else files">
-      <div *ngIf="note_material != null; else loading">
+      <div *ngIf="note_material != null">
         <div
           [innerHTML]="note_material"
           class="text-left"
@@ -54,15 +54,22 @@
     </div>
 
     <ng-template #files>
-      <div *ngIf="file_material != null; else loading">
-        <embed
-          *ngIf="file_material"
-          [src]="file_material"
-          [type]="mimeType"
-          [title]="material?.title"
-          width="100%"
-          [height]="mimeType.includes('image') ? 'auto' : '450px'"
-        />
+      <div *ngIf="file_material != null">
+        <ng-container *ngIf="mimeType.includes('video'); else embed">
+          <video #meuVideo controls id="video" width="100%">
+            <source [src]="file_material" [type]="mimeType" />
+            Seu navegador não suporta o elemento de vídeo.
+          </video>
+        </ng-container>
+        <ng-template #embed>
+          <embed
+            [src]="file_material"
+            [type]="mimeType"
+            [title]="material?.title"
+            width="100%"
+            [height]="mimeType.includes('image') ? 'auto' : '650px'"
+          />
+        </ng-template>
       </div>
     </ng-template>
 

@@ -23,38 +23,34 @@
 </div>
 <div class="border-round border-1 border-200 p-3">
   <div *ngIf="material?.type === 'Note'; else files">
-    <div *ngIf="note_material != null; else loading">
-      <div
-        [innerHTML]="note_material"
-        class="text-left"
-        style="min-height: 30rem"
-      ></div>
+    <div *ngIf="note_material != null">
+      <div [innerHTML]="note_material" class="text-left" style="min-height: 30rem"></div>
     </div>
   </div>
-
+  
   <ng-template #files>
-    <div *ngIf="file_material != null; else loading">
-      <embed
-        *ngIf="file_material"
-        [src]="file_material"
-        [type]="mimeType"
-        [title]="material?.title"
-        width="100%"
-        [height]="mimeType.includes('image') ? 'auto' : '450px'"
-      />
+    <div *ngIf="file_material != null">
+      <ng-container *ngIf="mimeType.includes('video'); else embed">
+        <video #meuVideo controls id="video" width="100%">
+          <source [src]="file_material" [type]="mimeType" />
+          Seu navegador não suporta o elemento de vídeo.
+        </video>
+      </ng-container>
+      <ng-template #embed>
+        <embed
+          [src]="file_material"
+          [type]="mimeType"
+          [title]="material?.title"
+          width="100%"
+          [height]="mimeType.includes('image') ? 'auto' : '450px'"
+        />
+      </ng-template>
     </div>
   </ng-template>
-
+  
   <ng-template #loading>
-    <div
-      class="w-full flex align-items-center justify-content-center h-30rem bg-gray-50"
-    >
-      <p-progressSpinner
-        [style]="{ width: '50px', height: '50px' }"
-        strokeWidth="3"
-        styleClass="custom-spinner"
-        animationDuration=".7s"
-      ></p-progressSpinner>
+    <div class="w-full flex align-items-center justify-content-center h-30rem bg-gray-50">
+      <p-progressSpinner [style]="{ width: '50px', height: '50px' }" strokeWidth="3" styleClass="custom-spinner" animationDuration=".7s"></p-progressSpinner>
     </div>
   </ng-template>
 
@@ -63,8 +59,8 @@
       <p-tag
         class="uppercase border-white border-right-1 font-bold cursor-pointer"
         value="#{{ file.label }}"
-        ></p-tag>
-        <!-- (click)="handleTagSearch(file.label)" -->
+      ></p-tag>
+      <!-- (click)="handleTagSearch(file.label)" -->
     </div>
   </div>
 
