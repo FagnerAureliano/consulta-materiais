@@ -1,5 +1,7 @@
 :host {
-  text-align: -webkit-center;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
   .header-content {
     text-align-last: left;
   }

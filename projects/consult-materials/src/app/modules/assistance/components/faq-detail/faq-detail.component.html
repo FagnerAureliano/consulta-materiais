@@ -11,7 +11,12 @@
           </div>
           <div class="flex">
             <div *ngFor="let item of question.attachments; let i = index">
-              <a class="p-1 underline text-blue-500 cursor-pointer" (click)="handleLinkRedirect(item)"> Link {{ i + 1 }}</a>
+              <a
+                class="p-1 underline text-blue-500 cursor-pointer"
+                (click)="handleLinkRedirect(item)"
+              >
+                Anexo {{ i + 1 }}</a
+              >
             </div>
           </div>
         </div>
