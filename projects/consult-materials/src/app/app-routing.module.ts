@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '@auth';
-import { Role } from '@shared';
 import { environment } from '../environments/environment';
 
 const routes: Routes = [
@@ -9,7 +8,7 @@ const routes: Routes = [
     path: '',
     canActivate: [AuthGuard],
     canActivateChild: [AuthGuard],
-    data: { roles: [Role.USER] },
+    data: {},
     children: [
       {
         path: '',
