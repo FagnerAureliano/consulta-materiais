@@ -66,9 +66,9 @@ export class AuthGuard extends KeycloakAuthGuard implements CanActivateChild {
         'Você não tem permissão para acessar essa área do sistema. Entre em contato com o admnistrador ou abra um chamado para a equipe responsável'
       );
 
-      if (!this.roles.some((role) => role === Role.USER.replace('ROLE_', ''))) {
-        this.keycloak.logout('http://www.sti.intraer/index.php/sisplaer.html');
-      }
+      // if (!this.roles.some((role) => role === Role.USER.replace('ROLE_', ''))) {
+      //   this.keycloak.logout('http://www.sti.intraer/index.php/sisplaer.html');
+      // }
 
       // this.router.navigate(['403']);
       // this.loading.end();
