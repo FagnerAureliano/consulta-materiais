@@ -1,5 +1,21 @@
-<p-card class="flex flex-column w-full h-30rem">
-  <div class="">
-    <p>movies-container works!</p>
+<p-card class="flex flex-column">
+  <div
+    class="flex text-left flex pl-1 text-gray-700 w-full p-2 border-round l-form-header mb-2"
+  >
+    <div class="pl-2">
+      <i class="pi pi-folder pr-1"></i>
+      <i class="pi pi-angle-right"></i>
+    </div>
+    <div class="capitalize pr-1 cursor-pointer font-light">
+      {{ actualScope | wordConverter }}
+    </div>
+    <div>
+      <!-- <iframe width="560" height="315" src="videos[0]" frameborder="0" allowfullscreen></iframe> -->
+    </div>
+    <div *ngFor="let item of videos">
+      <div>
+        <!-- <iframe width="560" height="315" src="item" frameborder="0" allowfullscreen></iframe> -->
+      </div>
+    </div>
   </div>
 </p-card>

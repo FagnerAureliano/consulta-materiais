@@ -63,7 +63,7 @@ export class AuthGuard extends KeycloakAuthGuard implements CanActivateChild {
 
     if (!requiredRoles.some((role) => this.roles.includes(role))) {
       alert(
-        'Você não tem permissão para acessar essa área do sistema. Entre em contato com o admnistrador ou abra um chamado para a equipe responsável'
+        'Você não tem permissão para acessar essa área do sistema. Entre em contato com o administrador ou abra um chamado para a equipe responsável'
       );
 
       // if (!this.roles.some((role) => role === Role.USER.replace('ROLE_', ''))) {

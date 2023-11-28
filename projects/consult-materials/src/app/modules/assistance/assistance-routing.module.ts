@@ -5,6 +5,7 @@ import { FaqCadastroComponent } from './containers/faq-cadastro/faq-cadastro.com
 import { FaqContainerComponent } from './containers/faq-container/faq-container.component';
 import { ContentContainerComponent } from './containers/content-container/content-container.component';
 import { MaterialsLinksContainerComponent } from './containers/materials-links-container/materials-links-container.component';
+import { MoviesContainerComponent } from './containers/movies-container/movies-container.component';
 
 const routes: Routes = [
   {
@@ -45,7 +46,8 @@ const routes: Routes = [
       },
       {
         path: 'video',
-        component: MaterialsLinksContainerComponent,
+        component: MoviesContainerComponent,
+        resolve: { data: FAQCreateResolver },
       },
       {
         path: 'guide',

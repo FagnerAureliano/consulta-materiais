@@ -1,9 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MenuItem } from 'primeng/api';
+import { Subscription } from 'rxjs';
+
 import { FAQLinksService } from 'projects/shared/src/lib/services/faq-links.service';
 import { HasContentService } from 'projects/shared/src/lib/services/has-content.service';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-content-container',
@@ -12,11 +13,11 @@ import { Subscription } from 'rxjs';
 })
 export class ContentContainerComponent implements OnInit, OnDestroy {
   private subs$: Subscription[] = [];
-  activeIndex: number = 0;
 
+  atualScope: string;
+  activeIndex: number = 0;
   _tabMenuItems: MenuItem[];
   _activeTabMenuItem: MenuItem;
-  atualScope: any;
 
   constructor(
     private router: Router,
@@ -33,7 +34,7 @@ export class ContentContainerComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((params) => {
       this.atualScope = params.scope;
-      this.faqLinksService.setLinkUUID(null)
+      this.faqLinksService.setLinkUUID(null);
     });
 
     this.hasContent.setActive(true);
@@ -46,7 +47,7 @@ export class ContentContainerComponent implements OnInit, OnDestroy {
       {
         label: 'Video Aulas',
         command: () => this.navigateTo('video'),
-        disabled: true,
+        disabled: false,
       },
       {
         label: 'Guias Rápido',
@@ -64,6 +65,7 @@ export class ContentContainerComponent implements OnInit, OnDestroy {
     );
   }
   navigateTo(scope: string) {
+    localStorage.setItem('tabMenuLabel', scope);
     this.router.navigate([
       `/assistance/content/${
         this.atualScope ? this.atualScope : null

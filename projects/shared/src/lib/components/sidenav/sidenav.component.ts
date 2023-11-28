@@ -39,11 +39,14 @@ export class SidenavComponent implements OnInit {
   }
 
   navigateToContent(scope: string) {
+    const label = localStorage.getItem('tabMenuLabel');
     this._isHidden = !this._isHidden;
 
     //Responsável por guardar o scopo atual utilizado no módulo FAQ
     localStorage.setItem('actualScope', scope);
 
-    this.router.navigate([`/assistance/content/${scope}`]);
+    this.router.navigate([
+      `/assistance/content/${scope}/${label ? label : null}`,
+    ]);
   }
 }
