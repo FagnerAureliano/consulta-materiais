@@ -6,7 +6,7 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { FormGroup, Validators } from '@angular/forms';
+import { UntypedFormGroup, Validators } from '@angular/forms';
 import { FileUpload } from 'primeng/fileupload';
 import { Scopes } from 'projects/consult-materials/src/app/models/scopes.models';
 import {
@@ -23,7 +23,7 @@ export class DocumentoCadastroFormComponent implements OnInit {
   @ViewChild('fileUpload') fileUpload: FileUpload;
   @Output() tagsEmitter = new EventEmitter();
   @Output() downloadDoc = new EventEmitter();
-  @Input() form: FormGroup;
+  @Input() form: UntypedFormGroup;
   @Input() whitelist: string[] = [];
   @Input() scopes: Scopes[];
   @Input() material: Material;

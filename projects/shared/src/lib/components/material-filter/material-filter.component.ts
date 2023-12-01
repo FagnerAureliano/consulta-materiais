@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { ClearService } from '../../services/clear.service';
@@ -15,11 +15,11 @@ import { SearchObjectParams } from '../../models/search-object-params';
   styleUrls: ['./material-filter.component.scss'],
 })
 export class MaterialFilterComponent implements OnInit {
-  _form: FormGroup;
+  _form: UntypedFormGroup;
   scopes: Scopes[];
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private router: Router,
     private route: ActivatedRoute,
     private clearService: ClearService,

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { Scopes } from 'projects/consult-materials/src/app/models/scopes.models';
 import {
   Material,
@@ -12,7 +12,7 @@ import {
   styleUrls: ['./guia-cadastro-form.component.scss'],
 })
 export class GuiaCadastroFormComponent implements OnInit {
-  @Input() form: FormGroup;
+  @Input() form: UntypedFormGroup;
   @Input() whitelist: string[];
   @Input() scopes: Scopes[];
   @Output() tagsEmitter = new EventEmitter();

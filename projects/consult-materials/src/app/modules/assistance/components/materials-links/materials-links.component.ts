@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { FormBuilder, FormControl } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, filter } from 'rxjs/operators';
 
 import { FAQLinksService } from 'projects/shared/src/lib/services/faq-links.service';
@@ -18,10 +18,10 @@ export class MaterialsLinksComponent implements OnInit {
 
   selectedLinks: any[] = [];
   isSelected: boolean = true;
-  _searchField: FormControl = this.fb.control('');
+  _searchField: UntypedFormControl = this.fb.control('');
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private faqLinksService: FAQLinksService
   ) {
     faqLinksService.materialLinkUUID$.subscribe((res) => {

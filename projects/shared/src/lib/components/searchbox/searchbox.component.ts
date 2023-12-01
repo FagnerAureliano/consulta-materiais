@@ -5,7 +5,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { FormBuilder, FormControl } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl } from '@angular/forms';
 
 import { Observable, of, timer } from 'rxjs';
 import { Subscription } from 'rxjs/internal/Subscription';
@@ -31,7 +31,7 @@ import { SearchBoxService } from '../../services/searchbox.service';
 export class SearchboxComponent implements OnInit, OnDestroy {
   private subs$: Subscription[] = [];
 
-  _searchField: FormControl;
+  _searchField: UntypedFormControl;
 
   @Output() changed: EventEmitter<
     [
@@ -41,7 +41,7 @@ export class SearchboxComponent implements OnInit, OnDestroy {
   > = new EventEmitter();
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private loading: LoadingBarService,
     private searchBoxService: SearchBoxService
   ) {

@@ -8,7 +8,7 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import Tagify from '@yaireo/tagify';
 
 @Component({
@@ -40,7 +40,7 @@ export class TagInputComponent implements OnInit, OnChanges {
   ngOnInit(): void {}
   ngAfterViewInit() {
     const inputElement = this.tagInputRef.nativeElement;
-    const tagsControl = new FormControl();
+    const tagsControl = new UntypedFormControl();
 
     this.tagify = new Tagify(inputElement, {
       enforceWhitelist: false,

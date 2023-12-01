@@ -8,7 +8,7 @@ import {
   switchMap,
 } from 'rxjs/operators';
 import { Subscription, throwError } from 'rxjs';
-import { FormBuilder, FormControl } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 
@@ -30,13 +30,13 @@ export class FaqContainerComponent implements OnInit, OnDestroy {
   searchAllCheck: boolean = false;
 
   _scopes: Scopes[];
-  _searchField: FormControl;
+  _searchField: UntypedFormControl;
   _isActionBtnDisabled = false;
   _hasPermission: boolean; //ALLOW TO CREATE/EDIT/EXCLUDE BY ADMIN OR MANAGER
 
   constructor(
     private router: Router,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private route: ActivatedRoute,
     private faqService: FAQService,
     private userService: UserService,

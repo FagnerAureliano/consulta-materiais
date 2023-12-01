@@ -6,7 +6,7 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { Subscription, throwError } from 'rxjs';
@@ -27,7 +27,7 @@ export class GuiaCadastroContainerComponent
 {
   private subs$: Subscription[] = [];
   isMobileScreen: boolean = false;
-  _form: FormGroup;
+  _form: UntypedFormGroup;
   _scopes: Scopes[];
   _allScopes: Scopes[];
   _whitelist: string[];
@@ -37,7 +37,7 @@ export class GuiaCadastroContainerComponent
   hasDocument: boolean = false;
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private location: Location,
     private route: ActivatedRoute,
     private cdr: ChangeDetectorRef,

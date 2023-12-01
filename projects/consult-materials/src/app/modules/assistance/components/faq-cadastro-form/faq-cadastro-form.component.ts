@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { Tag } from 'projects/consult-materials/src/app/models/search.models';
 import { Scopes } from 'projects/consult-materials/src/app/models/scopes.models';
 
@@ -10,7 +10,7 @@ import { Scopes } from 'projects/consult-materials/src/app/models/scopes.models'
 })
 export class FaqCadastroFormComponent implements OnInit {
   @Output() tagsEmitter = new EventEmitter();
-  @Input() form: FormGroup;
+  @Input() form: UntypedFormGroup;
   @Input() scopes: Scopes[];
   @Input() actualScope: string;
   @Input() _changedTags: Tag[];

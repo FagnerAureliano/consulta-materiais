@@ -4,7 +4,7 @@ import { MessageService } from 'primeng/api';
 import { Subscription, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 
 import { Tag } from 'projects/consult-materials/src/app/models/search.models';
 import { Scopes } from 'projects/consult-materials/src/app/models/scopes.models';
@@ -26,14 +26,14 @@ export class FaqCadastroComponent implements OnInit, OnDestroy {
   _whitelist: string[];
   _actualScope: string;
 
-  form: FormGroup;
+  form: UntypedFormGroup;
   question: Question;
   idQuestion: string;
   isEdit: boolean = false;
   whitelist: string[] = [];
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private location: Location,
     private route: ActivatedRoute,
     private faqService: FAQService,

@@ -3,7 +3,7 @@ import { MessageService } from 'primeng/api';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription, throwError } from 'rxjs';
 import { catchError, finalize, tap } from 'rxjs/operators';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import {
   Material,
@@ -21,7 +21,7 @@ import { StreamMaterialsService } from 'projects/consult-materials/src/app/servi
 export class DocumentoCadastroContainerComponent implements OnInit, OnDestroy {
   private subs$: Subscription[] = [];
 
-  _form: FormGroup;
+  _form: UntypedFormGroup;
   _whitelist: string[];
   _scopes: Scopes[];
   _allScopes: Scopes[];
@@ -31,7 +31,7 @@ export class DocumentoCadastroContainerComponent implements OnInit, OnDestroy {
   hasDocument: boolean = false;
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private location: Location,
     private route: ActivatedRoute,
     private cdref: ChangeDetectorRef,

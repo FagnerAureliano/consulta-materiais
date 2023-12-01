@@ -220,7 +220,6 @@
       }
     }
   },
-  "defaultProject": "shared",
   "cli": {
     "analytics": false
   }
