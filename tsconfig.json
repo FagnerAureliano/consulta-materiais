@@ -9,7 +9,7 @@
   "compilerOptions": {
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
-    "forceConsistentCasingInFileNames": true,
+    "forceConsistentCasingInFileNames": true, 
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "sourceMap": true,
@@ -18,7 +18,7 @@
     "experimentalDecorators": true,
     "moduleResolution": "node",
     "importHelpers": true,
-    "target": "ES2022",
+    "target": "es2020",
     "module": "ES2020",
     "lib": [
       "es2018",
@@ -41,8 +41,7 @@
       ]
     },
     "strictPropertyInitialization": false,
-    "strictNullChecks": false,
-    "esModuleInterop": true,
-    "useDefineForClassFields": false
+    "strictNullChecks": false, 
+    "esModuleInterop": true
   }
 }
