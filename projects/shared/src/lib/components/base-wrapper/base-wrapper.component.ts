@@ -1,6 +1,7 @@
 import {
   Component,
   HostListener,
+  Inject,
   Input,
   OnDestroy,
   OnInit,
@@ -35,7 +36,7 @@ export class BaseWrapperComponent implements OnInit, OnDestroy {
 
   isToggleScreenOpen: boolean;
   screenWidth: number;
-  isMobileScreen: boolean
+  isMobileScreen: boolean;
 
   public tokenDuration: moment.Duration | undefined;
 
@@ -44,6 +45,11 @@ export class BaseWrapperComponent implements OnInit, OnDestroy {
   constructor(
     public keycloak: KeycloakService,
     private router: Router,
+    @Inject('version') private version,
+    @Inject('homolog') private homolog,
+    @Inject('production') private production,
+    @Inject('development') private development,
+
     // public loading: LoadingBarService,
     public userService: UserService
   ) {
@@ -66,6 +72,25 @@ export class BaseWrapperComponent implements OnInit, OnDestroy {
     );
 
     this.refreshTokenTime();
+    this._versionText = `v${version}`;
+
+    if (homolog) {
+      this._versionText += ' - HOMOLOG';
+    }
+
+    if (development) {
+      this._versionText += ' - DEV';
+    }
+  }
+  helpNavigate(): void {
+    // Gera a URL absoluta da rota desejada
+    // const url = this.router.createUrlTree(['/consult-materials/materials/search']).toString();
+
+    // Abre a URL em uma nova aba
+    // window.open(url, '_blank');
+
+    // Alternativamente, você pode usar o código abaixo sem criar a URL absoluta diretamente
+    window.open('consult-materials/#/help', '_blank');
   }
 
   toggleUserRolePanel(): void {
@@ -84,10 +109,8 @@ export class BaseWrapperComponent implements OnInit, OnDestroy {
   ngOnInit(): void {}
 
   ngOnDestroy(): void {
-    this.subs$.forEach((sub$) => 
-      sub$.unsubscribe()
-    );
-    
+    this.subs$.forEach((sub$) => sub$.unsubscribe());
+
     clearInterval(this._sessionInterval);
   }
 
@@ -109,7 +132,10 @@ export class BaseWrapperComponent implements OnInit, OnDestroy {
     return (
       this.userService.user?.username
         .split(' ')
-        .map((name: string) => `${name[0].toUpperCase()}${name.slice(1).toLowerCase()}`)
+        .map(
+          (name: string) =>
+            `${name[0].toUpperCase()}${name.slice(1).toLowerCase()}`
+        )
         .concat('-')
         .concat(this.userService.user.pessoa.organizacaoSigla || '?')
         .join(' ') || 'Usuário não identificado'
@@ -149,7 +175,7 @@ export class BaseWrapperComponent implements OnInit, OnDestroy {
               if (this.keycloak.isTokenExpired()) {
                 this.handleLogout();
               }
-              
+
               this.tokenDuration = moment.duration(
                 this.tokenDuration.asMilliseconds() - interval,
                 'ms'

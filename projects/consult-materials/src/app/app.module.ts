@@ -11,6 +11,7 @@ import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AssistanceModule } from './modules/assistance/assistance.module';
+import { HelpModule } from './modules/help/help.module';
 
 const authProvider = authProviderBuilder({
   url: environment.KEYCLOAK_URL,
@@ -28,9 +29,15 @@ const authProvider = authProviderBuilder({
     BaseWrapperModule,
     KeycloakAngularModule,
     BrowserAnimationsModule,
+    HelpModule,
   ],
   providers: [
     authProvider,
+    { provide: 'homolog', useValue: environment.homolog },
+    { provide: 'version', useValue: environment.version },
+    { provide: 'production', useValue: environment.production },
+    { provide: 'development', useValue: environment.development },
+
     { provide: 'production', useValue: environment.production },
     { provide: 'FAQ_API_ENDPOINT', useValue: environment.FAQ_API_ENDPOINT }, 
     { provide: 'SEARCH_FRONT_URL', useValue: environment.SEARCH_FRONT_URL },

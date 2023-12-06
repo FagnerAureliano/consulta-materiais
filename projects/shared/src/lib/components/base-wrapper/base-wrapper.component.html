@@ -201,28 +201,34 @@
         ></p-button>
       </div>
     </div>
-    <!-- <div
+    <div
       class="c-sub-header flex pl-3 pr-3 align-items-center justify-content-between"
     >
       <div>
         <a [href]="basePath">
-          <button
+          <!-- <button
             pButton
             pRipple
             type="button"
             icon="pi pi-home"
-            class="c-sub-btn"
-          ></button>
+            class="c-sub-btn p-button-sm"
+          ></button> -->
         </a>
       </div>
-      <a href="#" target="_blank" rel="noopener">
+      <a (click)="helpNavigate()" target="_blank" rel="noopener">
+        <!-- <p-button
+          [label]="_versionText"
+          [disabled]="true"
+          icon="pi pi-info-circle"
+          styleClass="c-sub-header__version-btn p-button-sm mr-2"
+        ></p-button> -->
         <p-button
           label="AJUDA"
           icon="pi pi-question-circle"
-          styleClass="c-sub-header__help-btn"
+          styleClass="c-sub-header__help-btn  p-button-sm"
         ></p-button>
       </a>
-    </div> -->
+    </div>
   </header>
   <div class="l-body">
     <shrd-sidenav [basePath]="basePath"></shrd-sidenav>

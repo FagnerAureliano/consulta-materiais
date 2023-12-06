@@ -1,0 +1,13 @@
+<div class="flex w-full justify-content-center">
+  <div class="border-round border-1 border-200 p-3 w-8 ">
+    <p-card>
+      <embed
+        [src]="file_material"
+        [type]="mimeType"
+        [title]="material?.title"
+        width="100%"
+        [height]="mimeType?.includes('image') ? 'auto' : '650px'"
+      />
+    </p-card>
+  </div>
+</div>

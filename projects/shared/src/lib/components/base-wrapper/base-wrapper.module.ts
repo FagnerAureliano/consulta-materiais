@@ -29,23 +29,29 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { AccordionModule } from 'primeng/accordion';
 import { LoadingBarInterceptor } from '../../interceptors/loading-bar-interceptor';
 import { ProgressBarModule } from 'primeng/progressbar';
+import { DialogModule } from 'primeng/dialog';
 
+const PRIMENG_MODUES = [
+  CardModule,
+  ToastModule,
+  AvatarModule,
+  ButtonModule,
+  DialogModule,
+  SidenavModule,
+  AccordionModule,
+  ProgressBarModule,
+  ConfirmPopupModule,
+  OverlayPanelModule,
+];
 @NgModule({
   declarations: [BaseWrapperComponent],
   imports: [
-    HttpClientModule,
     CommonModule,
-    AvatarModule,
-    ButtonModule,
-    LoadingBarModule,
-    ToastModule,
     RouterModule,
-    SidenavModule,
-    CardModule,
-    ConfirmPopupModule,
-    OverlayPanelModule,
-    AccordionModule,
-    ProgressBarModule
+    HttpClientModule,
+    LoadingBarModule,
+
+    PRIMENG_MODUES,
   ],
   exports: [BaseWrapperComponent],
   providers: [

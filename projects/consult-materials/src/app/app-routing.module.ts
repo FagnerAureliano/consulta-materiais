@@ -30,6 +30,13 @@ const routes: Routes = [
           ),
       },
       {
+        path: 'help',
+        loadChildren: () =>
+          import('./modules/help/help.module').then(
+            (m) => m.HelpModule
+          ),
+      },
+      {
         path: '**',
         children: [],
         resolve: {

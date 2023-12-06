@@ -102,10 +102,21 @@
       }
 
       // Overrides primeng btn class to allow a full white button
+      ::ng-deep .c-sub-header__version-btn {
+      
+        color: var(--grey) !important;
+        border: 1px solid !important;
+        height: 1.6rem;
+        margin: 0.2rem 0 0.1rem 0;
+        background-color: var(--primary);
+      }
       ::ng-deep .c-sub-header__help-btn {
-        border-color: var(--white) !important;
+      
         color: var(--white) !important;
         border: 1px solid !important;
+        height: 1.6rem;
+        margin: 0.2rem 0 0.1rem 0;
+        background-color: var(--primary);
       }
     }
   }
