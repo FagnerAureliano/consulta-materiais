@@ -215,19 +215,25 @@
           ></button> -->
         </a>
       </div>
-      <a (click)="helpNavigate()" target="_blank" rel="noopener">
-        <!-- <p-button
-          [label]="_versionText"
-          [disabled]="true"
+      <div rel="noopener">
+        <!--          
+        <p-button 
+          [label]="_versionText" 
           icon="pi pi-info-circle"
-          styleClass="c-sub-header__version-btn p-button-sm mr-2"
+          styleClass="c-sub-header__version-btn p-button-text p-button-sm mr-2"
         ></p-button> -->
-        <p-button
-          label="AJUDA"
-          icon="pi pi-question-circle"
-          styleClass="c-sub-header__help-btn  p-button-sm"
-        ></p-button>
-      </a>
+        <div class=" flex flex-row">
+          <div class="w-6rem h-1rem align-self-center text-sm text-gray-400">
+           <i icon="pi pi-info-circle"></i> {{ _versionText }}
+          </div>
+          <p-button
+            (click)="helpNavigate()"
+            label="AJUDA"
+            icon="pi pi-question-circle"
+            styleClass="c-sub-header__help-btn p-button-outlined   p-button-sm"
+          ></p-button>
+        </div>
+      </div>
     </div>
   </header>
   <div class="l-body">
