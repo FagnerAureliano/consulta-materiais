@@ -216,15 +216,12 @@
         </a>
       </div>
       <div rel="noopener">
-        <!--          
-        <p-button 
-          [label]="_versionText" 
-          icon="pi pi-info-circle"
-          styleClass="c-sub-header__version-btn p-button-text p-button-sm mr-2"
-        ></p-button> -->
+    
         <div class=" flex flex-row">
-          <div class="w-6rem h-1rem align-self-center text-sm text-gray-400">
-           <i icon="pi pi-info-circle"></i> {{ _versionText }}
+          <div class="w-7rem h-1rem align-self-center text-sm text-gray-400">
+            <div class="align-self-center " >
+              <i class="pi pi-info-circle text-sm mr-1"></i> {{ _versionText }}
+            </div>
           </div>
           <p-button
             (click)="helpNavigate()"
