@@ -112,7 +112,7 @@ After building the image, if you want, you can run a container using the command
 docker run -d -p 4300:8080 --name material-apoio-fe-container registry.ccarj.intraer/portaldeapoio/material-apoio-fe:[TAG]-v[VERSION]
 ```
 
-Visit `http://localhost:4300/consult-materials/#/materials/search` to access the application.
+Visit `http://localhost:4300/#/materials/search` to access the application.
 
 ## Stopping and Removing the Container
 

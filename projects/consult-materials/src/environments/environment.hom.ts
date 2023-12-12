@@ -9,7 +9,7 @@ export const environment = {
   KEYCLOAK_REALM: 'FAB',
   KEYCLOAK_CLIENT_ID: 'material-apoio-api',
 
-  SEARCH_FRONT_URL: 'https://portaldeapoio.hml.rancher.ccarj.intraer/consult-materials/#/',
+  SEARCH_FRONT_URL: 'https://portaldeapoio.hml.rancher.ccarj.intraer/#/',
   USER_API_ENDPOINT: 'https://portaldeapoio.hml.rancher.ccarj.intraer/user-service/api/v1',
   SEARCH_API_ENDPOINT: 'https://portaldeapoio.hml.rancher.ccarj.intraer/search-service/api/v1',
   STREAM_API_ENDPOINT: 'https://portaldeapoio.hml.rancher.ccarj.intraer/stream-service/api/v1',

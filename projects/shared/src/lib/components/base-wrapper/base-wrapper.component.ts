@@ -90,7 +90,7 @@ export class BaseWrapperComponent implements OnInit, OnDestroy {
     // window.open(url, '_blank');
 
     // Alternativamente, você pode usar o código abaixo sem criar a URL absoluta diretamente
-    window.open('consult-materials/#/help', '_blank');
+    window.open('/#/help', '_blank');
   }
 
   toggleUserRolePanel(): void {
