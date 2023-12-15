@@ -9,9 +9,9 @@ export const environment = {
   KEYCLOAK_REALM: 'FAB',
   KEYCLOAK_CLIENT_ID: 'material-apoio-api',
 
-  SEARCH_FRONT_URL: 'https://portaldeapoio.rancher.ccarj.intraer/#/',
-  USER_API_ENDPOINT: 'https://portaldeapoio.rancher.ccarj.intraer/user-service/api/v1',
-  SEARCH_API_ENDPOINT: 'https://portaldeapoio.rancher.ccarj.intraer/search-service/api/v1',
-  STREAM_API_ENDPOINT: 'https://portaldeapoio.rancher.ccarj.intraer/stream-service/api/v1',
-  FAQ_API_ENDPOINT: 'https://portaldeapoio.rancher.ccarj.intraer/faq-service/api/v1',
+  SEARCH_FRONT_URL: 'https://portaldeapoio.prd.rancher.ccarj.intraer/#/',
+  USER_API_ENDPOINT: 'https://portaldeapoio.prd.rancher.ccarj.intraer/user-service/api/v1',
+  SEARCH_API_ENDPOINT: 'https://portaldeapoio.prd.rancher.ccarj.intraer/search-service/api/v1',
+  STREAM_API_ENDPOINT: 'https://portaldeapoio.prd.rancher.ccarj.intraer/stream-service/api/v1',
+  FAQ_API_ENDPOINT: 'https://portaldeapoio.prd.rancher.ccarj.intraer/faq-service/api/v1',
 };
