@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { Subscription, of, throwError } from 'rxjs';
 import { catchError, tap, finalize } from 'rxjs/operators';
 import { SearchMaterialsService } from '../../../services/search-materiais.service';
@@ -23,12 +23,18 @@ export class HelpComponent implements OnInit, OnDestroy {
   note_material: SafeHtml;
   file_material: SafeResourceUrl;
   htmlElement: HTMLElement = document.documentElement; // Obtém o elemento HTML raiz
+  idDocumentManual: string;
 
   constructor(
     private sanitizer: DomSanitizer,
     private streamService: StreamMaterialsService,
-    private searchService: SearchMaterialsService
-  ) {}
+    private searchService: SearchMaterialsService,
+    @Inject('production') private production
+  ) {
+    this.idDocumentManual = production
+      ? '78118d17-e8c9-424c-a9ea-7f75c28135ad'
+      : '87cf65a7-6c7d-4617-a6db-52c2088d404e';
+  }
   ngOnDestroy(): void {
     this._subs$.forEach((subs) => subs.unsubscribe());
   }
@@ -39,7 +45,7 @@ export class HelpComponent implements OnInit, OnDestroy {
   handleDownload(): void {
     this._subs$.push(
       this.streamService
-        .getDocumentFile('87cf65a7-6c7d-4617-a6db-52c2088d404e')
+        .getDocumentFile(this.idDocumentManual)
         .pipe(
           catchError((err) => throwError(err)),
           tap((res) => {
@@ -67,7 +73,7 @@ export class HelpComponent implements OnInit, OnDestroy {
   showDialog(): void {
     this._subs$.push(
       this.searchService
-        .getDocumentByID('87cf65a7-6c7d-4617-a6db-52c2088d404e')
+        .getDocumentByID(this.idDocumentManual)
         .pipe(
           tap((res: any) => {
             if (res.type != 'Note') {
