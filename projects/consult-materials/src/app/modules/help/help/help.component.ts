@@ -21,9 +21,9 @@ export class HelpComponent implements OnInit, OnDestroy {
   visible: boolean;
   mimeType: string;
   note_material: SafeHtml;
+  idDocumentManual: string;
   file_material: SafeResourceUrl;
   htmlElement: HTMLElement = document.documentElement; // Obtém o elemento HTML raiz
-  idDocumentManual: string;
 
   constructor(
     private sanitizer: DomSanitizer,
@@ -32,7 +32,7 @@ export class HelpComponent implements OnInit, OnDestroy {
     @Inject('production') private production
   ) {
     this.idDocumentManual = production
-      ? '78118d17-e8c9-424c-a9ea-7f75c28135ad'
+      ? 'a0a8f677-eefd-44d5-9ad9-90894a441b23'
       : '87cf65a7-6c7d-4617-a6db-52c2088d404e';
   }
   ngOnDestroy(): void {
