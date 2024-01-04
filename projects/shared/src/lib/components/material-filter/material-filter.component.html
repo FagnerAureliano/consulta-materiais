@@ -99,10 +99,10 @@
           placeholder="Local"
         >
           <ng-template let-item pTemplate="selectedItem">
-            <span>- {{ item.scope | wordConverter }}</span>
+            <span> {{ item.scope | wordConverter }}</span>
           </ng-template>
           <ng-template let-item pTemplate="item">
-            <span>- {{ item.scope | wordConverter }}</span>
+            <span> {{ item.scope | wordConverter }}</span>
           </ng-template>
         </p-dropdown>
       </div>
