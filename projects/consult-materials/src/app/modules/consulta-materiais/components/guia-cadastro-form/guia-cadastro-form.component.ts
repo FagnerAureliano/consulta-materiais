@@ -1,10 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { Scopes } from 'projects/consult-materials/src/app/models/scopes.models';
 import {
   Material,
   Tag,
 } from 'projects/consult-materials/src/app/models/search.models';
+import { Scopes } from 'projects/consult-materials/src/app/models/scopes.models';
 
 @Component({
   selector: 'app-guia-cadastro-form',
@@ -12,12 +12,13 @@ import {
   styleUrls: ['./guia-cadastro-form.component.scss'],
 })
 export class GuiaCadastroFormComponent implements OnInit {
-  @Input() form: FormGroup;
-  @Input() whitelist: string[];
-  @Input() scopes: Scopes[];
   @Output() tagsEmitter = new EventEmitter();
+  @Input() form: FormGroup;
+  @Input() scopes: Scopes[];
   @Input() material: Material;
+  @Input() whitelist: string[];
   @Input() _changedTags: Tag[];
+
   hasDocuments: boolean = false;
 
   handleSearchTags(data: string | string[]): void {
@@ -41,7 +42,6 @@ export class GuiaCadastroFormComponent implements OnInit {
         (res) => res.scope === this.material.properties['dc:source']
       );
       this.form.get('nuxeoPathId').setValue(materialScope.id);
-
       this.form.get('title').setValue(this.material.title);
       this.form.get('content').setValue(this.material.properties['note:note']);
       this.form
