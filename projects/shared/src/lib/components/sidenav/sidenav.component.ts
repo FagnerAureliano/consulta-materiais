@@ -1,6 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { HasContentService } from '../../services/has-content.service';
 import { Router } from '@angular/router';
+
+import { HasContentService } from '../../services/has-content.service';
+import { StreamSubjectService } from '../../services/stream-subject.service';
+import { Scopes } from 'projects/consult-materials/src/app/models/scopes.models';
 
 @Component({
   selector: 'shrd-sidenav',
@@ -11,22 +14,13 @@ export class SidenavComponent implements OnInit {
   @Input() basePath!: string;
 
   _isHidden = true;
-  scopos = [
-    // 'geral',
-    'bi',
-    'defesa-cibernética',
-    'ensino',
-    'e-siscult',
-    'fabmail',
-    'operacional',
-    'pessoal',
-    'sau',
-    'saude',
-    'sigadaer',
-    'siplorc',
-  ];
+  scopos$ = this.streamSubjectService.scopes$;
 
-  constructor(private router: Router, private hasContent: HasContentService) {}
+  constructor(
+    private router: Router,
+    private hasContent: HasContentService,
+    private streamSubjectService: StreamSubjectService
+  ) {}
 
   ngOnInit(): void {
     this.hasContent.getActive().subscribe((hasContent) => {
@@ -38,7 +32,7 @@ export class SidenavComponent implements OnInit {
     this._isHidden = !this._isHidden;
   }
 
-  navigateToContent(scope: string) {
+  navigateToContent({ scope }: Scopes) {
     this._isHidden = !this._isHidden;
 
     //Responsável por guardar o scopo atual utilizado no módulo FAQ

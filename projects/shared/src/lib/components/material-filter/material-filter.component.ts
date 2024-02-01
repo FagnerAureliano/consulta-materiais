@@ -6,8 +6,11 @@ import { ClearService } from '../../services/clear.service';
 import { HasContentService } from '../../services/has-content.service';
 import { MaterialFilterService } from '../../services/material-filter.service';
 import { Scopes } from 'projects/consult-materials/src/app/models/scopes.models';
-import { StreamMaterialsService } from 'projects/consult-materials/src/app/services/stream-materiais.service'; 
+import { StreamMaterialsService } from 'projects/consult-materials/src/app/services/stream-materiais.service';
 import { SearchObjectParams } from '../../models/search-object-params';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { StreamSubjectService } from '../../services/stream-subject.service';
 
 @Component({
   selector: 'mat-material-filter',
@@ -25,9 +28,13 @@ export class MaterialFilterComponent implements OnInit {
     private clearService: ClearService,
     private hasContent: HasContentService,
     private filterService: MaterialFilterService,
-    private streamService: StreamMaterialsService
+    private streamService: StreamMaterialsService,
+    private streamSubjectService: StreamSubjectService
   ) {
-    streamService.getScopes().subscribe((res) => (this.scopes = res));
+    streamService.getScopes().subscribe((res) => {
+      this.scopes = res;
+      streamSubjectService.setScopes(this.scopes);
+    });
   }
 
   ngOnInit(): void {

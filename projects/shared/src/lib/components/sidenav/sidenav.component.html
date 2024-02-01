@@ -24,10 +24,12 @@
         <shrd-sidenav-item (click)="toggleNav()" href="#" [disabled]="true">
           Acesso e Perfis
         </shrd-sidenav-item>
-        <div *ngFor="let item of scopos">
-          <shrd-sidenav-item (click)="navigateToContent(item)" href="#">
-            {{ item | wordConverter }}
-          </shrd-sidenav-item>
+        <div *ngFor="let item of scopos$ | async">
+          <div *ngIf="item.scope != 'GERAL'">
+            <shrd-sidenav-item (click)="navigateToContent(item)" href="#">
+              {{ item.scope | wordConverter }}
+            </shrd-sidenav-item>
+          </div>
         </div>
       </ul>
     </nav>
