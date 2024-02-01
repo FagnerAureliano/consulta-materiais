@@ -6,13 +6,13 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { FormGroup, Validators } from '@angular/forms';
 import { FileUpload } from 'primeng/fileupload';
-import { Scopes } from 'projects/consult-materials/src/app/models/scopes.models';
+import { FormGroup, Validators } from '@angular/forms';
 import {
   Material,
   Tag,
 } from 'projects/consult-materials/src/app/models/search.models';
+import { Scopes } from 'projects/consult-materials/src/app/models/scopes.models';
 
 @Component({
   selector: 'app-documento-cadastro-form',
@@ -24,13 +24,12 @@ export class DocumentoCadastroFormComponent implements OnInit {
   @Output() tagsEmitter = new EventEmitter();
   @Output() downloadDoc = new EventEmitter();
   @Input() form: FormGroup;
-  @Input() whitelist: string[] = [];
   @Input() scopes: Scopes[];
   @Input() material: Material;
   @Input() _changedTags: Tag[];
+  @Input() whitelist: string[] = [];
 
   hasDocuments: boolean = false;
-
   uploadedFiles: any[] = [];
 
   onShowUpload() {
