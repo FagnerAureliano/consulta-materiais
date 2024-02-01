@@ -1,16 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { ClearService } from '../../services/clear.service';
+import { SearchObjectParams } from '../../models/search-object-params';
 import { HasContentService } from '../../services/has-content.service';
+import { StreamSubjectService } from '../../services/stream-subject.service';
 import { MaterialFilterService } from '../../services/material-filter.service';
 import { Scopes } from 'projects/consult-materials/src/app/models/scopes.models';
 import { StreamMaterialsService } from 'projects/consult-materials/src/app/services/stream-materiais.service';
-import { SearchObjectParams } from '../../models/search-object-params';
-import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
-import { StreamSubjectService } from '../../services/stream-subject.service';
 
 @Component({
   selector: 'mat-material-filter',
@@ -31,9 +29,19 @@ export class MaterialFilterComponent implements OnInit {
     private streamService: StreamMaterialsService,
     private streamSubjectService: StreamSubjectService
   ) {
-    streamService.getScopes().subscribe((res) => {
-      this.scopes = res;
-      streamSubjectService.setScopes(this.scopes);
+    this.setupScopes();
+  }
+
+  private setupScopes(): void {
+    this.streamService.getScopes().subscribe({
+      next: (scopes) => {
+        this.scopes = scopes;
+        this.streamSubjectService.setScopes(scopes);
+      },
+      error: (error) => {
+        // Handle errors if needed
+        console.error('Error fetching scopes:', error);
+      },
     });
   }
 
@@ -41,11 +49,11 @@ export class MaterialFilterComponent implements OnInit {
     this._form = this.fb.group({
       searchText: [null, Validators.required],
       file: [null],
-      picture: [null],
-      video: [null],
-      audio: [null],
       note: [null],
       path: [null],
+      video: [null],
+      audio: [null],
+      picture: [null],
     });
   }
 
